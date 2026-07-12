@@ -1,0 +1,83 @@
+name: "Submit a model"
+description: "Propose a model (or a specific quantization) for the on-device leaderboard."
+title: "[submit] <vendor> / <model> (<quant>)"
+labels: ["submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a model. To be listed, a model needs a **verified
+        on-device port** — device ≡ Mac ≡ HF greedy token-exact — so that
+        intelligence measured on Mac transfers honestly to the phone. That parity
+        proof is what stops a leaderboard from libeling a model with a broken port
+        or a bad quantization. Please give us what you can below; we handle the
+        eval battery ourselves so it is apples-to-apples with every other row.
+
+        Open-weight models only. We do not extract or reverse a closed system
+        model's weights (Apple's built-in Foundation Model, Gemini Nano, etc.);
+        those can appear only via their own public inference API as a `system` row.
+  - type: input
+    id: model
+    attributes:
+      label: Model
+      description: Name and the Hugging Face repo id (or upstream source).
+      placeholder: "LiquidAI / LFM2.5-1.2B  —  hf.co/LiquidAI/LFM2.5-1.2B"
+    validations:
+      required: true
+  - type: input
+    id: params
+    attributes:
+      label: Parameters / architecture
+      placeholder: "1.2B dense; or 8B MoE A1B; or 3B ternary"
+    validations:
+      required: true
+  - type: dropdown
+    id: license
+    attributes:
+      label: Weights license
+      description: Open weights are required. Pick the closest.
+      options:
+        - Apache-2.0
+        - MIT
+        - Llama license
+        - Gemma license
+        - Qwen license
+        - Other permissive (specify below)
+        - Non-commercial / restricted (may not qualify)
+    validations:
+      required: true
+  - type: input
+    id: quant
+    attributes:
+      label: Shipping quantization + format
+      description: The quant you want measured (each quant is a separate entry). If unsure, say so.
+      placeholder: "int8 (per-channel, int8 lm_head) · aimodel / coreai;  or Q4_K_M · gguf / llama.cpp"
+    validations:
+      required: true
+  - type: textarea
+    id: parity
+    attributes:
+      label: Parity evidence (if a port already exists)
+      description: >
+        Link or paste the device ≡ Mac ≡ HF greedy token-exact check (how many
+        prompts, how many tokens matched). If there is no port yet, write "none
+        yet" — we may still port it, this just tells us the starting point.
+      placeholder: "16/16 prompts token-exact, iPhone 17 Pro ≡ M4 Max ≡ HF; link to model card…"
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why this belongs on the board
+      description: One or two lines. General chat model? Coding (v1 axis)? A quant worth comparing?
+    validations:
+      required: false
+  - type: checkboxes
+    id: ack
+    attributes:
+      label: Acknowledgements
+      options:
+        - label: These are open weights (not a closed/system model's extracted weights).
+          required: true
+        - label: I understand each quantization is scored as its own row, on the same battery.
+          required: true

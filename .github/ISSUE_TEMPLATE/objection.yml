@@ -1,0 +1,63 @@
+name: "Correction / objection (model owners)"
+description: "For a model's authors or vendor: dispute a score, a quant choice, or a methodology point."
+title: "[objection] <model> — <what is disputed>"
+labels: ["objection"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Publishing another model's score carries a duty of fairness. If we scored
+        your model, this is the window to contest it. We take corrections
+        seriously and will re-run or annotate where the objection holds. Every
+        entry links its parity proof and battery config in the
+        [methodology](https://example.invalid/site/methodology.html) — please
+        point at the specific claim.
+
+        Common, legitimate objections we expect: we measured a quant you do not
+        ship; the port lost parity and the number reflects a broken export, not
+        the model; a prompt template / chat format is wrong; the token cap
+        truncated your model's reasoning and depressed `acc` (we already report
+        `acc_completed` separately — tell us if it is still unfair).
+  - type: input
+    id: model
+    attributes:
+      label: Model / entry in question
+      placeholder: "Qwen3.5-4B (int8hu, aimodel)"
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What are you disputing?
+      options:
+        - Wrong quantization measured (not what we ship)
+        - Broken port / lost parity (number reflects the export, not the model)
+        - Wrong chat template / prompt format
+        - Token cap truncated reasoning (acc unfair)
+        - Scorer / grading error on specific items
+        - Methodology / framing objection
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: Details
+      description: What specifically is wrong, and what the correct value / setup should be.
+    validations:
+      required: true
+  - type: input
+    id: affiliation
+    attributes:
+      label: Affiliation (optional)
+      description: If you are the model's author/vendor, say so — it helps us prioritize.
+      placeholder: "maintainer of <model> @ <org>"
+    validations:
+      required: false
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting evidence
+      description: Links to the correct config, a reproduction, or reference numbers.
+    validations:
+      required: false

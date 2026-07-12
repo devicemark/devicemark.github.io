@@ -1,0 +1,13 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Methodology
+    url: https://example.invalid/site/methodology.html
+    about: How entries are measured, proof-strength disclosure, cap confound, CIs. Read this before objecting.
+  - name: Maintainer (GitHub)
+    url: https://github.com/john-rocky
+    about: General questions, or reach the maintainer directly.
+  - name: Hugging Face (results dataset & ports)
+    url: https://huggingface.co/mlboydaisuke
+    about: The published ports and the results dataset live here.
+# NOTE (prep): swap example.invalid for the real Pages/custom domain at launch
+# (LAUNCH_CHECKLIST step). X/other contacts follow the maintainer's GitHub bio.
