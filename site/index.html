@@ -140,7 +140,10 @@ function drawTable(){
     +(anySub?'<b>~</b> = subset (full 596 still running). ':'')
     +(sorted.some(d=>(d.note||'').includes('QAT'))?'<b>†</b> official Google QAT int4 weights (the “zero-loss” claim, measured in ③). Gemma speed/power are runtime-dependent — this row is the Core AI runtime; a LiteRT-LM row on the identical (byte-matched) QAT weights lands in v0.5. ':'')
     +'<b>▵</b> retention shown as ≈100% when within noise (raw kept in data; see <a href="methodology.html#cap-confound">methodology</a> cap-confound). '
-    +'<b>=</b> statistical tie (overlapping CIs).';
+    +'<b>=</b> statistical tie (overlapping CIs). '
+    +'Data: <a href="https://huggingface.co/datasets/mlboydaisuke/devicemark-results">results dataset</a> (CC-BY-4.0) · '
+    +'<a href="https://github.com/john-rocky/devicemark/issues/new?template=submit-your-model.yml">submit a model</a> · '
+    +'<a href="https://github.com/john-rocky/devicemark/issues/new?template=objection.yml">objection</a>.';
 }
 
 function render(){drawPareto();drawTable();}
