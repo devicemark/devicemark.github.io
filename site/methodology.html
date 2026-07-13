@@ -219,6 +219,59 @@
   construction. Submissions suspected of benchmark tuning are checked with the probe before
   listing.</p>
 
+  <h2 id="related">Related work — what this board is and is not</h2>
+  <p>Neighboring projects, and the honest differences (each is better than this board at what it
+  actually targets):</p>
+  <ul>
+    <li><a href="https://arxiv.org/abs/2406.10290"><strong>MobileAIBench</strong></a> (Salesforce, 2024) —
+    the closest conceptual neighbor: task performance across quantization levels (16→3-bit) for &le;7B
+    models, with an iOS app for latency, and broader task coverage than this board (incl. multimodal and
+    trust &amp; safety). Differences: it evaluates <em>re-quantized</em> models largely on desktop
+    harnesses, while DeviceMark scores the <em>shipped artifact</em> on its native runtime with a
+    device&equiv;Mac&equiv;HF greedy token-parity gate; retention vs the same-weights float baseline,
+    Apple's built-in FM as a row, CI-based tie-honest ranking, and a continuously updated board rather
+    than a paper snapshot.</li>
+    <li><a href="https://mlcommons.org/benchmarks/client/"><strong>MLPerf Client</strong></a> (MLCommons,
+    v1.6 2026) — the industry-standard <em>performance</em> benchmark for PCs/laptops (TTFT, tokens/s on
+    int4 models) with vendor-governed rules; far stronger standardization than this board. It measures
+    no intelligence/quality axis and does not target phones — DeviceMark is the quality&times;speed join
+    on the iPhone tier.</li>
+    <li><a href="https://www.localscore.ai/about"><strong>LocalScore</strong></a> (Mozilla Builders) — a
+    llamafile/llama.cpp performance score (prompt speed &times; generation speed &times; TTFT) with a
+    large crowd-sourced hardware database for desktops/GPUs. Perf-only, GGUF-only, desktop-first; its
+    crowd hardware coverage is something this board does not attempt.</li>
+    <li><a href="https://github.com/a-ghorbani/pocketpal-ai"><strong>PocketPal</strong></a> — an on-phone
+    GGUF app whose community leaderboard ranks <em>devices</em> by speed (Glicko-2 over thousands of crowd
+    benchmarks). Real crowd phones at a scale this board doesn't have; but it ranks hardware, not model
+    intelligence, and has no quality or retention axis.</li>
+    <li><a href="https://arxiv.org/abs/2407.00993"><strong>Mobile-Bench</strong></a> (ACL 2024) — despite
+    the name, an orthogonal axis: it benchmarks LLM-based <em>mobile agents</em> (UI + API task
+    completion), not on-device inference. Listed here to avoid name confusion.</li>
+  </ul>
+  <p>Summary: existing tools measure <em>how fast</em> (MLPerf Client, LocalScore, PocketPal) or
+  <em>quality on re-quantized models without shipped-artifact parity</em> (MobileAIBench) or
+  <em>agents</em> (Mobile-Bench). DeviceMark's contribution is the join — intelligence (same protocol,
+  built-in FM included) &times; device-measured speed &times; memory &times; float-retention — for
+  verified shipped artifacts, with per-item raw outputs published for re-scoring.</p>
+
+  <h2 id="proofs">Per-entry proof strength (as of 2026-07-13)</h2>
+  <p>The parity claim is per-entry, not global. Speed gates below are PipelinedBench greedy
+  token-match runs on the same iPhone 17 Pro (iOS 27.0 24A5355q); quality runs are the full
+  596-item battery on the Mac engine (macOS 27 beta3 26A5378j, b2 toolchain, 2026-07-12/13).</p>
+  <div style="overflow-x:auto"><table>
+    <tr><th>entry</th><th>device speed gate</th><th>note</th></tr>
+    <tr><td>LFM2.5-1.2B</td><td>nat 24/24 · oracle 24/24</td><td>ship int8hu bundle</td></tr>
+    <tr><td>Granite-4.0-H-1B</td><td>nat 24/24 · oracle 24/24</td><td>ship int8hu bundle</td></tr>
+    <tr><td>Youtu-LLM-2B</td><td>nat 16/16 · oracle 16/16</td><td>fp32-HF-anchored expected tokens</td></tr>
+    <tr><td>Qwen3.5-4B</td><td>24/24</td><td>Mac-engine-anchored expected tokens</td></tr>
+    <tr><td>Gemma 4 E2B (QAT int4)</td><td>8/8</td><td>chat-format greedy, PLE tables bound on-device</td></tr>
+    <tr><td>Qwen3.5-0.8B / 2B</td><td>port-time token-exact gate</td><td>tok/s from earlier verified device runs (zoo recipe notes), not re-run on 24A5355q</td></tr>
+    <tr><td>Apple FM</td><td>n/a</td><td>system model via public API; no artifact to gate</td></tr>
+  </table></div>
+  <p>Raw per-item outputs (model answers + our scores, no benchmark questions redistributed) are
+  published in the <a href="https://huggingface.co/datasets/devicemark/results">results dataset</a>
+  under <code>raw/</code>, so every number on this page can be re-scored independently.</p>
+
   <h2>Benchmark data &amp; licenses</h2>
   <p>The published dataset ships <strong>results only</strong> — scores, counts, and confidence
   intervals. Benchmark questions and gold answers are <strong>not redistributed</strong>; each

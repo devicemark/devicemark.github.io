@@ -64,6 +64,13 @@ artifacts, with quantized and float rows measured apples-to-apples.
 `board.json` is the pre-joined view the website consumes; the two parquet tables
 are the normalized source. Regenerate parquet with `to_parquet.py`.
 
+**`raw/`** holds the per-item outputs behind every number: one JSONL per
+(model × column × bench) — `full_<slug>_<int4|int8|fp16>_<bench>.jsonl` — with the model's
+full answer text, token counts, timing, and cap flag per item (benchmark questions and gold
+answers are NOT included; item keys map back to the public benchmark datasets). Every score
+on the board can be re-derived from these files with the official scorers. `artifacts`
+carries a `provenance` field per row (quality-run environment + the device parity gate).
+
 ### `artifacts` schema
 
 | field | type | notes |
