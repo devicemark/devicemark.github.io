@@ -94,6 +94,11 @@ are the normalized source. Regenerate parquet with `to_parquet.py`.
 | `mem_measured` | bool | false = estimated, not yet device-measured |
 | `power_w` | float or null | reserved (tokens/joule axis, v0.5) |
 
+`decode_tok_s` is **warm-state** (engine loaded + warmed; cold load excluded), measured by
+PipelinedBench (128-token prompt / 256-token decode, two trials, settled device, numerics-gated).
+The `system` row (built-in Foundation Model) has no measurements rows: its public API exposes
+no token counts, so an honest tok/s is not measurable — only wall-clock per answer.
+
 ## Runtime-neutral by design
 
 Quality is an attribute of the **artifact** (model × quant × `format`) measured on

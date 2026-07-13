@@ -138,7 +138,7 @@ function drawTable(){
   const head=`<tr><th>#</th><th>Model</th><th>Vendor</th><th>Quant</th><th>Mem</th><th>cap</th><th>tok/s</th><th>IFEval</th><th>MMLU-Pro</th><th>MATH</th><th>Intelligence</th><th>Refuse</th><th>③ ret</th></tr>`;
   const rows=sorted.map((d,i)=>{
     const q=d.quality, sys=d.format==='system', c=d.composite;
-    const tps=sys?'<span class="dim">OS</span>':(d.iphone_tok_s!=null?d.iphone_tok_s:`${d.mac_tok_s}<span class="dim"> m</span>`);
+    const tps=sys?'<span class="dim" title="not measurable honestly: the public FoundationModels API returns no token counts or streaming stats — only wall-clock per answer (kept in the raw logs)">n/a</span>':(d.iphone_tok_s!=null?d.iphone_tok_s:`${d.mac_tok_s}<span class="dim"> m</span>`);
     const mem=sys?'<span class="dim">0</span>':`${d.mem_mb} MB${d.mem_measured?'':'<span class="dim"> est</span>'}`;
     const cap=q.cap_tokens+(q.cap_tokens!==1024?'<sup title="reasoning-heavy: needs a larger budget to finish">*</sup>':'');
     const provq=b=>q.source&&q.source[b]==='subset'?'<sup title="subset (n≈30–50); full 596 in progress">~</sup>':'';
@@ -178,6 +178,8 @@ function drawTable(){
     'Quality = attribute of the <b>artifact</b> (model × quant × format) on its native runtime; speed/memory = <b>runtime × device</b>. '
     +'MMLU/MATH = completed-only accuracy; IFEval = official mean-of-4; Intelligence = item-bootstrap composite ±half-95%-CI (the chart whiskers = this composite CI, not per-bench). '
     +'<b>Hover any bench cell</b> for that bench\'s own 95% CI and answered-n — precision differs a lot per bench (completed-n can be small on MATH/MMLU). '
+    +'tok/s = <b>warm</b> decode on a settled device (engine loaded + warmed; cold load excluded), PipelinedBench 128-tok prompt / 256 decode ×2. '
+    +'Built-in FM tok/s = n/a: its public API exposes no token counts. '
     +'③ ret = shipped-quant ÷ float baseline on completed-only. '
     +(any4096?'<b>*</b> cap 4096 (reasoning models). ':'')+(anyEst?'<b>est</b> = memory estimated (not yet device-measured). ':'')
     +(anySub?'<b>~</b> = subset (full 596 still running). ':'')

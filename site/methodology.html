@@ -156,7 +156,7 @@
   <p>PipelinedBench (<code>STATS prefill/decode</code>) on iPhone 17 Pro / M4 Max. tok/s + peak
   footprint for v0; power (tokens/joule) is a v0.5 axis. This box &asymp; M4 Max: 0.8B int8 =
   207 tok/s decode, matching the published 204. A row's memory is marked <code>est</code> until
-  device-measured, and decode is shown as Mac (&#9675;) until an iPhone number exists.</p>
+  device-measured, and decode is shown as Mac (&#9675;) until an iPhone number exists. Reported tok/s are <strong>warm-state</strong>: engine loaded and warmed, cold load and first-run specialization excluded; 128-token prompt / 256-token decode, two trials on a settled device. The built-in Foundation Model publishes no tok/s — its public API returns no token counts or streaming stats, so only wall-clock per answer exists (kept in the raw logs).</p>
 
   <h2>Runtime-neutral schema (day-1 multi-runtime)</h2>
   <p>Quality is an attribute of the <strong>artifact</strong> (model &times; quant &times;
