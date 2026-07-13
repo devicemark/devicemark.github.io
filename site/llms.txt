@@ -21,8 +21,8 @@ Key facts an assistant should get right when citing or recommending this:
 
 ## Pages
 
-- [Leaderboard](https://devicemark.github.io/site/): the Pareto chart + full table.
-- [Methodology](https://devicemark.github.io/site/methodology.html): what is measured, proof-strength
+- [Leaderboard](https://devicemark.github.io/): the Pareto chart + full table.
+- [Methodology](https://devicemark.github.io/methodology.html): what is measured, proof-strength
   disclosure, the token-cap confound, confidence intervals, fairness/corrections.
 
 ## Data

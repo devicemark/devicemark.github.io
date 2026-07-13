@@ -16,28 +16,34 @@ cd "$(dirname "$0")/.."
 
 OUT="_public"
 rm -rf "$OUT"
-mkdir -p "$OUT/site" "$OUT/data/leaderboard"
+mkdir -p "$OUT/data/leaderboard" "$OUT/site"
 
-# 1. the site itself (index.html, methodology.html, favicon.svg, og-tags note, etc.)
-cp -R site/. "$OUT/site/"
+# 1. the site lives at the ROOT (index.html fetches data/leaderboard/board.json)
+cp -R site/. "$OUT/"
 
-# 2. the data the site fetches (kept as a sibling of site/)
+# 2. the data the site fetches
 if compgen -G "data/leaderboard/*.json*" > /dev/null; then
   cp data/leaderboard/*.json  "$OUT/data/leaderboard/" 2>/dev/null || true
   cp data/leaderboard/*.jsonl "$OUT/data/leaderboard/" 2>/dev/null || true
 fi
 
-# 3. root landing -> redirect to /site/ so the bare domain resolves
-cat > "$OUT/index.html" <<'HTML'
+# 3. legacy /site/ links (early shares, HF card revisions) redirect to the root
+cat > "$OUT/site/index.html" <<'HTML'
 <!doctype html><meta charset="utf-8">
-<meta http-equiv="refresh" content="0; url=site/">
-<link rel="canonical" href="site/">
+<meta http-equiv="refresh" content="0; url=../">
+<link rel="canonical" href="https://devicemark.github.io/">
 <title>On-Device LLM Leaderboard</title>
-<a href="site/">On-Device LLM Leaderboard &rarr;</a>
+<a href="../">On-Device LLM Leaderboard &rarr;</a>
+HTML
+cat > "$OUT/site/methodology.html" <<'HTML'
+<!doctype html><meta charset="utf-8">
+<meta http-equiv="refresh" content="0; url=../methodology.html">
+<link rel="canonical" href="https://devicemark.github.io/methodology.html">
+<title>Methodology — On-Device LLM Leaderboard</title>
+<a href="../methodology.html">Methodology &rarr;</a>
 HTML
 
-# 4. llms.txt is served from the site root by convention (/llms.txt)
-[ -f site/llms.txt ] && cp site/llms.txt "$OUT/llms.txt" || true
+# 4. llms.txt is served from the site root by convention (/llms.txt) — already at root via step 1
 
 # 5. courtesy: keep the old ../METHODOLOGY.md link from hard-404ing until the
 #    index.html link is repointed to methodology.html (renders as plaintext).
