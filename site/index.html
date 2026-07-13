@@ -60,7 +60,7 @@
     <h2>Pareto front — intelligence vs decode speed (95% CI)</h2>
     <svg id="pareto" viewBox="0 0 720 400" role="img" aria-label="Pareto scatter with confidence intervals"></svg>
     <div class="legend" id="legend"></div>
-    <p class="note">y = intelligence composite (item-bootstrap mean of IFEval mean-of-4, MMLU-Pro &amp; MATH <em>completed-only</em> accuracy) with 95% CI whiskers. x = decode tok/s (iPhone 17 Pro; ○ = Mac M4 Max until device-measured). Dashed line = Apple's built-in Foundation Model (no bundle to load; read every port vs this "sea level").</p>
+    <p class="note">y = intelligence composite (item-bootstrap mean of IFEval mean-of-4, MMLU-Pro &amp; MATH <em>completed-only</em> accuracy) with 95% CI whiskers. x = decode tok/s, device-measured on iPhone 17 Pro (PipelinedBench, numerics-gated). Dashed line = Apple's built-in Foundation Model (no bundle to load; read every port vs this "sea level"). Memory per model is in the table below.</p>
   </div>
 
   <div class="card">
@@ -86,27 +86,47 @@ function retDisp(v){ if(v==null) return '<span class="pend">—</span>';
   return (v*100).toFixed(0)+'%'; }
 
 function drawPareto(){
-  const svg=document.getElementById('pareto'), W=720,H=400,m={l:52,r:20,t:16,b:46};
+  const svg=document.getElementById('pareto'), W=720,H=400,m={l:52,r:20,t:24,b:46};
   const fm=BOARD.find(d=>d.format==='system');
   const pts=BOARD.filter(d=>d.format!=='system').map(d=>({d,x:d.iphone_tok_s??d.mac_tok_s,c:d.composite,est:d.iphone_tok_s==null})).filter(p=>p.x!=null&&p.c);
   const xmax=Math.max(80,...pts.map(p=>p.x))*1.1;
-  const X=v=>m.l+(v/xmax)*(W-m.l-m.r), Y=v=>H-m.b-v*(H-m.t-m.b);
+  // y domain fits the data (scatter, not bars — no zero baseline needed)
+  const yv=[...pts.flatMap(p=>p.c.ci),...(fm&&fm.composite?fm.composite.ci:[])];
+  const ylo=Math.max(0,Math.floor((Math.min(...yv)-0.02)*20)/20), yhi=Math.min(1,Math.ceil((Math.max(...yv)+0.03)*20)/20);
+  const X=v=>m.l+(v/xmax)*(W-m.l-m.r), Y=v=>H-m.b-(v-ylo)/(yhi-ylo)*(H-m.t-m.b);
   let s=`<line class="ax" x1="${m.l}" y1="${H-m.b}" x2="${W-m.r}" y2="${H-m.b}"/><line class="ax" x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${H-m.b}"/>`;
-  for(let g=0;g<=100;g+=20){const y=Y(g/100);s+=`<line class="gl" x1="${m.l}" y1="${y}" x2="${W-m.r}" y2="${y}"/><text class="axlab" x="${m.l-8}" y="${y+3}" text-anchor="end">${g}%</text>`;}
+  for(let g=Math.ceil(ylo*20)/20;g<=yhi+1e-9;g+=0.05){const y=Y(g);
+    s+=`<line class="gl" x1="${m.l}" y1="${y}" x2="${W-m.r}" y2="${y}"/><text class="axlab" x="${m.l-8}" y="${y+3}" text-anchor="end">${Math.round(g*100)}%</text>`;}
   for(let g=0;g<=xmax;g+=Math.ceil(xmax/6/10)*10){const x=X(g);s+=`<text class="axlab" x="${x}" y="${H-m.b+16}" text-anchor="middle">${g}</text>`;}
-  s+=`<text class="axtitle" x="${(m.l+W-m.r)/2}" y="${H-6}" text-anchor="middle">decode tok/s</text>`;
+  s+=`<text class="axtitle" x="${(m.l+W-m.r)/2}" y="${H-6}" text-anchor="middle">decode tok/s — iPhone 17 Pro, device-measured</text>`;
   s+=`<text class="axtitle" transform="translate(14,${(m.t+H-m.b)/2}) rotate(-90)" text-anchor="middle">intelligence composite</text>`;
-  // Apple FM = horizontal dashed reference line (sea level)
+  // Apple FM = horizontal dashed reference line (sea level), neutral ink
   if(fm&&fm.composite){const y=Y(fm.composite.value);
-    s+=`<line x1="${m.l}" y1="${y}" x2="${W-m.r}" y2="${y}" stroke="var(--s6)" stroke-width="1.5" stroke-dasharray="6 4" opacity=".85"/>`;
-    s+=`<text x="${W-m.r}" y="${y-5}" text-anchor="end" font-size="11" fill="var(--s6)">Apple built-in FM ${(fm.composite.value*100).toFixed(0)}%</text>`;}
-  for(const p of pts){const col=css(TIERS[tierOf(p.d.mem_mb)].c), x=X(p.x);
-    s+=`<line class="eb" x1="${x}" y1="${Y(p.c.ci[0])}" x2="${x}" y2="${Y(p.c.ci[1])}"/>`;         // error bar
-    s+=`<line class="eb" x1="${x-3}" y1="${Y(p.c.ci[0])}" x2="${x+3}" y2="${Y(p.c.ci[0])}"/><line class="eb" x1="${x-3}" y1="${Y(p.c.ci[1])}" x2="${x+3}" y2="${Y(p.c.ci[1])}"/>`;
-    s+=`<circle cx="${x}" cy="${Y(p.c.value)}" r="6" fill="${p.est?'var(--surface)':col}" stroke="${col}" stroke-width="2"><title>${p.d.model} — ${(p.c.value*100).toFixed(1)}% [${(p.c.ci[0]*100).toFixed(0)}–${(p.c.ci[1]*100).toFixed(0)}] @ ${p.x} tok/s${p.est?' (Mac)':''}</title></circle>`;
-    s+=`<text class="plab" x="${x+10}" y="${Y(p.c.value)+4}">${p.d.model}${p.est?' ○':''}</text>`;}
-  svg.innerHTML=s;
-  document.getElementById('legend').innerHTML=Object.values(TIERS).map(t=>`<span><span class="dot" style="background:${css(t.c)}"></span>${t.label}</span>`).join('')+`<span class="dim">○ Mac decode (iPhone pending) · whiskers = 95% CI</span>`;
+    s+=`<rect x="${m.l}" y="${Y(fm.composite.ci[1])}" width="${W-m.l-m.r}" height="${Y(fm.composite.ci[0])-Y(fm.composite.ci[1])}" fill="var(--muted)" opacity=".07"/>`;
+    s+=`<line x1="${m.l}" y1="${y}" x2="${W-m.r}" y2="${y}" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="6 4"/>`;
+    s+=`<text x="${W-m.r}" y="${y-6}" text-anchor="end" font-size="11" fill="var(--ink2)">Apple built-in Foundation Model — ${(fm.composite.value*100).toFixed(0)}%</text>`;}
+  // marks: one hue (identity carried by direct labels), collision-free placement
+  const placed=[];                       // occupied rects (labels + marks)
+  const lw=t=>t.length*6.4, lh=12;
+  const collide=r=>placed.some(q=>r.x<q.x+q.w&&r.x+r.w>q.x&&r.y<q.y+q.h&&r.y+r.h>q.y);
+  for(const p of pts){const x=X(p.x),y=Y(p.c.value);placed.push({x:x-8,y:y-8,w:16,h:16});
+    if(fm&&fm.composite)placed.push({x:m.l,y:Y(fm.composite.value)-14,w:W-m.l-m.r,h:14});}
+  let marks='',labels='';
+  for(const p of pts){const x=X(p.x),y=Y(p.c.value);
+    marks+=`<line class="eb" x1="${x}" y1="${Y(p.c.ci[0])}" x2="${x}" y2="${Y(p.c.ci[1])}"/>`;
+    marks+=`<line class="eb" x1="${x-3}" y1="${Y(p.c.ci[0])}" x2="${x+3}" y2="${Y(p.c.ci[0])}"/><line class="eb" x1="${x-3}" y1="${Y(p.c.ci[1])}" x2="${x+3}" y2="${Y(p.c.ci[1])}"/>`;
+    marks+=`<circle cx="${x}" cy="${y}" r="6" fill="var(--s1)" stroke="var(--card)" stroke-width="2"><title>${p.d.model} — ${(p.c.value*100).toFixed(1)}% [${(p.c.ci[0]*100).toFixed(0)}–${(p.c.ci[1]*100).toFixed(0)}] @ ${p.x} tok/s</title></circle>`;
+    const t=p.d.model, w=lw(t);
+    const cands=[{x:x+11,y:y+4,a:'start'},{x:x-11,y:y+4,a:'end'},{x:x,y:y-14,a:'middle'},{x:x,y:y+20,a:'middle'},
+                 {x:x+11,y:y-12,a:'start'},{x:x+11,y:y+16,a:'start'},{x:x-11,y:y-12,a:'end'},{x:x-11,y:y+16,a:'end'}];
+    let pick=cands[0];
+    for(const c of cands){const rx=c.a==='start'?c.x:(c.a==='end'?c.x-w:c.x-w/2);
+      const r={x:rx,y:c.y-10,w,h:lh};
+      if(rx<m.l||rx+w>W-m.r||r.y<m.t||r.y+lh>H-m.b)continue;
+      if(!collide(r)){pick=c;placed.push(r);break;}}
+    labels+=`<text class="plab" x="${pick.x}" y="${pick.y}" text-anchor="${pick.a}">${t}</text>`;}
+  svg.innerHTML=s+marks+labels;
+  document.getElementById('legend').innerHTML=`<span class="dim">whiskers = 95% CI · every port device-measured (PipelinedBench) · dashed = built-in FM sea level</span>`;
 }
 
 function drawTable(){
