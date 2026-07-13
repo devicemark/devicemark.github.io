@@ -12,6 +12,9 @@ tags:
 size_categories:
   - n<1K
 configs:
+  - config_name: board
+    data_files: board.parquet
+    default: true
   - config_name: artifacts
     data_files: artifacts.parquet
   - config_name: measurements
@@ -54,7 +57,8 @@ artifacts, with quantized and float rows measured apples-to-apples.
 
 | config | file | grain | one row = |
 |--------|------|-------|-----------|
-| `artifacts` | `artifacts.parquet` (from `artifacts.jsonl`) | model × quant × format | a scored artifact + its retention |
+| `board` (default) | `board.parquet` | leaderboard row | the ranked, human-readable board: composite/IFEval/MMLU-Pro/MATH in %, retention, device tok/s, memory. Display-rounded; retention >100% (cap-timing noise, see methodology) is clamped to 100.0 here — raw values live in `artifacts` |
+| `artifacts` | `artifacts.parquet` (from `artifacts.jsonl`) | model × quant × format | a scored artifact + its retention (full precision, CIs, provenance) |
 | `measurements` | `measurements.parquet` (from `measurements.jsonl`) | runtime × device | one speed/memory measurement |
 
 `board.json` is the pre-joined view the website consumes; the two parquet tables
