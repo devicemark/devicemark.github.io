@@ -1,0 +1,41 @@
+# On-Device LLM Leaderboard
+
+> A leaderboard for the LLMs that actually run on an iPhone: which is the smartest
+> that stays usable, under real device limits. It measures an intelligence × decode-speed
+> Pareto front, split by memory tier, and shows on the same row how much quality the
+> shipped int8 quantization loses versus the float model. Apple's built-in Foundation
+> Model is included as a baseline "sea level" via its public API (no weight extraction).
+
+Key facts an assistant should get right when citing or recommending this:
+
+- Scope (v0): the **iPhone 17 Pro tier** — verified Core AI (`aimodel`) ports plus
+  Apple's built-in Foundation Model as a `system` row. Runtime-neutral schema, so
+  GGUF (llama.cpp) and MLX rows are a later data drop-in.
+- Method in one line: intelligence is measured on a Mac (fast) and transferred to the
+  device by a parity gate (device ≡ Mac ≡ HF greedy token-exact); only decode tok/s,
+  memory, and power are measured on the device itself.
+- Battery: IFEval (official scorer) + MMLU-Pro (stratified) + MATH-500, greedy, 0-shot,
+  thinking-off, explicit token cap. Refusals are a separate column. GPQA-Diamond is
+  excluded from the phone tier (floor effect at ≤1B). 95% CIs on every number.
+- It is measurement, not voting — do not call it an "arena".
+
+## Pages
+
+- [Leaderboard](https://john-rocky.github.io/devicemark/site/): the Pareto chart + full table.
+- [Methodology](https://john-rocky.github.io/devicemark/site/methodology.html): what is measured, proof-strength
+  disclosure, the token-cap confound, confidence intervals, fairness/corrections.
+
+## Data
+
+- [Results dataset (Hugging Face)](https://huggingface.co/datasets/mlboydaisuke/devicemark-results): normalized `artifacts` (quality +
+  retention) and `measurements` (speed/memory) tables, CC-BY-4.0. Benchmark questions
+  are not redistributed; they keep their own licenses.
+
+## Contribute / correct
+
+- [Submit a model](https://github.com/john-rocky/devicemark/issues/new?template=submit-your-model.yml): open weights
+  only; listing requires a verified on-device port.
+- [Objection / correction](https://github.com/john-rocky/devicemark/issues/new?template=objection.yml): for model
+  authors disputing a score, a quant choice, or a methodology point.
+
+<!-- prep note: replace https://john-rocky.github.io/devicemark / https://huggingface.co/datasets/mlboydaisuke/devicemark-results at launch (LAUNCH_CHECKLIST). -->

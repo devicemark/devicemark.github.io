@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>On-Device LLM Leaderboard — iPhone tier (v0)</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DeviceMark">
+<meta property="og:title" content="On-Device LLM Leaderboard">
+<meta property="og:description" content="The smartest LLMs that actually run on an iPhone — intelligence × decode speed, memory tier, and how much the shipped int8 loses vs float. Apple's built-in Foundation Model included as a baseline.">
+<meta property="og:url" content="https://john-rocky.github.io/devicemark/site/">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="On-Device LLM Leaderboard">
+<meta name="twitter:description" content="Intelligence × decode speed × memory × int8 retention, under real iPhone limits. Same protocol for every model; Apple's built-in FM on the board.">
+
+<meta name="description" content="On-device LLM leaderboard (iPhone tier): intelligence, decode speed, memory, and int8-vs-float retention under a single protocol, with verified device≡Mac≡HF parity. Apple's built-in Foundation Model included.">
+<style>
+  :root{ --surface:#fcfcfb; --plane:#f9f9f7; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --axis:#c3c2b7; --s1:#2a78d6; --s2:#1baf7a; --s3:#eda100; --s6:#e34948; --card:#fff; }
+  @media (prefers-color-scheme: dark){ :root{ --surface:#1a1a19; --plane:#0d0d0d; --ink:#fff; --ink2:#c3c2b7;
+    --muted:#898781; --grid:#2c2c2a; --axis:#383835; --s1:#3987e5; --s2:#199e70; --s3:#c98500; --s6:#e66767; --card:#161615; } }
+  :root[data-theme="light"]{ --surface:#fcfcfb; --plane:#f9f9f7; --ink:#0b0b0b; --ink2:#52514e; --grid:#e1e0d9; --axis:#c3c2b7; --s1:#2a78d6; --s2:#1baf7a; --s3:#eda100; --s6:#e34948; --card:#fff; }
+  :root[data-theme="dark"]{ --surface:#1a1a19; --plane:#0d0d0d; --ink:#fff; --ink2:#c3c2b7; --grid:#2c2c2a; --axis:#383835; --s1:#3987e5; --s2:#199e70; --s3:#c98500; --s6:#e66767; --card:#161615; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--plane);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1040px;margin:0 auto;padding:32px 20px 64px}
+  h1{font-size:26px;margin:0 0 4px;letter-spacing:-.02em}
+  .tag{color:var(--ink2);margin:0 0 4px}.sub{color:var(--muted);font-size:13px;margin:0 0 28px}
+  .card{background:var(--card);border:1px solid var(--grid);border-radius:12px;padding:20px;margin:0 0 24px}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 14px;font-weight:600}
+  svg{display:block;width:100%;height:auto;overflow:visible}
+  .ax{stroke:var(--axis);stroke-width:1.5}.gl{stroke:var(--grid);stroke-width:1}
+  .axlab{fill:var(--muted);font-size:11px}.axtitle{fill:var(--ink2);font-size:12px;font-weight:600}
+  .plab{fill:var(--ink2);font-size:11px}.eb{stroke:var(--muted);stroke-width:1.5;opacity:.6}
+  .tblwrap{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:860px}
+  th,td{text-align:right;padding:7px 9px;border-bottom:1px solid var(--grid);white-space:nowrap}
+  th:nth-child(-n+3),td:nth-child(-n+3){text-align:left}
+  th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+  .model{font-weight:600;color:var(--ink)}.dim{color:var(--muted)}.ret{font-weight:600}
+  .pend{color:var(--muted);font-style:italic}.ci{color:var(--muted);font-size:11px}
+  .rank{display:inline-block;min-width:20px;text-align:center;font-weight:700;color:var(--ink2)}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin:10px 0 0;font-size:12px;color:var(--ink2)}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+  a{color:var(--s1)}.note{font-size:12px;color:var(--muted);margin-top:10px}
+  .pill{font-size:10px;padding:1px 6px;border:1px solid var(--grid);border-radius:20px;color:var(--muted)}
+  sup{color:var(--s1);cursor:help}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>On-Device LLM Leaderboard</h1>
+  <p class="tag">The smartest models that actually run on an iPhone — intelligence &times; decode speed, under real device limits.</p>
+  <p class="sub">iPhone tier &middot; v0 &middot; runtime <span class="pill">coreai · aimodel</span> (schema runtime-neutral: GGUF/MLX drop in as data) &middot; <a href="methodology.html">methodology</a></p>
+
+  <div class="card">
+    <h2>Pareto front — intelligence vs decode speed (95% CI)</h2>
+    <svg id="pareto" viewBox="0 0 720 400" role="img" aria-label="Pareto scatter with confidence intervals"></svg>
+    <div class="legend" id="legend"></div>
+    <p class="note">y = intelligence composite (item-bootstrap mean of IFEval mean-of-4, MMLU-Pro &amp; MATH <em>completed-only</em> accuracy) with 95% CI whiskers. x = decode tok/s (iPhone 17 Pro; ○ = Mac M4 Max until device-measured). Dashed line = Apple's built-in Foundation Model (no bundle to load; read every port vs this "sea level").</p>
+  </div>
+
+  <div class="card">
+    <h2>Artifacts — quality (① shipped quant) · ③ retention vs float baseline</h2>
+    <div class="tblwrap"><table id="tbl"></table></div>
+    <p class="note" id="foot"></p>
+  </div>
+</div>
+
+<script>
+const FALLBACK = [{"artifact_id":"qwen3.5-0.8b__int8hu__aimodel","model":"Qwen3.5-0.8B","vendor":"Qwen","params_b":0.8,"quant":"int8hu","format":"aimodel","native_runtime":"coreai","quality":{"battery_version":"v0","cap_tokens":1024,"shots":0,"source":{"mmlu":"full596","math":"full596","ifeval":"full596"},"refusal_rate":0.0,"refused_n":0,"mmlu_completed":0.3969,"mmlu_ci":[0.3172,0.4825],"mmlu_acc":0.2653,"mmlu_n":196,"mmlu_answered":131,"mmlu_noans":65,"math_completed":0.5926,"math_ci":[0.4597,0.7132],"math_acc":0.32,"math_n":100,"math_answered":54,"math_noans":46,"ifeval_mean4":0.6047,"ifeval_ci":[0.5542,0.6553],"ifeval_n":300},"composite":{"value":0.5314,"ci":[0.4742,0.5855]},"retention":{"baseline":"fp16-engine(+eager anchor)","metric":"completed-only","mmlu":0.938,"math":0.938,"ifeval":0.906},"iphone_tok_s":72,"mac_tok_s":210,"mem_mb":443,"mem_measured":true},{"artifact_id":"qwen3.5-2b__int8hu__aimodel","model":"Qwen3.5-2B","vendor":"Qwen","params_b":2.0,"quant":"int8hu","format":"aimodel","native_runtime":"coreai","quality":{"battery_version":"v0","cap_tokens":1024,"shots":0,"source":{"mmlu":"full596","math":"full596","ifeval":"full596"},"refusal_rate":0.0,"refused_n":0,"mmlu_completed":0.6098,"mmlu_ci":[0.5215,0.6914],"mmlu_acc":0.3827,"mmlu_n":196,"mmlu_answered":123,"mmlu_noans":73,"math_completed":0.8305,"math_ci":[0.7154,0.9052],"math_acc":0.49,"math_n":100,"math_answered":59,"math_noans":41,"ifeval_mean4":0.7004,"ifeval_ci":[0.6557,0.7446],"ifeval_n":300},"composite":{"value":0.7136,"ci":[0.6667,0.7597]},"retention":{"baseline":"fp16-engine","metric":"completed-only","mmlu":0.978,"math":0.933,"ifeval":0.905},"iphone_tok_s":29,"mac_tok_s":165,"mem_mb":2900,"mem_measured":false},{"artifact_id":"lfm2.5-1.2b__int8hu__aimodel","model":"LFM2.5-1.2B","vendor":"LiquidAI","params_b":1.2,"quant":"int8hu","format":"aimodel","native_runtime":"coreai","quality":{"battery_version":"v0","cap_tokens":1024,"shots":0,"source":{"mmlu":"full596","math":"full596","ifeval":"full596"},"refusal_rate":0.0,"refused_n":0,"mmlu_completed":0.4294,"mmlu_ci":[0.3559,0.5062],"mmlu_acc":0.3571,"mmlu_n":196,"mmlu_answered":163,"mmlu_noans":33,"math_completed":0.8507,"math_ci":[0.7466,0.9169],"math_acc":0.57,"math_n":100,"math_answered":67,"math_noans":33,"ifeval_mean4":0.8761,"ifeval_ci":[0.8422,0.9072],"ifeval_n":300},"composite":{"value":0.7188,"ci":[0.6771,0.756]},"retention":{"baseline":"fp16-engine(+transformers anchor)","metric":"completed-only","mmlu":0.903,"math":0.955,"ifeval":1.028},"iphone_tok_s":45.5,"mac_tok_s":277,"mem_mb":1600,"mem_measured":false},{"artifact_id":"granite-4.0-h-1b__int8hu__aimodel","model":"Granite-4.0-H-1B","vendor":"IBM","params_b":1.0,"quant":"int8hu","format":"aimodel","native_runtime":"coreai","quality":{"battery_version":"v0","cap_tokens":1024,"shots":0,"source":{"mmlu":"full596","math":"full596","ifeval":"full596"},"refusal_rate":0.0,"refused_n":0,"mmlu_completed":0.2775,"mmlu_ci":[0.2188,0.3449],"mmlu_acc":0.2704,"mmlu_n":196,"mmlu_answered":191,"mmlu_noans":5,"math_completed":0.5667,"math_ci":[0.4636,0.6642],"math_acc":0.51,"math_n":100,"math_answered":90,"math_noans":10,"ifeval_mean4":0.7869,"ifeval_ci":[0.7447,0.8294],"ifeval_n":300},"composite":{"value":0.5437,"ci":[0.4996,0.5861]},"retention":{"baseline":"fp16-engine","metric":"completed-only","mmlu":0.963,"math":1.111,"ifeval":0.922},"iphone_tok_s":31,"mac_tok_s":147,"mem_mb":1700,"mem_measured":false},{"artifact_id":"qwen3.5-4b__int8hu__aimodel","model":"Qwen3.5-4B","vendor":"Qwen","params_b":4.0,"quant":"int8hu","format":"aimodel","native_runtime":"coreai","quality":{"battery_version":"v0","cap_tokens":4096,"shots":0,"source":{"mmlu":"full596","math":"full596","ifeval":"full596"},"refusal_rate":0.0,"refused_n":0,"mmlu_completed":0.6889,"mmlu_ci":[0.5433,0.8047],"mmlu_acc":0.1582,"mmlu_n":196,"mmlu_answered":45,"mmlu_noans":151,"math_completed":0.5741,"math_ci":[0.4416,0.6967],"math_acc":0.31,"math_n":100,"math_answered":54,"math_noans":46,"ifeval_mean4":0.3162,"ifeval_ci":[0.2717,0.3631],"ifeval_n":300},"composite":{"value":0.5264,"ci":[0.461,0.5928]},"retention":{"baseline":"fp16-engine","metric":"completed-only","mmlu":0.778,"math":0.938,"ifeval":1.224},"note":"reasoning-heavy: cap4096","iphone_tok_s":null,"mac_tok_s":45,"mem_mb":4200,"mem_measured":false},{"artifact_id":"youtu-2b__int8__aimodel","model":"Youtu-LLM-2B","vendor":"Tencent","params_b":2.0,"quant":"int8","format":"aimodel","native_runtime":"coreai","quality":{"battery_version":"v0","cap_tokens":4096,"shots":0,"source":{"mmlu":"full596","math":"full596","ifeval":"full596"},"refusal_rate":0.0,"refused_n":0,"mmlu_completed":0.6212,"mmlu_ci":[0.5361,0.6994],"mmlu_acc":0.4184,"mmlu_n":196,"mmlu_answered":132,"mmlu_noans":64,"math_completed":0.8983,"math_ci":[0.7954,0.9526],"math_acc":0.53,"math_n":100,"math_answered":59,"math_noans":41,"ifeval_mean4":0.6319,"ifeval_ci":[0.5785,0.6847],"ifeval_n":300},"composite":{"value":0.7172,"ci":[0.6761,0.7567]},"retention":{"baseline":"eager-fp16 anchor (24 items, cap4096)","metric":"completed-only","mmlu":1.543,"math":1.5},"note":"reasoning: cap4096. ② = eager small-n anchor (eager decodes 3.5 tok/s; 16 completed shared items): no quantization loss detected at that n","iphone_tok_s":null,"mac_tok_s":null,"mem_mb":null,"mem_measured":false},{"artifact_id":"gemma-4-e2b__int4__aimodel","model":"Gemma 4 E2B","vendor":"Google","params_b":5.4,"quant":"int4","format":"aimodel","native_runtime":"coreai","quality":{"battery_version":"v0","cap_tokens":1024,"shots":0,"source":{"mmlu":"full596","math":"full596","ifeval":"full596"},"refusal_rate":0.0,"refused_n":0,"mmlu_completed":0.5294,"mmlu_ci":[0.4459,0.6113],"mmlu_acc":0.3673,"mmlu_n":196,"mmlu_answered":136,"mmlu_noans":60,"math_completed":0.8378,"math_ci":[0.6886,0.9235],"math_acc":0.31,"math_n":100,"math_answered":37,"math_noans":63,"ifeval_mean4":0.7606,"ifeval_ci":[0.7186,0.8022],"ifeval_n":300},"composite":{"value":0.7093,"ci":[0.6589,0.7582]},"retention":{"baseline":"fp16-engine (official-QAT unquantized)","metric":"completed-only","mmlu":1.05,"math":1.0,"ifeval":0.898},"note":"official Google QAT int4 (q4_0 grid): retention = QAT int4 vs its bf16 checkpoint; PLE tables int8 in BOTH columns (common-mode). E2B = 2B-effective (5.4B raw, per-layer embeds off-loaded)","iphone_tok_s":30,"mac_tok_s":83,"mem_mb":4450,"mem_measured":true},{"artifact_id":"apple-fm__system__system","model":"Apple Foundation Model","vendor":"Apple","params_b":null,"quant":"system","format":"system","native_runtime":"foundation-models","quality":{"battery_version":"v0","cap_tokens":1024,"shots":0,"source":{"mmlu":"full596","math":"full596","ifeval":"full596"},"refusal_rate":0.0,"refused_n":0,"mmlu_completed":0.648,"mmlu_ci":[0.561,0.7262],"mmlu_acc":0.4133,"mmlu_n":196,"mmlu_answered":125,"mmlu_noans":71,"math_completed":0.8148,"math_ci":[0.6916,0.8962],"math_acc":0.44,"math_n":100,"math_answered":54,"math_noans":46,"ifeval_mean4":0.8207,"ifeval_ci":[0.7799,0.8618],"ifeval_n":300},"composite":{"value":0.7612,"ci":[0.7136,0.8067]},"retention":null,"iphone_tok_s":null,"mac_tok_s":null,"mem_mb":null,"mem_measured":false}];
+
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const tierOf=mb=>mb==null?'b':(mb<1200?'a':(mb<2200?'b':'c'));
+const TIERS={a:{label:"<1.2 GB",c:"--s2"},b:{label:"1.2–2.2 GB",c:"--s1"},c:{label:">2.2 GB",c:"--s3"}};
+const pct=v=>v==null?'<span class="pend">—</span>':(v*100).toFixed(0)+'%';
+const overlap=(a,b)=>a&&b&&a[0]<=b[1]&&b[0]<=a[1];
+let BOARD=[];
+
+// retention display: parity/within-noise (>=0.97 or CI-consistent) -> "≈100%"
+function retDisp(v){ if(v==null) return '<span class="pend">—</span>';
+  if(v>=0.97) return '≈100%<sup title="parity, within noise — raw '+(v*100).toFixed(0)+'%; see methodology cap-confound note">▵</sup>';
+  return (v*100).toFixed(0)+'%'; }
+
+function drawPareto(){
+  const svg=document.getElementById('pareto'), W=720,H=400,m={l:52,r:20,t:16,b:46};
+  const fm=BOARD.find(d=>d.format==='system');
+  const pts=BOARD.filter(d=>d.format!=='system').map(d=>({d,x:d.iphone_tok_s??d.mac_tok_s,c:d.composite,est:d.iphone_tok_s==null})).filter(p=>p.x!=null&&p.c);
+  const xmax=Math.max(80,...pts.map(p=>p.x))*1.1;
+  const X=v=>m.l+(v/xmax)*(W-m.l-m.r), Y=v=>H-m.b-v*(H-m.t-m.b);
+  let s=`<line class="ax" x1="${m.l}" y1="${H-m.b}" x2="${W-m.r}" y2="${H-m.b}"/><line class="ax" x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${H-m.b}"/>`;
+  for(let g=0;g<=100;g+=20){const y=Y(g/100);s+=`<line class="gl" x1="${m.l}" y1="${y}" x2="${W-m.r}" y2="${y}"/><text class="axlab" x="${m.l-8}" y="${y+3}" text-anchor="end">${g}%</text>`;}
+  for(let g=0;g<=xmax;g+=Math.ceil(xmax/6/10)*10){const x=X(g);s+=`<text class="axlab" x="${x}" y="${H-m.b+16}" text-anchor="middle">${g}</text>`;}
+  s+=`<text class="axtitle" x="${(m.l+W-m.r)/2}" y="${H-6}" text-anchor="middle">decode tok/s</text>`;
+  s+=`<text class="axtitle" transform="translate(14,${(m.t+H-m.b)/2}) rotate(-90)" text-anchor="middle">intelligence composite</text>`;
+  // Apple FM = horizontal dashed reference line (sea level)
+  if(fm&&fm.composite){const y=Y(fm.composite.value);
+    s+=`<line x1="${m.l}" y1="${y}" x2="${W-m.r}" y2="${y}" stroke="var(--s6)" stroke-width="1.5" stroke-dasharray="6 4" opacity=".85"/>`;
+    s+=`<text x="${W-m.r}" y="${y-5}" text-anchor="end" font-size="11" fill="var(--s6)">Apple built-in FM ${(fm.composite.value*100).toFixed(0)}%</text>`;}
+  for(const p of pts){const col=css(TIERS[tierOf(p.d.mem_mb)].c), x=X(p.x);
+    s+=`<line class="eb" x1="${x}" y1="${Y(p.c.ci[0])}" x2="${x}" y2="${Y(p.c.ci[1])}"/>`;         // error bar
+    s+=`<line class="eb" x1="${x-3}" y1="${Y(p.c.ci[0])}" x2="${x+3}" y2="${Y(p.c.ci[0])}"/><line class="eb" x1="${x-3}" y1="${Y(p.c.ci[1])}" x2="${x+3}" y2="${Y(p.c.ci[1])}"/>`;
+    s+=`<circle cx="${x}" cy="${Y(p.c.value)}" r="6" fill="${p.est?'var(--surface)':col}" stroke="${col}" stroke-width="2"><title>${p.d.model} — ${(p.c.value*100).toFixed(1)}% [${(p.c.ci[0]*100).toFixed(0)}–${(p.c.ci[1]*100).toFixed(0)}] @ ${p.x} tok/s${p.est?' (Mac)':''}</title></circle>`;
+    s+=`<text class="plab" x="${x+10}" y="${Y(p.c.value)+4}">${p.d.model}${p.est?' ○':''}</text>`;}
+  svg.innerHTML=s;
+  document.getElementById('legend').innerHTML=Object.values(TIERS).map(t=>`<span><span class="dot" style="background:${css(t.c)}"></span>${t.label}</span>`).join('')+`<span class="dim">○ Mac decode (iPhone pending) · whiskers = 95% CI</span>`;
+}
+
+function drawTable(){
+  const sorted=BOARD.slice().filter(d=>d.composite).sort((a,b)=>b.composite.value-a.composite.value);
+  // rank = 1 + (# models STRICTLY better: CI lower bound above this CI upper bound)
+  let rank=sorted.map(d=>1+sorted.filter(o=>o.composite.ci[0]>d.composite.ci[1]).length);
+  const anyEst=sorted.some(d=>!d.mem_measured&&d.mem_mb!=null), any4096=sorted.some(d=>d.quality.cap_tokens!==1024), anySub=sorted.some(d=>Object.values(d.quality.source||{}).includes('subset'));
+  const head=`<tr><th>#</th><th>Model</th><th>Vendor</th><th>Quant</th><th>Mem</th><th>cap</th><th>tok/s</th><th>IFEval</th><th>MMLU-Pro</th><th>MATH</th><th>Intelligence</th><th>Refuse</th><th>③ ret</th></tr>`;
+  const rows=sorted.map((d,i)=>{
+    const q=d.quality, sys=d.format==='system', c=d.composite;
+    const tps=sys?'<span class="dim">OS</span>':(d.iphone_tok_s!=null?d.iphone_tok_s:`${d.mac_tok_s}<span class="dim"> m</span>`);
+    const mem=sys?'<span class="dim">0</span>':`${d.mem_mb} MB${d.mem_measured?'':'<span class="dim"> est</span>'}`;
+    const cap=q.cap_tokens+(q.cap_tokens!==1024?'<sup title="reasoning-heavy: needs a larger budget to finish">*</sup>':'');
+    const provq=b=>q.source&&q.source[b]==='subset'?'<sup title="subset (n≈30–50); full 596 in progress">~</sup>':'';
+    const tie=(i>0&&rank[i]===rank[i-1])||(i<sorted.length-1&&rank[i+1]===rank[i]);
+    const qat=(d.note||'').includes('QAT');
+    return `<tr><td><span class="rank">${rank[i]}${tie?'<sup title="statistical tie — CIs overlap">=</sup>':''}</span></td>
+      <td class="model">${d.model}${sys?' <span class="pill">system</span>':''}</td><td class="dim">${d.vendor}</td><td class="dim">${d.quant}${qat?'<sup title="official Google QAT int4 — retention ③ = QAT int4 vs its own bf16 checkpoint (does QAT really cost zero?)">†</sup>':''}</td>
+      <td>${mem}</td><td class="dim">${cap}</td><td>${tps}</td>
+      <td>${pct(q.ifeval_mean4)}${provq('ifeval')}</td><td>${pct(q.mmlu_completed)}${provq('mmlu')}</td><td>${pct(q.math_completed)}${provq('math')}</td>
+      <td><b>${(c.value*100).toFixed(0)}%</b> <span class="ci">±${(((c.ci[1]-c.ci[0])/2)*100).toFixed(0)}</span></td>
+      <td class="dim">${(q.refusal_rate*100).toFixed(1)}%</td>
+      <td class="ret">${d.retention?retDisp(d.retention.mmlu):'<span class="pend">—</span>'}</td></tr>`;
+  }).join('');
+  document.getElementById('tbl').innerHTML=head+rows;
+  document.getElementById('foot').innerHTML=
+    'Quality = attribute of the <b>artifact</b> (model × quant × format) on its native runtime; speed/memory = <b>runtime × device</b>. '
+    +'MMLU/MATH = completed-only accuracy; IFEval = official mean-of-4; Intelligence = item-bootstrap composite ±half-95%-CI. '
+    +'③ ret = shipped-quant ÷ float baseline on completed-only. '
+    +(any4096?'<b>*</b> cap 4096 (reasoning models). ':'')+(anyEst?'<b>est</b> = memory estimated (not yet device-measured). ':'')
+    +(anySub?'<b>~</b> = subset (full 596 still running). ':'')
+    +(sorted.some(d=>(d.note||'').includes('QAT'))?'<b>†</b> official Google QAT int4 weights (the “zero-loss” claim, measured in ③). Gemma speed/power are runtime-dependent — this row is the Core AI runtime; a LiteRT-LM row on the identical (byte-matched) QAT weights lands in v0.5. ':'')
+    +'<b>▵</b> retention shown as ≈100% when within noise (raw kept in data; see <a href="methodology.html#cap-confound">methodology</a> cap-confound). '
+    +'<b>=</b> statistical tie (overlapping CIs).';
+}
+
+function render(){drawPareto();drawTable();}
+fetch('../data/leaderboard/board.json').then(r=>r.json()).then(d=>{BOARD=d;render();}).catch(()=>{BOARD=FALLBACK;render();});
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+</script>
+</body>
+</html>

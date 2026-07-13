@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="On-device LLM leaderboard">
+  <rect width="64" height="64" rx="14" fill="#0b0b0b"/>
+  <!-- ascending Pareto bars = leaderboard; the tallest is the accent -->
+  <rect x="12" y="38" width="10" height="14" rx="2" fill="#199e70"/>
+  <rect x="27" y="28" width="10" height="24" rx="2" fill="#2a78d6"/>
+  <rect x="42" y="16" width="10" height="36" rx="2" fill="#eda100"/>
+</svg>

@@ -24,7 +24,7 @@ configs:
 
 Systematic quality + speed + memory data for **verified on-device LLM ports**,
 under a single protocol, with **retention vs the float baseline** on the same
-row. This is the results table behind the [On-Device LLM Leaderboard](https://example.invalid)
+row. This is the results table behind the [On-Device LLM Leaderboard](https://john-rocky.github.io/devicemark)
 (swap for the real URL at launch). v0 covers the iPhone tier (Core AI / `aimodel`
 ports + Apple's built-in Foundation Model as a `system` row).
 
@@ -112,7 +112,7 @@ The battery is rotated to fight contamination; each rotation bumps the version.
   title  = {On-Device LLM Leaderboard: quality, speed, memory, and retention for verified on-device ports},
   author = {rockyshikoku},
   year   = {2026},
-  howpublished = {\url{https://example.invalid}},
+  howpublished = {\url{https://john-rocky.github.io/devicemark}},
   note   = {Results under CC-BY-4.0; benchmark questions under their own licenses}
 }
 ```

@@ -1,0 +1,11 @@
+{"artifact_id": "qwen3.5-0.8b__int8hu__aimodel", "runtime": "coreai", "device": "M4 Max", "decode_tok_s": 210, "peak_mem_mb": 443, "mem_measured": true, "power_w": null}
+{"artifact_id": "qwen3.5-0.8b__int8hu__aimodel", "runtime": "coreai", "device": "iPhone 17 Pro", "decode_tok_s": 72, "peak_mem_mb": 443, "mem_measured": true, "power_w": null}
+{"artifact_id": "qwen3.5-2b__int8hu__aimodel", "runtime": "coreai", "device": "M4 Max", "decode_tok_s": 165, "peak_mem_mb": 2900, "mem_measured": false, "power_w": null}
+{"artifact_id": "qwen3.5-2b__int8hu__aimodel", "runtime": "coreai", "device": "iPhone 17 Pro", "decode_tok_s": 29, "peak_mem_mb": 2900, "mem_measured": false, "power_w": null}
+{"artifact_id": "lfm2.5-1.2b__int8hu__aimodel", "runtime": "coreai", "device": "M4 Max", "decode_tok_s": 277, "peak_mem_mb": 1600, "mem_measured": false, "power_w": null}
+{"artifact_id": "lfm2.5-1.2b__int8hu__aimodel", "runtime": "coreai", "device": "iPhone 17 Pro", "decode_tok_s": 45.5, "peak_mem_mb": 1600, "mem_measured": false, "power_w": null}
+{"artifact_id": "granite-4.0-h-1b__int8hu__aimodel", "runtime": "coreai", "device": "M4 Max", "decode_tok_s": 147, "peak_mem_mb": 1700, "mem_measured": false, "power_w": null}
+{"artifact_id": "granite-4.0-h-1b__int8hu__aimodel", "runtime": "coreai", "device": "iPhone 17 Pro", "decode_tok_s": 31, "peak_mem_mb": 1700, "mem_measured": false, "power_w": null}
+{"artifact_id": "qwen3.5-4b__int8hu__aimodel", "runtime": "coreai", "device": "M4 Max", "decode_tok_s": 45, "peak_mem_mb": 4200, "mem_measured": false, "power_w": null}
+{"artifact_id": "gemma-4-e2b__int4__aimodel", "runtime": "coreai", "device": "M4 Max", "decode_tok_s": 83, "peak_mem_mb": 4450, "mem_measured": true, "power_w": null}
+{"artifact_id": "gemma-4-e2b__int4__aimodel", "runtime": "coreai", "device": "iPhone 17 Pro", "decode_tok_s": 30, "peak_mem_mb": 4450, "mem_measured": true, "power_w": null}

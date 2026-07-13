@@ -1,8 +1,7 @@
 # X / post drafts (EN) — DO NOT POST (launch-gated)
 
 Tone: understated, feature/technique-first, a link at the end, no sales CTA.
-⚠️ Numbers below are the P2 v0 board — **re-check against the final `board.json`
-after the full-battery run before posting** (composite/IFEval may shift).
+Numbers below are checked against the **final full596 board (2026-07-13, 8 entries)**.
 
 ---
 
@@ -12,9 +11,10 @@ after the full-battery run before posting** (composite/IFEval may shift).
 > (MMLU-Pro / MATH / IFEval, greedy, 0-shot) — next to open models that actually
 > run on an iPhone, scored the same way.
 >
-> It tops the knowledge/math composite, but lands mid-pack on instruction-following
-> — a small open 1–2B instruct model beats it there. Same battery, same cap,
-> refusals counted separately.
+> It tops the composite (76%), but it's a statistical tie with the best 1–2B open
+> ports (LFM2.5-1.2B, Qwen3.5-2B, Youtu-2B, Gemma 4 E2B — all CIs overlap), and a
+> 1.2B open instruct model still beats it on instruction-following (IFEval 88 vs 82).
+> Same battery, same cap, refusals counted separately.
 >
 > [link]
 
@@ -31,12 +31,22 @@ after the full-battery run before posting** (composite/IFEval may shift).
 
 ## Option C — the retention angle (technique-first)
 
-> Small on-device models: how much does the shipped int8 actually cost you vs the
-> float model? Measured it on the same items, same protocol, for a handful of
-> iPhone-tier ports.
+> Small on-device models: how much does the shipped int8/int4 actually cost vs the
+> float model? Measured on the same items, same protocol, for the iPhone-tier ports.
 >
-> Short version: at ~0.8B the int8 hit is real (~7% on MMLU-Pro); by 2–4B it's in
-> the noise. Quality × speed × memory × retention, one table.
+> Short version: it's not monotone with size — most ports hold 90–98% on MMLU-Pro,
+> but the 4B reasoning model takes the biggest hit (78%). And Google's official QAT
+> int4 (Gemma 4 E2B) measures at parity on MMLU/MATH — the "zero-loss" claim
+> holds there, with IFEval at ~90%.
+>
+> [link]
+
+## Option D — the QAT angle (Gemma-specific)
+
+> Google ships Gemma 4 E2B with official QAT int4 weights and the claim that int4
+> ≈ bf16. Measured it: on MMLU-Pro and MATH (completed-only, same items) the QAT
+> int4 is at parity with its bf16 checkpoint; IFEval retains ~90%. Full protocol +
+> CIs on the board.
 >
 > [link]
 
@@ -47,7 +57,8 @@ after the full-battery run before posting** (composite/IFEval may shift).
 - No "DM me / hire me / try my app". The receiving surface is the board's own
   submit/objection issues + the maintainer's profile.
 - If a thread: post 2–3 concrete rows as a follow-up (e.g. the 4B "smartest on
-  MMLU, worst on IFEval because it won't stop thinking" result reads well).
+  MMLU, worst on IFEval because it won't stop thinking" result reads well; the
+  top-5 statistical tie incl. the built-in FM is the honest headline).
 - Reply-ready line if asked "why trust Mac-measured intelligence for a phone?":
   every port passes device ≡ Mac ≡ HF greedy token-exact; only speed/mem are
   device-measured. Link the methodology page.

@@ -4,7 +4,7 @@ r/LocalLLaMA is technical and quantization-literate. They will immediately ask:
 what quant, what protocol, what's the baseline, is it contaminated. Answer all of
 that up front. Understated; no promo.
 
-⚠️ Re-check every number against the final `board.json` before posting.
+Numbers checked against the final full596 board (2026-07-13, 8 entries).
 
 ---
 
@@ -36,14 +36,17 @@ Protocol (all on the methodology page, but the short version):
   ties where CIs overlap.
 
 A few findings that might interest you:
-- **Quantization loss shrinks with size.** At ~0.8B the int8 hit is real (~7% on
-  MMLU-Pro completed); by 2B / 4B it's within noise.
+- **Quantization loss is NOT monotone with size.** Most ports hold 90–98% on
+  MMLU-Pro completed, but the 4B reasoning model takes the biggest hit (78%) —
+  and Google's official QAT int4 (Gemma 4 E2B) measures at parity on MMLU/MATH
+  (the "zero-loss" claim holds there; IFEval ~90%).
 - **Reasoning-heavy ≠ instruction-following.** The 4B is the smartest on MMLU-Pro
   but the *worst* on IFEval, because it prepends a long "thinking" block that
   violates the format constraints outright — and it barely terminates within cap.
 - **Apple's built-in Foundation Model** is on the board as a `system` row (via the
-  public API, not weight extraction). It tops the knowledge/math composite but is
-  mid-pack on IFEval; refusals <1%.
+  public API, not weight extraction). It tops the composite (76%) but is in a
+  statistical tie with the best 1–2B open ports, and a 1.2B open instruct model
+  beats it on IFEval (88 vs 82); refusals <1%.
 
 Honest limits: the float baseline for the v0 family is an eager PyTorch reference,
 not an independent transformers run (the checkpoint's `model_type` isn't in a
