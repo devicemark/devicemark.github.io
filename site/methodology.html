@@ -220,39 +220,69 @@
   listing.</p>
 
   <h2 id="related">Related work — what this board is and is not</h2>
-  <p>Neighboring projects, and the honest differences (each is better than this board at what it
-  actually targets):</p>
+  <p>Where DeviceMark sits among the tools that measure local/on-device AI. The matrix uses each
+  project's own published scope (links below); "intelligence axis" means output quality is a
+  <em>reported, per-model comparison column</em>, not merely an internal pass/fail check.</p>
+  <div style="overflow-x:auto"><table>
+    <tr><th></th><th>intelligence axis</th><th>measured on phones</th><th>speed / memory</th><th>quant retention</th><th>shipped-artifact parity proof</th><th>live board</th></tr>
+    <tr><td><b>DeviceMark (this)</b></td><td>✅ 3 benches + CIs</td><td>✅ iPhone 17 Pro</td><td>✅ / ✅</td><td>✅ vs same-weights float</td><td>✅ token-parity gate per entry</td><td>✅</td></tr>
+    <tr><td>MobileAIBench</td><td>✅ (desktop harness)</td><td>latency only (iOS app)</td><td>✅ / ✅</td><td>✅ (re-quantized by the harness)</td><td>—</td><td>— (paper)</td></tr>
+    <tr><td>MLPerf Client v1.6</td><td>pass/fail MMLU gate only</td><td>— (PC, Mac, iPad)</td><td>✅ / —</td><td>—</td><td>vendor-governed harness</td><td>results tables</td></tr>
+    <tr><td>LocalScore</td><td>—</td><td>— (desktop)</td><td>✅ / —</td><td>—</td><td>—</td><td>✅ crowd DB</td></tr>
+    <tr><td>PocketPal leaderboard</td><td>—</td><td>✅ (crowd phones)</td><td>✅ / —</td><td>—</td><td>—</td><td>✅ (ranks devices)</td></tr>
+    <tr><td>Geekbench AI</td><td>accuracy alongside speed (CV/NLP-cls, no LLM generation)</td><td>✅</td><td>✅ / —</td><td>precision variants scored</td><td>—</td><td>✅</td></tr>
+  </table></div>
+
   <ul>
     <li><a href="https://arxiv.org/abs/2406.10290"><strong>MobileAIBench</strong></a> (Salesforce, 2024) —
-    the closest conceptual neighbor: task performance across quantization levels (16→3-bit) for &le;7B
-    models, with an iOS app for latency, and broader task coverage than this board (incl. multimodal and
-    trust &amp; safety). Differences: it evaluates <em>re-quantized</em> models largely on desktop
-    harnesses, while DeviceMark scores the <em>shipped artifact</em> on its native runtime with a
-    device&equiv;Mac&equiv;HF greedy token-parity gate; retention vs the same-weights float baseline,
-    Apple's built-in FM as a row, CI-based tie-honest ranking, and a continuously updated board rather
-    than a paper snapshot.</li>
+    the closest conceptual neighbor: LLM/LMM task performance across quantization levels for mobile-sized
+    models, with <em>"a library for running evaluations on desktops and an iOS app for on-device latency
+    and hardware utilization"</em> (their split, quoted). Its task coverage (multimodal, trust &amp;
+    safety) is broader than this board's. Differences: it evaluates models the harness re-quantizes,
+    with quality measured on the desktop side and no token-level proof that the phone runs the same
+    computation; DeviceMark scores the <em>shipped artifact</em> on its native runtime and transfers
+    quality to the device through a greedy token-parity gate, adds retention vs the same-weights float
+    baseline, the built-in Apple FM row, CI-based ties, and a continuously updated board rather than a
+    paper snapshot.</li>
     <li><a href="https://mlcommons.org/benchmarks/client/"><strong>MLPerf Client</strong></a> (MLCommons,
-    v1.6 2026) — the industry-standard <em>performance</em> benchmark for PCs/laptops (TTFT, tokens/s on
-    int4 models) with vendor-governed rules; far stronger standardization than this board. It measures
-    no intelligence/quality axis and does not target phones — DeviceMark is the quality&times;speed join
-    on the iPhone tier.</li>
+    v1.6, 2026) — the industry-standard client-side <em>performance</em> benchmark: TTFT and tokens/s on
+    int4 models, now on Windows, macOS Tahoe 26, iPadOS 26 and Ubuntu. Its standardization and vendor
+    governance are far stronger than this board's. Quality appears only as a <em>qualification
+    threshold</em> (models must clear an MMLU score of 43–70 to be included) — it is not a reported
+    per-system comparison axis, there is no phone tier, no memory/retention column, and no per-model
+    intelligence ranking. DeviceMark is complementary: the quality×speed join on the iPhone tier.</li>
     <li><a href="https://www.localscore.ai/about"><strong>LocalScore</strong></a> (Mozilla Builders) — a
-    llamafile/llama.cpp performance score (prompt speed &times; generation speed &times; TTFT) with a
-    large crowd-sourced hardware database for desktops/GPUs. Perf-only, GGUF-only, desktop-first; its
-    crowd hardware coverage is something this board does not attempt.</li>
+    llamafile/llama.cpp desktop benchmark combining prompt speed, generation speed and TTFT into one
+    score, with a crowd-sourced hardware database. By its own docs it does <em>not</em> measure output
+    quality; GGUF/desktop/single-GPU scope. Its hardware coverage breadth is something this board does
+    not attempt.</li>
     <li><a href="https://github.com/a-ghorbani/pocketpal-ai"><strong>PocketPal</strong></a> — an on-phone
-    GGUF app whose community leaderboard ranks <em>devices</em> by speed (Glicko-2 over thousands of crowd
-    benchmarks). Real crowd phones at a scale this board doesn't have; but it ranks hardware, not model
-    intelligence, and has no quality or retention axis.</li>
+    GGUF app whose community leaderboard ranks <em>devices</em> (Glicko-2 over thousands of crowd
+    benchmarks, recomputed every 6 h). Real crowd phones at a scale this board doesn't have — but it
+    ranks hardware speed, not model intelligence, and has no quality or retention axis.</li>
+    <li><a href="https://www.geekbench.com/ai/"><strong>Geekbench AI</strong></a> (Primate Labs) —
+    cross-platform (Android/iOS/Windows/macOS/Linux) AI benchmark of ten fixed workloads (eight computer
+    vision, two NLP classification/translation) scored at single/half/quantized precision <em>with
+    accuracy reported alongside speed</em>. No LLM text generation, no model comparison (it compares
+    devices on fixed models) — orthogonal to a model leaderboard, listed for completeness.</li>
     <li><a href="https://arxiv.org/abs/2407.00993"><strong>Mobile-Bench</strong></a> (ACL 2024) — despite
     the name, an orthogonal axis: it benchmarks LLM-based <em>mobile agents</em> (UI + API task
-    completion), not on-device inference. Listed here to avoid name confusion.</li>
+    completion, CheckPoint metric), not on-device inference. Listed to avoid name confusion.</li>
   </ul>
-  <p>Summary: existing tools measure <em>how fast</em> (MLPerf Client, LocalScore, PocketPal) or
-  <em>quality on re-quantized models without shipped-artifact parity</em> (MobileAIBench) or
-  <em>agents</em> (Mobile-Bench). DeviceMark's contribution is the join — intelligence (same protocol,
-  built-in FM included) &times; device-measured speed &times; memory &times; float-retention — for
-  verified shipped artifacts, with per-item raw outputs published for re-scoring.</p>
+
+  <p><strong>Lineage on the quality side.</strong> The
+  <a href="https://huggingface.co/docs/leaderboards/en/open_llm_leaderboard/archive">Open LLM
+  Leaderboard</a> (2M+ unique visitors before HF archived it) established the "same harness, many
+  models" quality board — on server GPUs, fp16/bf16, with no device axis; its retirement note cites
+  benchmark saturation and the risk of "optimizing in irrelevant directions", which is exactly the
+  contamination/goodharting problem the <a href="#contamination">contamination section</a> addresses.
+  <a href="https://lmarena.ai/">Chatbot Arena</a> ranks by human votes — measurement here is
+  deliberately <em>not</em> voting, which is why this project avoids the word "arena".
+  <a href="https://arxiv.org/abs/2406.19314">LiveBench</a> demonstrates the rotation defense this
+  board's battery versioning follows: ~1/6 of questions replaced monthly, fully refreshed in ~6
+  months, with verifiable ground truth. DeviceMark applies that lineage to the on-device setting,
+  where the artifact (quantized bundle), the runtime, and the physical device are part of what is
+  being measured.</p>
 
   <h2 id="proofs">Per-entry proof strength (as of 2026-07-13)</h2>
   <p>The parity claim is per-entry, not global. Speed gates below are PipelinedBench greedy
