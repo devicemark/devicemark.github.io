@@ -36,18 +36,18 @@
       "math_n": 100,
       "math_answered": 54,
       "math_noans": 46,
-      "ifeval_mean4": 0.6035,
+      "ifeval_mean4": 0.6022,
       "ifeval_ci": [
-        0.5524,
-        0.654
+        0.5515,
+        0.6518
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.531,
+      "value": 0.5306,
       "ci": [
-        0.4738,
-        0.585
+        0.4736,
+        0.5846
       ]
     },
     "retention": {
@@ -55,7 +55,7 @@
       "metric": "completed-only",
       "mmlu": 0.938,
       "math": 0.938,
-      "ifeval": 0.904
+      "ifeval": 0.898
     },
     "provenance": {
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
@@ -103,18 +103,18 @@
       "math_n": 100,
       "math_answered": 59,
       "math_noans": 41,
-      "ifeval_mean4": 0.7037,
+      "ifeval_mean4": 0.7029,
       "ifeval_ci": [
-        0.6579,
-        0.7475
+        0.6583,
+        0.7474
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.7147,
+      "value": 0.7144,
       "ci": [
-        0.6682,
-        0.7609
+        0.6688,
+        0.7611
       ]
     },
     "retention": {
@@ -122,7 +122,7 @@
       "metric": "completed-only",
       "mmlu": 0.978,
       "math": 0.933,
-      "ifeval": 0.898
+      "ifeval": 0.897
     },
     "provenance": {
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
@@ -170,18 +170,18 @@
       "math_n": 100,
       "math_answered": 67,
       "math_noans": 33,
-      "ifeval_mean4": 0.8774,
+      "ifeval_mean4": 0.8765,
       "ifeval_ci": [
-        0.8443,
-        0.9089
+        0.8428,
+        0.9081
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.7192,
+      "value": 0.7189,
       "ci": [
-        0.6779,
-        0.7559
+        0.6776,
+        0.7558
       ]
     },
     "retention": {
@@ -189,7 +189,7 @@
       "metric": "completed-only",
       "mmlu": 0.903,
       "math": 0.955,
-      "ifeval": 1.037
+      "ifeval": 1.032
     },
     "provenance": {
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
@@ -239,8 +239,8 @@
       "math_noans": 10,
       "ifeval_mean4": 0.7894,
       "ifeval_ci": [
-        0.7479,
-        0.8324
+        0.7485,
+        0.8311
       ],
       "ifeval_n": 300
     },
@@ -248,7 +248,7 @@
       "value": 0.5445,
       "ci": [
         0.5002,
-        0.5868
+        0.5862
       ]
     },
     "retention": {
@@ -256,7 +256,7 @@
       "metric": "completed-only",
       "mmlu": 0.963,
       "math": 1.111,
-      "ifeval": 0.957
+      "ifeval": 0.936
     },
     "provenance": {
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
@@ -304,18 +304,18 @@
       "math_n": 100,
       "math_answered": 54,
       "math_noans": 46,
-      "ifeval_mean4": 0.3167,
+      "ifeval_mean4": 0.315,
       "ifeval_ci": [
-        0.2728,
-        0.3633
+        0.2711,
+        0.3617
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.5265,
+      "value": 0.526,
       "ci": [
-        0.4617,
-        0.5931
+        0.461,
+        0.5923
       ]
     },
     "retention": {
@@ -323,7 +323,7 @@
       "metric": "completed-only",
       "mmlu": 0.778,
       "math": 0.938,
-      "ifeval": 1.226
+      "ifeval": 1.219
     },
     "provenance": {
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
@@ -372,18 +372,18 @@
       "math_n": 100,
       "math_answered": 59,
       "math_noans": 41,
-      "ifeval_mean4": 0.6315,
+      "ifeval_mean4": 0.6274,
       "ifeval_ci": [
-        0.5781,
-        0.6844
+        0.5728,
+        0.6813
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.717,
+      "value": 0.7156,
       "ci": [
-        0.6755,
-        0.7564
+        0.6739,
+        0.7552
       ]
     },
     "retention": {
@@ -439,18 +439,18 @@
       "math_n": 100,
       "math_answered": 37,
       "math_noans": 63,
-      "ifeval_mean4": 0.7601,
+      "ifeval_mean4": 0.7618,
       "ifeval_ci": [
-        0.7175,
-        0.8035
+        0.7199,
+        0.8042
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.7091,
+      "value": 0.7097,
       "ci": [
-        0.659,
-        0.7584
+        0.6593,
+        0.7587
       ]
     },
     "retention": {
@@ -458,7 +458,7 @@
       "metric": "completed-only",
       "mmlu": 1.05,
       "math": 1.0,
-      "ifeval": 0.898
+      "ifeval": 0.9
     },
     "provenance": {
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",

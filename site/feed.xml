@@ -8,6 +8,14 @@
   <language>en</language>
 
   <item>
+    <title>Scoring made bit-reproducible; two upstream IFEval items disclosed</title>
+    <link>https://devicemark.github.io/methodology.html#ci</link>
+    <guid isPermaLink="false">devicemark-2026-07-14-determinism</guid>
+    <pubDate>Tue, 14 Jul 2026 02:00:00 GMT</pubDate>
+    <description>The official IFEval checkers are non-reproducible unseeded (langdetect, hash order, and upstream items 1122/1129 whose non-alphabet letters the checker replaces with a random letter). All pinned; the board now regenerates bit-identically from the published raw outputs. Values shifted at most 0.3pp, inside every CI.</description>
+  </item>
+
+  <item>
     <title>v0 launch — 8 entries, full battery, device-measured</title>
     <link>https://devicemark.github.io/</link>
     <guid isPermaLink="false">devicemark-2026-07-13-v0</guid>

@@ -31,6 +31,16 @@
   <p class="sub"><a href="./">← board</a> · <a href="feed.xml">RSS</a> · every entry = the board changed (new model, new measurement, or a methodology change)</p>
 
   <div class="entry">
+    <p class="date">2026-07-14</p>
+    <h2>Scoring made bit-reproducible; two upstream IFEval items disclosed</h2>
+    <ul>
+      <li>The official IFEval checkers are not reproducible out of the box: langdetect is unseeded, results are hash-order sensitive, and upstream items <code>1122</code>/<code>1129</code> carry non-alphabet "letters" ('#', '!') that the official checker replaces with an <b>unseeded random letter</b> every run (~±0.2pp jitter for anyone using the official scorer).</li>
+      <li>All three sources are now pinned; every number on the board regenerates <b>bit-identically</b> from the published <code>raw/</code> outputs. Board values shifted ≤0.3pp one final time in this change (well inside every CI). Details: <a href="methodology.html#ci">methodology → reproducibility</a>.</li>
+      <li>Also fixed: stale subset-era numbers on the methodology page (the FM "weak on IFEval" claim was corrected by the full battery — kept as a worked example of small-n noise).</li>
+    </ul>
+  </div>
+
+  <div class="entry">
     <p class="date">2026-07-13</p>
     <h2>v0 launch — 8 entries, full battery, device-measured</h2>
     <ul>

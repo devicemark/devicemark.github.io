@@ -120,8 +120,8 @@
 
   <h3 id="cap-confound">The cap lever + the retention confound (documented, not hidden)</h3>
   <p><code>max-tokens</code> is an explicit design lever. Verbose small models spend the whole
-  budget reasoning: qwen3.5-0.8B int8 at cap-1024 on MMLU-Pro <strong>caps 27/50</strong> and
-  produces <strong>no boxed answer in 26/50</strong> — those score as wrong (a fair "couldn't
+  budget reasoning: qwen3.5-0.8B int8 at cap-1024 on MMLU-Pro <strong>caps 69/196</strong> and
+  produces <strong>no boxed answer in 65/196</strong> — those score as wrong (a fair "couldn't
   deliver a usable answer on-device in-budget" signal). Larger / less-verbose models cap far less.</p>
   <p><strong>Finding:</strong> &#9312; and &#9313; cap at <em>different</em> points (greedy paths
   diverge — int8 vs float weights, engine vs eager), so their no-answer rates differ and the
@@ -140,6 +140,14 @@
   </ol>
 
   <h2 id="ci">Confidence intervals &amp; ranking</h2>
+  <p><strong>Reproducibility.</strong> Every number regenerates bit-identically from the raw
+  per-item outputs: the scorer pins <code>PYTHONHASHSEED</code>, seeds <code>langdetect</code>, and
+  seeds Python's <code>random</code>. The last one matters because the <em>official</em> IFEval
+  checkers are not reproducible out of the box: upstream google/IFEval items <code>1122</code> and
+  <code>1129</code> carry non-alphabet "letters" ('#', '!') in
+  <code>keywords:letter_frequency</code> kwargs, and the official checker replaces those with an
+  <em>unseeded random letter</em> on every run — a ~±0.2pp jitter that affects anyone using the
+  official scorer unseeded. We keep the official semantics (seeded) and disclose the two items.</p>
   <p>Every accuracy carries a 95% interval, so ranks are not read off noise:</p>
   <ul>
     <li>Per-bench accuracy: <strong>Wilson</strong> 95% CI.</li>
@@ -171,9 +179,12 @@
   <code>LanguageModelSession()</code>) runs the same battery through its
   <strong>public API</strong> — <strong>no weight extraction</strong>
   (<code>runtime=foundation-models</code>, <code>format=system</code>, DL size 0, OS-resident,
-  <code>retention=null</code>). It is the natural anchor for the small-model group: strong on
-  knowledge/math but weaker on IFEval than the small instruct ports; refusal &lt;1%,
-  rateLimited handled with backoff pacing.</p>
+  <code>retention=null</code>). On the full 596-item battery it tops the composite point estimate
+  (76.1%) with no weak bench (IFEval 82.1 / MMLU-Pro 64.8 / MATH 81.5 completed; refusals 0) —
+  but it is a <em>statistical tie</em> with the best open 1–2B ports, and LFM2.5-1.2B beats it on
+  IFEval (87.7). Correction note: an earlier subset run (n=40) showed FM "weak on IFEval" (67%);
+  the full battery corrected that to 82.1% — small-n noise, kept here as a worked example of why
+  the board reports CIs and refuses to rank inside them.</p>
 
   <h2>Refusal rate (a column for all, decisive for the built-in)</h2>
   <p><code>guardrailViolation</code> and explicit textual refusals are <strong>separated from
@@ -183,7 +194,7 @@
 
   <h2>Finding: reasoning-heavy &ne; instruction-following &ne; on-device-practical</h2>
   <p>Reasoning-heavy models (Qwen3.5-4B, the built-in FM) top MMLU-Pro but <strong>crater
-  IFEval</strong>: Qwen3.5-4B is the smartest on MMLU (77.7% completed) yet scores ~27% on IFEval
+  IFEval</strong>: Qwen3.5-4B is the smartest port on MMLU-Pro (68.9% completed) yet scores 31.5% on IFEval
   because it prepends a "Thinking Process:" meta-analysis that isn't the requested output —
   violating format constraints outright — and generates ~4000 tokens even at cap-4096. The
   composite includes IFEval deliberately: raw knowledge is not the same as being useful in your
