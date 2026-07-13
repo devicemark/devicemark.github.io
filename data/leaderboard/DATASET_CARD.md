@@ -1,13 +1,11 @@
 ---
-# Hugging Face dataset card front-matter (draft — do not upload until the launch gate)
 license: cc-by-4.0
 language:
   - en
-pretty_name: On-Device LLM Leaderboard — Results
+pretty_name: DeviceMark — On-Device LLM Leaderboard Results
 tags:
   - leaderboard
   - on-device
-  - core-ml
   - core-ai
   - quantization
   - benchmark-results
@@ -20,13 +18,23 @@ configs:
     data_files: measurements.parquet
 ---
 
-# On-Device LLM Leaderboard — Results
+# DeviceMark — On-Device LLM Leaderboard Results
+
+![Intelligence × iPhone decode speed, 95% CI](pareto.png)
+
+**Three findings from v0** (full protocol + CIs on the [live board](https://john-rocky.github.io/devicemark/site/)):
+
+1. **The top is a five-way statistical tie**: Apple's built-in Foundation Model (76%) does *not* clearly beat the best open 1–2B-class ports — LFM2.5-1.2B, Youtu-2B, Qwen3.5-2B, and Gemma 4 E2B all overlap its CI, and a 1.2B open model beats it on instruction-following (IFEval 88 vs 82).
+2. **Google's official QAT int4 (Gemma 4 E2B) measures at parity** with its bf16 checkpoint on MMLU-Pro and MATH (completed-only, same items); IFEval retains ~90%.
+3. **Quantization loss is not monotone with size**: most ports hold 90–98% on MMLU-Pro, but the 4B reasoning model takes the biggest hit (78%) — and raw knowledge ≠ pocket-practical (the 4B is best on MMLU-Pro and worst on IFEval).
 
 Systematic quality + speed + memory data for **verified on-device LLM ports**,
 under a single protocol, with **retention vs the float baseline** on the same
-row. This is the results table behind the [On-Device LLM Leaderboard](https://john-rocky.github.io/devicemark)
-(swap for the real URL at launch). v0 covers the iPhone tier (Core AI / `aimodel`
-ports + Apple's built-in Foundation Model as a `system` row).
+row. This is the results table behind the
+[On-Device LLM Leaderboard](https://john-rocky.github.io/devicemark/site/).
+v0 covers the iPhone tier (Core AI / `aimodel` ports + Apple's built-in
+Foundation Model as a `system` row); decode speeds are device-measured on an
+iPhone 17 Pro.
 
 > **What is and isn't here.** This dataset contains **our generated results**
 > (accuracy, decode tok/s, memory, retention). It does **not** redistribute any
@@ -97,7 +105,7 @@ are device-measured. The float baseline for retention is currently the
 `coreai_models` **eager PyTorch** reference (not an independent third-party
 transformers run), so retention folds *(int8 weight quant) + (eager→engine
 numerics)* together — arguably the more product-relevant number, but disclosed as
-such. Full detail: the leaderboard's methodology page.
+such. Full detail: the [methodology page](https://john-rocky.github.io/devicemark/site/methodology.html).
 
 ## Versioning
 
@@ -108,13 +116,11 @@ The battery is rotated to fight contamination; each rotation bumps the version.
 ## Citation
 
 ```bibtex
-@misc{ondevice_llm_leaderboard,
-  title  = {On-Device LLM Leaderboard: quality, speed, memory, and retention for verified on-device ports},
-  author = {rockyshikoku},
+@misc{devicemark2026,
+  title  = {DeviceMark: an on-device LLM leaderboard — quality, speed, memory, and retention for verified on-device ports},
+  author = {Majima, Daisuke},
   year   = {2026},
-  howpublished = {\url{https://john-rocky.github.io/devicemark}},
+  howpublished = {\url{https://john-rocky.github.io/devicemark/site/}},
   note   = {Results under CC-BY-4.0; benchmark questions under their own licenses}
 }
 ```
-
-*(Fill the real URL and final project name at launch — see `../../LAUNCH_CHECKLIST.md`.)*
