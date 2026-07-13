@@ -197,6 +197,28 @@
   issue template</a>. Only <strong>open-weight</strong> models are ported; the only closed system on
   the board is Apple's built-in FM, via its public API.</p>
 
+  <h2 id="contamination">Contamination — which columns can and cannot be gamed</h2>
+  <p>Public benchmarks may appear in any model's training data, and this is <strong>not
+  verifiable from outside</strong>. The board's columns differ sharply in how much that matters:</p>
+  <ul>
+    <li><strong>Immune — retention ③, tok/s, memory, energy.</strong> Retention compares the
+    quantized and float versions of the <em>same weights</em>: whatever the model memorized, both
+    sides memorized equally, so contamination cancels and only quantization damage remains.
+    Speed/memory/energy are physical measurements.</li>
+    <li><strong>Resistant by construction — IFEval.</strong> Scoring is programmatic constraint
+    checking on freshly generated output (word counts, forbidden characters, formats). There are
+    no gold answers to memorize; a model must actually follow the instruction at inference time.</li>
+    <li><strong>Vulnerable — MMLU-Pro and MATH.</strong> Gold answers are memorizable. A model
+    fine-tuned on the test set (deliberately or via crawl accident) inflates these two columns.</li>
+  </ul>
+  <p>Mitigations, in order of deployment: the battery is <strong>versioned and rotated</strong>
+  (each rotation bumps <code>battery_version</code>); a <strong>paraphrase probe</strong> is
+  planned — the same items rewritten with different wording/numbers, scored pairwise, so a
+  memorizer shows a public&gt;paraphrase gap that genuine capability does not; and the roadmap's
+  endpoint is self-authored, freshly-captured test sets that are contamination-free by
+  construction. Submissions suspected of benchmark tuning are checked with the probe before
+  listing.</p>
+
   <h2>Benchmark data &amp; licenses</h2>
   <p>The published dataset ships <strong>results only</strong> — scores, counts, and confidence
   intervals. Benchmark questions and gold answers are <strong>not redistributed</strong>; each
