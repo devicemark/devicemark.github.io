@@ -141,12 +141,18 @@ function drawTable(){
     const mem=sys?'<span class="dim">0</span>':`${d.mem_mb} MB${d.mem_measured?'':'<span class="dim"> est</span>'}`;
     const cap=q.cap_tokens+(q.cap_tokens!==1024?'<sup title="reasoning-heavy: needs a larger budget to finish">*</sup>':'');
     const provq=b=>q.source&&q.source[b]==='subset'?'<sup title="subset (n≈30–50); full 596 in progress">~</sup>':'';
+    // per-bench value + its OWN 95% CI and n on hover — answered-n varies a lot
+    // by bench (MATH/MMLU completed-n can be small), so bare % would overstate precision
+    const bcell=(v,ci,n,label)=>v==null?'<span class="dim">—</span>':
+      `<span title="${label}: 95% CI ${(ci[0]*100).toFixed(0)}–${(ci[1]*100).toFixed(0)}%, ${n}">${pct(v)}</span>`;
     const tie=(i>0&&rank[i]===rank[i-1])||(i<sorted.length-1&&rank[i+1]===rank[i]);
     const qat=(d.note||'').includes('QAT');
     return `<tr><td><span class="rank">${rank[i]}${tie?'<sup title="statistical tie — CIs overlap">=</sup>':''}</span></td>
       <td class="model">${d.model}${sys?' <span class="pill">system</span>':''}</td><td class="dim">${d.vendor}</td><td class="dim">${d.quant}${qat?'<sup title="official Google QAT int4 — retention ③ = QAT int4 vs its own bf16 checkpoint (does QAT really cost zero?)">†</sup>':''}</td>
       <td>${mem}</td><td class="dim">${cap}</td><td>${tps}</td>
-      <td>${pct(q.ifeval_mean4)}${provq('ifeval')}</td><td>${pct(q.mmlu_completed)}${provq('mmlu')}</td><td>${pct(q.math_completed)}${provq('math')}</td>
+      <td>${bcell(q.ifeval_mean4,q.ifeval_ci,`n=${q.ifeval_n}`,'IFEval mean-of-4')}${provq('ifeval')}</td>
+      <td>${bcell(q.mmlu_completed,q.mmlu_ci,`answered ${q.mmlu_answered}/${q.mmlu_n}`,'MMLU-Pro completed-only')}${provq('mmlu')}</td>
+      <td>${bcell(q.math_completed,q.math_ci,`answered ${q.math_answered}/${q.math_n}`,'MATH completed-only')}${provq('math')}</td>
       <td><b>${(c.value*100).toFixed(0)}%</b> <span class="ci">±${(((c.ci[1]-c.ci[0])/2)*100).toFixed(0)}</span></td>
       <td class="dim">${(q.refusal_rate*100).toFixed(1)}%</td>
       <td class="ret">${d.retention?retDisp(d.retention.mmlu):'<span class="pend">—</span>'}</td></tr>`;
@@ -154,7 +160,8 @@ function drawTable(){
   document.getElementById('tbl').innerHTML=head+rows;
   document.getElementById('foot').innerHTML=
     'Quality = attribute of the <b>artifact</b> (model × quant × format) on its native runtime; speed/memory = <b>runtime × device</b>. '
-    +'MMLU/MATH = completed-only accuracy; IFEval = official mean-of-4; Intelligence = item-bootstrap composite ±half-95%-CI. '
+    +'MMLU/MATH = completed-only accuracy; IFEval = official mean-of-4; Intelligence = item-bootstrap composite ±half-95%-CI (the chart whiskers = this composite CI, not per-bench). '
+    +'<b>Hover any bench cell</b> for that bench\'s own 95% CI and answered-n — precision differs a lot per bench (completed-n can be small on MATH/MMLU). '
     +'③ ret = shipped-quant ÷ float baseline on completed-only. '
     +(any4096?'<b>*</b> cap 4096 (reasoning models). ':'')+(anyEst?'<b>est</b> = memory estimated (not yet device-measured). ':'')
     +(anySub?'<b>~</b> = subset (full 596 still running). ':'')
