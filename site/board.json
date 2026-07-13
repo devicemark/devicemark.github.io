@@ -36,18 +36,18 @@
       "math_n": 100,
       "math_answered": 54,
       "math_noans": 46,
-      "ifeval_mean4": 0.6047,
+      "ifeval_mean4": 0.601,
       "ifeval_ci": [
-        0.5542,
-        0.6553
+        0.5508,
+        0.6501
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.5314,
+      "value": 0.5302,
       "ci": [
-        0.4742,
-        0.5855
+        0.4734,
+        0.5841
       ]
     },
     "retention": {
@@ -55,7 +55,7 @@
       "metric": "completed-only",
       "mmlu": 0.938,
       "math": 0.938,
-      "ifeval": 0.906
+      "ifeval": 0.913
     },
     "iphone_tok_s": 72,
     "mac_tok_s": 210,
@@ -99,18 +99,18 @@
       "math_n": 100,
       "math_answered": 59,
       "math_noans": 41,
-      "ifeval_mean4": 0.7004,
+      "ifeval_mean4": 0.7033,
       "ifeval_ci": [
-        0.6557,
-        0.7446
+        0.6596,
+        0.7468
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.7136,
+      "value": 0.7145,
       "ci": [
-        0.6667,
-        0.7597
+        0.6682,
+        0.7611
       ]
     },
     "retention": {
@@ -118,7 +118,7 @@
       "metric": "completed-only",
       "mmlu": 0.978,
       "math": 0.933,
-      "ifeval": 0.905
+      "ifeval": 0.898
     },
     "iphone_tok_s": 29,
     "mac_tok_s": 165,
@@ -162,18 +162,18 @@
       "math_n": 100,
       "math_answered": 67,
       "math_noans": 33,
-      "ifeval_mean4": 0.8761,
+      "ifeval_mean4": 0.8786,
       "ifeval_ci": [
-        0.8422,
-        0.9072
+        0.846,
+        0.9097
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.7188,
+      "value": 0.7196,
       "ci": [
-        0.6771,
-        0.756
+        0.6783,
+        0.7563
       ]
     },
     "retention": {
@@ -181,7 +181,7 @@
       "metric": "completed-only",
       "mmlu": 0.903,
       "math": 0.955,
-      "ifeval": 1.028
+      "ifeval": 1.035
     },
     "iphone_tok_s": 45.5,
     "mac_tok_s": 277,
@@ -225,18 +225,18 @@
       "math_n": 100,
       "math_answered": 90,
       "math_noans": 10,
-      "ifeval_mean4": 0.7869,
+      "ifeval_mean4": 0.7882,
       "ifeval_ci": [
-        0.7447,
-        0.8294
+        0.7468,
+        0.8299
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.5437,
+      "value": 0.5441,
       "ci": [
-        0.4996,
-        0.5861
+        0.5,
+        0.5863
       ]
     },
     "retention": {
@@ -244,7 +244,7 @@
       "metric": "completed-only",
       "mmlu": 0.963,
       "math": 1.111,
-      "ifeval": 0.922
+      "ifeval": 0.955
     },
     "iphone_tok_s": 31,
     "mac_tok_s": 147,
@@ -288,18 +288,18 @@
       "math_n": 100,
       "math_answered": 54,
       "math_noans": 46,
-      "ifeval_mean4": 0.3162,
+      "ifeval_mean4": 0.3167,
       "ifeval_ci": [
-        0.2717,
-        0.3631
+        0.2728,
+        0.3633
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.5264,
+      "value": 0.5265,
       "ci": [
-        0.461,
-        0.5928
+        0.4617,
+        0.5931
       ]
     },
     "retention": {
@@ -307,10 +307,10 @@
       "metric": "completed-only",
       "mmlu": 0.778,
       "math": 0.938,
-      "ifeval": 1.224
+      "ifeval": 1.226
     },
     "note": "reasoning-heavy: cap4096",
-    "iphone_tok_s": null,
+    "iphone_tok_s": 10.8,
     "mac_tok_s": 45,
     "mem_mb": 4200,
     "mem_measured": false
@@ -354,16 +354,16 @@
       "math_noans": 41,
       "ifeval_mean4": 0.6319,
       "ifeval_ci": [
-        0.5785,
-        0.6847
+        0.5786,
+        0.6846
       ],
       "ifeval_n": 300
     },
     "composite": {
       "value": 0.7172,
       "ci": [
-        0.6761,
-        0.7567
+        0.6762,
+        0.7568
       ]
     },
     "retention": {
@@ -373,9 +373,9 @@
       "math": 1.5
     },
     "note": "reasoning: cap4096. ② = eager small-n anchor (eager decodes 3.5 tok/s; 16 completed shared items): no quantization loss detected at that n",
-    "iphone_tok_s": null,
+    "iphone_tok_s": 23.3,
     "mac_tok_s": null,
-    "mem_mb": null,
+    "mem_mb": 2100,
     "mem_measured": false
   },
   {
@@ -434,10 +434,10 @@
       "metric": "completed-only",
       "mmlu": 1.05,
       "math": 1.0,
-      "ifeval": 0.898
+      "ifeval": 0.901
     },
     "note": "official Google QAT int4 (q4_0 grid): retention = QAT int4 vs its bf16 checkpoint; PLE tables int8 in BOTH columns (common-mode). E2B = 2B-effective (5.4B raw, per-layer embeds off-loaded)",
-    "iphone_tok_s": 30,
+    "iphone_tok_s": 21.7,
     "mac_tok_s": 83,
     "mem_mb": 4450,
     "mem_measured": true
