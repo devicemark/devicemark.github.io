@@ -22,7 +22,7 @@ configs:
 
 ![Intelligence × iPhone decode speed, 95% CI](pareto.png)
 
-**Three findings from v0** (full protocol + CIs on the [live board](https://john-rocky.github.io/devicemark/site/)):
+**Three findings from v0** (full protocol + CIs on the [live board](https://devicemark.github.io/site/)):
 
 1. **The top is a five-way statistical tie**: Apple's built-in Foundation Model (76%) does *not* clearly beat the best open 1–2B-class ports — LFM2.5-1.2B, Youtu-2B, Qwen3.5-2B, and Gemma 4 E2B all overlap its CI, and a 1.2B open model beats it on instruction-following (IFEval 88 vs 82).
 2. **Google's official QAT int4 (Gemma 4 E2B) measures at parity** with its bf16 checkpoint on MMLU-Pro and MATH (completed-only, same items); IFEval retains ~90%.
@@ -31,7 +31,7 @@ configs:
 Systematic quality + speed + memory data for **verified on-device LLM ports**,
 under a single protocol, with **retention vs the float baseline** on the same
 row. This is the results table behind the
-[On-Device LLM Leaderboard](https://john-rocky.github.io/devicemark/site/).
+[On-Device LLM Leaderboard](https://devicemark.github.io/site/).
 v0 covers the iPhone tier (Core AI / `aimodel` ports + Apple's built-in
 Foundation Model as a `system` row); decode speeds are device-measured on an
 iPhone 17 Pro.
@@ -105,7 +105,7 @@ are device-measured. The float baseline for retention is currently the
 `coreai_models` **eager PyTorch** reference (not an independent third-party
 transformers run), so retention folds *(int8 weight quant) + (eager→engine
 numerics)* together — arguably the more product-relevant number, but disclosed as
-such. Full detail: the [methodology page](https://john-rocky.github.io/devicemark/site/methodology.html).
+such. Full detail: the [methodology page](https://devicemark.github.io/site/methodology.html).
 
 ## Versioning
 
@@ -120,7 +120,7 @@ The battery is rotated to fight contamination; each rotation bumps the version.
   title  = {DeviceMark: an on-device LLM leaderboard — quality, speed, memory, and retention for verified on-device ports},
   author = {Majima, Daisuke},
   year   = {2026},
-  howpublished = {\url{https://john-rocky.github.io/devicemark/site/}},
+  howpublished = {\url{https://devicemark.github.io/site/}},
   note   = {Results under CC-BY-4.0; benchmark questions under their own licenses}
 }
 ```

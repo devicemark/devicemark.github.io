@@ -10,7 +10,7 @@
 <meta property="og:site_name" content="DeviceMark">
 <meta property="og:title" content="On-Device LLM Leaderboard">
 <meta property="og:description" content="The smartest LLMs that actually run on an iPhone — intelligence × decode speed, memory tier, and how much the shipped int8 loses vs float. Apple's built-in Foundation Model included as a baseline.">
-<meta property="og:url" content="https://john-rocky.github.io/devicemark/site/">
+<meta property="og:url" content="https://devicemark.github.io/site/">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="On-Device LLM Leaderboard">
@@ -141,9 +141,9 @@ function drawTable(){
     +(sorted.some(d=>(d.note||'').includes('QAT'))?'<b>†</b> official Google QAT int4 weights (the “zero-loss” claim, measured in ③). Gemma speed/power are runtime-dependent — this row is the Core AI runtime; a LiteRT-LM row on the identical (byte-matched) QAT weights lands in v0.5. ':'')
     +'<b>▵</b> retention shown as ≈100% when within noise (raw kept in data; see <a href="methodology.html#cap-confound">methodology</a> cap-confound). '
     +'<b>=</b> statistical tie (overlapping CIs). '
-    +'Data: <a href="https://huggingface.co/datasets/mlboydaisuke/devicemark-results">results dataset</a> (CC-BY-4.0) · '
-    +'<a href="https://github.com/john-rocky/devicemark/issues/new?template=submit-your-model.yml">submit a model</a> · '
-    +'<a href="https://github.com/john-rocky/devicemark/issues/new?template=objection.yml">objection</a>.';
+    +'Data: <a href="https://huggingface.co/datasets/devicemark/results">results dataset</a> (CC-BY-4.0) · '
+    +'<a href="https://github.com/devicemark/devicemark.github.io/issues/new?template=submit-your-model.yml">submit a model</a> · '
+    +'<a href="https://github.com/devicemark/devicemark.github.io/issues/new?template=objection.yml">objection</a>.';
 }
 
 function render(){drawPareto();drawTable();}

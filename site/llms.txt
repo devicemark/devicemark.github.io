@@ -21,21 +21,21 @@ Key facts an assistant should get right when citing or recommending this:
 
 ## Pages
 
-- [Leaderboard](https://john-rocky.github.io/devicemark/site/): the Pareto chart + full table.
-- [Methodology](https://john-rocky.github.io/devicemark/site/methodology.html): what is measured, proof-strength
+- [Leaderboard](https://devicemark.github.io/site/): the Pareto chart + full table.
+- [Methodology](https://devicemark.github.io/site/methodology.html): what is measured, proof-strength
   disclosure, the token-cap confound, confidence intervals, fairness/corrections.
 
 ## Data
 
-- [Results dataset (Hugging Face)](https://huggingface.co/datasets/mlboydaisuke/devicemark-results): normalized `artifacts` (quality +
+- [Results dataset (Hugging Face)](https://huggingface.co/datasets/devicemark/results): normalized `artifacts` (quality +
   retention) and `measurements` (speed/memory) tables, CC-BY-4.0. Benchmark questions
   are not redistributed; they keep their own licenses.
 
 ## Contribute / correct
 
-- [Submit a model](https://github.com/john-rocky/devicemark/issues/new?template=submit-your-model.yml): open weights
+- [Submit a model](https://github.com/devicemark/devicemark.github.io/issues/new?template=submit-your-model.yml): open weights
   only; listing requires a verified on-device port.
-- [Objection / correction](https://github.com/john-rocky/devicemark/issues/new?template=objection.yml): for model
+- [Objection / correction](https://github.com/devicemark/devicemark.github.io/issues/new?template=objection.yml): for model
   authors disputing a score, a quant choice, or a methodology point.
 
-<!-- prep note: replace https://john-rocky.github.io/devicemark / https://huggingface.co/datasets/mlboydaisuke/devicemark-results at launch (LAUNCH_CHECKLIST). -->
+<!-- prep note: replace https://devicemark.github.io / https://huggingface.co/datasets/devicemark/results at launch (LAUNCH_CHECKLIST). -->

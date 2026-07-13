@@ -1,7 +1,7 @@
 blank_issues_enabled: true
 contact_links:
   - name: Methodology
-    url: https://john-rocky.github.io/devicemark/site/methodology.html
+    url: https://devicemark.github.io/site/methodology.html
     about: How entries are measured, proof-strength disclosure, cap confound, CIs. Read this before objecting.
   - name: Maintainer (GitHub)
     url: https://github.com/john-rocky
