@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changelog — On-Device LLM Leaderboard</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/rss+xml" title="DeviceMark changelog" href="feed.xml">
+<meta name="description" content="Board updates for DeviceMark, the on-device LLM leaderboard: new models, new measurements, methodology changes.">
+<style>
+  :root{ --plane:#f9f9f7; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781; --grid:#e1e0d9; --s1:#2a78d6; --card:#fff; }
+  @media (prefers-color-scheme: dark){ :root{ --plane:#0d0d0d; --ink:#fff; --ink2:#c3c2b7; --muted:#898781; --grid:#2c2c2a; --s1:#3987e5; --card:#161615; } }
+  :root[data-theme="light"]{ --plane:#f9f9f7; --ink:#0b0b0b; --ink2:#52514e; --grid:#e1e0d9; --s1:#2a78d6; --card:#fff; }
+  :root[data-theme="dark"]{ --plane:#0d0d0d; --ink:#fff; --ink2:#c3c2b7; --grid:#2c2c2a; --s1:#3987e5; --card:#161615; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--plane);color:var(--ink);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 20px 64px}
+  h1{font-size:24px;margin:0 0 4px;letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:13px;margin:0 0 28px}
+  .entry{background:var(--card);border:1px solid var(--grid);border-radius:12px;padding:18px 20px;margin:0 0 16px}
+  .date{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  h2{font-size:16px;margin:4px 0 8px}
+  ul{margin:6px 0;padding-left:20px;color:var(--ink2)}
+  li{margin:3px 0}
+  a{color:var(--s1)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Changelog</h1>
+  <p class="sub"><a href="./">← board</a> · <a href="feed.xml">RSS</a> · every entry = the board changed (new model, new measurement, or a methodology change)</p>
+
+  <div class="entry">
+    <p class="date">2026-07-13</p>
+    <h2>v0 launch — 8 entries, full battery, device-measured</h2>
+    <ul>
+      <li>8 entries (7 vendors + Apple's built-in Foundation Model), full 596-item battery (IFEval official + MMLU-Pro stratified + MATH-500), 95% CIs on everything.</li>
+      <li><b>7 of 8 rows device-measured</b> on iPhone 17 Pro (PipelinedBench, greedy token-parity gated).</li>
+      <li><b>Finding: the top is a five-way statistical tie</b> — the built-in FM (76%) does not clearly beat the best open 1–2B ports (LFM2.5-1.2B, Youtu-2B, Qwen3.5-2B, Gemma 4 E2B).</li>
+      <li><b>Finding: Google's official QAT int4 (Gemma 4 E2B) measures at parity</b> with its bf16 checkpoint on MMLU-Pro/MATH; IFEval ~90%.</li>
+      <li><b>Finding: quantization loss is not monotone with size</b> — most ports hold 90–98% on MMLU-Pro; the 4B reasoning model drops to 78%.</li>
+      <li>Results dataset (CC-BY-4.0): <a href="https://huggingface.co/datasets/devicemark/results">devicemark/results</a> — the ranked board is the default Viewer table.</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <p class="date">2026-07-13</p>
+    <h2>Per-model badges</h2>
+    <ul>
+      <li>Every row now has an embeddable badge at <code>/badge/&lt;slug&gt;.svg</code> (e.g. <a href="badge/lfm2.5-1.2b.svg">lfm2.5-1.2b</a>) — score + device tok/s, regenerated on every deploy.</li>
+      <li>Model authors: embed it with <code>[![DeviceMark](https://devicemark.github.io/badge/&lt;slug&gt;.svg)](https://devicemark.github.io/)</code>. Slugs are the <code>artifact_id</code> prefix in <a href="data/leaderboard/board.json">board.json</a>.</li>
+    </ul>
+  </div>
+</div>
+<script>new MutationObserver(()=>{}).observe(document.documentElement,{attributes:true});</script>
+</body>
+</html>

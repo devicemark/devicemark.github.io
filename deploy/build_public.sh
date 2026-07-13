@@ -45,6 +45,9 @@ HTML
 
 # 4. llms.txt is served from the site root by convention (/llms.txt) — already at root via step 1
 
+# 5. per-model badges (/badge/<slug>.svg) — vendors embed these in their READMEs
+python3 deploy/gen_badges.py data/leaderboard/board.json "$OUT/badge"
+
 # 5. courtesy: keep the old ../METHODOLOGY.md link from hard-404ing until the
 #    index.html link is repointed to methodology.html (renders as plaintext).
 [ -f METHODOLOGY.md ] && cp METHODOLOGY.md "$OUT/METHODOLOGY.md" || true

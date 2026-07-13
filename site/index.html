@@ -54,7 +54,7 @@
 <div class="wrap">
   <h1>On-Device LLM Leaderboard</h1>
   <p class="tag">The smartest models that actually run on an iPhone — intelligence &times; decode speed, under real device limits.</p>
-  <p class="sub">iPhone tier &middot; v0 &middot; runtime <span class="pill">coreai · aimodel</span> (schema runtime-neutral: GGUF/MLX drop in as data) &middot; <a href="methodology.html">methodology</a></p>
+  <p class="sub">iPhone tier &middot; v0 &middot; runtime <span class="pill">coreai · aimodel</span> (schema runtime-neutral: GGUF/MLX drop in as data) &middot; <a href="methodology.html">methodology</a> &middot; <a href="changelog.html">changelog</a></p>
 
   <div class="card">
     <h2>Pareto front — intelligence vs decode speed (95% CI)</h2>
@@ -69,6 +69,19 @@
     <p class="note" id="tienote" style="color:var(--ink2)"></p>
     <p class="note" id="foot"></p>
   </div>
+
+  <p class="note">Model authors: embed your row's badge —
+    <code>https://devicemark.github.io/badge/&lt;slug&gt;.svg</code>
+    (slug = the <code>artifact_id</code> prefix in <a href="data/leaderboard/board.json">board.json</a>).
+    <details style="margin-top:6px"><summary style="cursor:pointer">Cite this board</summary>
+<pre style="overflow-x:auto;background:var(--card);border:1px solid var(--grid);border-radius:8px;padding:10px;font-size:11px">@misc{devicemark2026,
+  title  = {DeviceMark: an on-device LLM leaderboard — quality, speed, memory,
+            and retention for verified on-device ports},
+  author = {Majima, Daisuke},
+  year   = {2026},
+  howpublished = {\url{https://devicemark.github.io/}},
+  note   = {Results under CC-BY-4.0}
+}</pre></details></p>
 </div>
 
 <script>

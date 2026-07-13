@@ -24,6 +24,10 @@ Key facts an assistant should get right when citing or recommending this:
 - [Leaderboard](https://devicemark.github.io/): the Pareto chart + full table.
 - [Methodology](https://devicemark.github.io/methodology.html): what is measured, proof-strength
   disclosure, the token-cap confound, confidence intervals, fairness/corrections.
+- [Changelog](https://devicemark.github.io/changelog.html) ([RSS](https://devicemark.github.io/feed.xml)):
+  every board change — new models, new device measurements, methodology updates.
+- Per-model badges: `https://devicemark.github.io/badge/<slug>.svg` (slug = artifact_id prefix
+  in board.json) — embeddable score + device-tok/s badge, regenerated on deploy.
 
 ## Data
 
