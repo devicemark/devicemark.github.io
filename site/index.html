@@ -66,6 +66,7 @@
   <div class="card">
     <h2>Artifacts — quality (① shipped quant) · ③ retention vs float baseline</h2>
     <div class="tblwrap"><table id="tbl"></table></div>
+    <p class="note" id="tienote" style="color:var(--ink2)"></p>
     <p class="note" id="foot"></p>
   </div>
 </div>
@@ -158,6 +159,21 @@ function drawTable(){
       <td class="ret">${d.retention?retDisp(d.retention.mmlu):'<span class="pend">—</span>'}</td></tr>`;
   }).join('');
   document.getElementById('tbl').innerHTML=head+rows;
+  // "why do different scores share rank 1?" — answer it in plain text, visible
+  // without hover (tooltips don't exist on touch). Computed from the data so it
+  // stays correct as the board changes.
+  const t1=sorted.filter((d,i)=>rank[i]===1);
+  if(t1.length>1){
+    const hw=t1.map(d=>(d.composite.ci[1]-d.composite.ci[0])/2*100);
+    const spread=`±${Math.floor(Math.min(...hw))}–${Math.ceil(Math.max(...hw))}`;
+    document.getElementById('tienote').innerHTML=
+      `<b>Why ${t1.length} entries share rank 1 despite different scores:</b> at n=596 items each 95% CI is ${spread} points, `
+      +`and none of the ${t1.length} is statistically ahead of the others (every pair of intervals overlaps — a different draw of questions could reorder them). `
+      +`Ranks separate only where intervals don't overlap. The tie itself is the v0 finding: `
+      +`Apple's built-in model does not clearly beat the best open 1–2B ports.`;
+  } else {
+    document.getElementById('tienote').innerHTML='';
+  }
   document.getElementById('foot').innerHTML=
     'Quality = attribute of the <b>artifact</b> (model × quant × format) on its native runtime; speed/memory = <b>runtime × device</b>. '
     +'MMLU/MATH = completed-only accuracy; IFEval = official mean-of-4; Intelligence = item-bootstrap composite ±half-95%-CI (the chart whiskers = this composite CI, not per-bench). '
