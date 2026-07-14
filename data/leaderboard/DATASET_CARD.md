@@ -88,7 +88,7 @@ carries a `provenance` field per row (quality-run environment + the device parit
 | `quality.ifeval_mean4` / `ifeval_ci` | float / [float,float] | official IFEval prompt/inst strict+loose, mean-of-4 |
 | `quality.refusal_rate`, `refused_n` | float / int | guardrail/explicit refusals, **separated from wrong answers** |
 | `composite.value`, `composite.ci` | float / [float,float] | item-bootstrap mean of the three benches, 95% CI |
-| `retention` | struct or null | `{baseline, metric:"completed-only", mmlu, math, ifeval}`; null for the system model |
+| `retention` | struct or null | `{baseline, metric:"completed-only", mmlu, math, ifeval}` + `<bench>_baseline`/`_baseline_n` = the float side's ABSOLUTE score on the 98-item ref subset (the "how smart before quantization" number — subset-n, never mix with the full-596 columns); null for the system model |
 
 ### `measurements` schema
 

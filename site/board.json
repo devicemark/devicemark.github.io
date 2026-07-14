@@ -54,8 +54,14 @@
       "baseline": "fp16-engine(+eager anchor)",
       "metric": "completed-only",
       "mmlu": 0.938,
+      "mmlu_baseline": 0.4737,
+      "mmlu_baseline_n": 19,
       "math": 0.938,
-      "ifeval": 0.898
+      "math_baseline": 0.6,
+      "math_baseline_n": 15,
+      "ifeval": 0.898,
+      "ifeval_baseline": 0.6708,
+      "ifeval_baseline_n": 40
     },
     "provenance": {
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
@@ -121,8 +127,14 @@
       "baseline": "fp16-engine",
       "metric": "completed-only",
       "mmlu": 0.978,
+      "mmlu_baseline": 0.625,
+      "mmlu_baseline_n": 16,
       "math": 0.933,
-      "ifeval": 0.897
+      "math_baseline": 0.8333,
+      "math_baseline_n": 18,
+      "ifeval": 0.897,
+      "ifeval_baseline": 0.7833,
+      "ifeval_baseline_n": 40
     },
     "provenance": {
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
@@ -188,8 +200,14 @@
       "baseline": "fp16-engine(+transformers anchor)",
       "metric": "completed-only",
       "mmlu": 0.903,
+      "mmlu_baseline": 0.4615,
+      "mmlu_baseline_n": 26,
       "math": 0.955,
-      "ifeval": 1.032
+      "math_baseline": 0.9048,
+      "math_baseline_n": 21,
+      "ifeval": 1.032,
+      "ifeval_baseline": 0.849,
+      "ifeval_baseline_n": 40
     },
     "provenance": {
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
@@ -255,8 +273,14 @@
       "baseline": "fp16-engine",
       "metric": "completed-only",
       "mmlu": 0.963,
+      "mmlu_baseline": 0.3462,
+      "mmlu_baseline_n": 26,
       "math": 1.111,
-      "ifeval": 0.936
+      "math_baseline": 0.6,
+      "math_baseline_n": 25,
+      "ifeval": 0.936,
+      "ifeval_baseline": 0.8438,
+      "ifeval_baseline_n": 40
     },
     "provenance": {
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
@@ -322,8 +346,14 @@
       "baseline": "fp16-engine",
       "metric": "completed-only",
       "mmlu": 0.778,
+      "mmlu_baseline": 1.0,
+      "mmlu_baseline_n": 8,
       "math": 0.938,
-      "ifeval": 1.219
+      "math_baseline": 0.5333,
+      "math_baseline_n": 15,
+      "ifeval": 1.219,
+      "ifeval_baseline": 0.2583,
+      "ifeval_baseline_n": 40
     },
     "provenance": {
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
@@ -390,7 +420,11 @@
       "baseline": "eager-fp16 anchor (24 items, cap4096)",
       "metric": "completed-only",
       "mmlu": 1.543,
-      "math": 1.5
+      "mmlu_baseline": 0.5833,
+      "mmlu_baseline_n": 12,
+      "math": 1.5,
+      "math_baseline": 0.6667,
+      "math_baseline_n": 12
     },
     "provenance": {
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
@@ -457,8 +491,14 @@
       "baseline": "fp16-engine (official-QAT unquantized)",
       "metric": "completed-only",
       "mmlu": 1.05,
+      "mmlu_baseline": 0.5238,
+      "mmlu_baseline_n": 21,
       "math": 1.0,
-      "ifeval": 0.9
+      "math_baseline": 0.6667,
+      "math_baseline_n": 6,
+      "ifeval": 0.9,
+      "ifeval_baseline": 0.8469,
+      "ifeval_baseline_n": 40
     },
     "provenance": {
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
