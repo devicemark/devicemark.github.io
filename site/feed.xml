@@ -20,7 +20,7 @@
     <link>https://devicemark.github.io/</link>
     <guid isPermaLink="false">devicemark-2026-07-13-v0</guid>
     <pubDate>Sun, 13 Jul 2026 06:00:00 GMT</pubDate>
-    <description>8 entries (7 vendors + Apple's built-in Foundation Model), full 596-item battery, 95% CIs, 7/8 rows device-measured on iPhone 17 Pro. Findings: five-way statistical tie at the top; Google's official QAT int4 at parity on MMLU-Pro/MATH; quantization loss not monotone with size. Dataset: https://huggingface.co/datasets/devicemark/results</description>
+    <description>8 entries (5 open-model vendors + Apple's built-in Foundation Model), full 596-item battery, 95% CIs, 7/8 rows device-measured on iPhone 17 Pro. Findings: five-way statistical tie at the top; Google's official QAT int4 at parity on MMLU-Pro/MATH; quantization loss not monotone with size. Dataset: https://huggingface.co/datasets/devicemark/results</description>
   </item>
 
   <item>
