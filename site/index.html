@@ -69,6 +69,14 @@
   .legend{font-size:12px;color:var(--muted);margin:10px 0 0}
   .note{font-size:12.5px;color:var(--muted);margin-top:12px;line-height:1.6}
 
+  /* bench explainer strip */
+  .benches{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin:0 0 16px}
+  .bench{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:10px 12px}
+  .bench b{font-size:12.5px;letter-spacing:.01em}
+  .bench .bn{font-size:11px;color:var(--muted);margin-left:4px}
+  .bench p{margin:4px 0 0;font-size:11.8px;line-height:1.5;color:var(--muted)}
+  .bench p em{color:var(--ink2);font-style:normal;font-weight:600}
+
   /* leaderboard table */
   .tblwrap{overflow-x:auto;margin:0 -8px}
   table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:900px}
@@ -144,6 +152,16 @@
   <div class="card">
     <div class="cardhead"><h2>The board — shipped artifacts, one protocol</h2>
       <span class="hint">hover any score for its own 95% CI and n</span></div>
+    <div class="benches">
+      <div class="bench"><b>IFEval</b> <span class="bn">300 items</span>
+        <p>Follows written instructions <em>exactly</em> — e.g. "write 300+ words and never use a comma". Checked programmatically (official checkers); no answer key to memorize.</p></div>
+      <div class="bench"><b>MMLU-Pro</b> <span class="bn">196 items</span>
+        <p>Expert 10-choice questions across 14 fields (law, medicine, CS, …). Score = % correct of the questions it finished within budget.</p></div>
+      <div class="bench"><b>MATH</b> <span class="bn">100 items</span>
+        <p>Competition math — must produce the exact final answer (symbolically checked). Score = % correct of finished items.</p></div>
+      <div class="bench"><b>Intelligence</b> <span class="bn">= mean of the three</span>
+        <p>What the model <em>can do</em>, absolute. Different from ③ retention, which is quantized ÷ float of the <em>same</em> model — what shipping it <em>cost</em>.</p></div>
+    </div>
     <div class="tblwrap"><table id="tbl"></table></div>
     <div class="callout" id="tienote" style="display:none"></div>
     <p class="note" id="quickfoot"></p>
