@@ -8,6 +8,14 @@
   <language>en</language>
 
   <item>
+    <title>Cloud sea-level lines added — how far is the pocket from the data center</title>
+    <link>https://devicemark.github.io/methodology.html#cloud</link>
+    <guid isPermaLink="false">devicemark-2026-07-14-cloud</guid>
+    <pubDate>Tue, 14 Jul 2026 10:00:00 GMT</pubDate>
+    <description>Gemini Flash and Pro run the identical 596-item battery (same scorers, temp 0), both ~93% composite. Best pocket port ~72%, built-in FM 76%, cloud ceiling ~93% — the gap is the price of fitting on the phone. Drawn as reference lines; raw outputs in the dataset.</description>
+  </item>
+
+  <item>
     <title>Scoring made bit-reproducible; two upstream IFEval items disclosed</title>
     <link>https://devicemark.github.io/methodology.html#ci</link>
     <guid isPermaLink="false">devicemark-2026-07-14-determinism</guid>

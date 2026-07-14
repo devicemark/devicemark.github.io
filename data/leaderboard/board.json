@@ -570,5 +570,131 @@
     "mac_tok_s": null,
     "mem_mb": null,
     "mem_measured": false
+  },
+  {
+    "artifact_id": "gemini-flash__api__api",
+    "model": "Gemini Flash (cloud)",
+    "vendor": "Google",
+    "params_b": null,
+    "quant": "api",
+    "format": "api",
+    "native_runtime": "cloud-api",
+    "quality": {
+      "battery_version": "v0",
+      "cap_tokens": 2048,
+      "shots": 0,
+      "source": {
+        "mmlu": "full596",
+        "math": "full596",
+        "ifeval": "full596"
+      },
+      "refusal_rate": 0.0,
+      "refused_n": 0,
+      "mmlu_completed": 0.9067,
+      "mmlu_ci": [
+        0.8574,
+        0.9402
+      ],
+      "mmlu_acc": 0.8929,
+      "mmlu_n": 196,
+      "mmlu_answered": 193,
+      "mmlu_noans": 3,
+      "math_completed": 0.9485,
+      "math_ci": [
+        0.885,
+        0.9778
+      ],
+      "math_acc": 0.92,
+      "math_n": 100,
+      "math_answered": 97,
+      "math_noans": 3,
+      "ifeval_mean4": 0.9513,
+      "ifeval_ci": [
+        0.9274,
+        0.9735
+      ],
+      "ifeval_n": 300
+    },
+    "composite": {
+      "value": 0.9355,
+      "ci": [
+        0.9134,
+        0.9572
+      ]
+    },
+    "retention": null,
+    "provenance": {
+      "quality_run": "full596 via gemini-flash cloud API, temperature 0, 2026-07-14 (same battery + scorers as the device rows)",
+      "device_gate": null
+    },
+    "tier": "cloud-sea-level",
+    "tier_note": "mini-class cloud API — the practical cloud competitor to a pocket model",
+    "iphone_tok_s": null,
+    "mac_tok_s": null,
+    "mem_mb": null,
+    "mem_measured": false
+  },
+  {
+    "artifact_id": "gemini-pro__api__api",
+    "model": "Gemini Pro (cloud)",
+    "vendor": "Google",
+    "params_b": null,
+    "quant": "api",
+    "format": "api",
+    "native_runtime": "cloud-api",
+    "quality": {
+      "battery_version": "v0",
+      "cap_tokens": 2048,
+      "shots": 0,
+      "source": {
+        "mmlu": "full596",
+        "math": "full596",
+        "ifeval": "full596"
+      },
+      "refusal_rate": 0.0,
+      "refused_n": 0,
+      "mmlu_completed": 0.9043,
+      "mmlu_ci": [
+        0.8537,
+        0.9386
+      ],
+      "mmlu_acc": 0.8673,
+      "mmlu_n": 196,
+      "mmlu_answered": 188,
+      "mmlu_noans": 8,
+      "math_completed": 0.9167,
+      "math_ci": [
+        0.8441,
+        0.9572
+      ],
+      "math_acc": 0.88,
+      "math_n": 100,
+      "math_answered": 96,
+      "math_noans": 4,
+      "ifeval_mean4": 0.9667,
+      "ifeval_ci": [
+        0.9465,
+        0.9833
+      ],
+      "ifeval_n": 300
+    },
+    "composite": {
+      "value": 0.9292,
+      "ci": [
+        0.9045,
+        0.9522
+      ]
+    },
+    "retention": null,
+    "provenance": {
+      "quality_run": "full596 via gemini-pro cloud API, temperature 0, 2026-07-14 (same battery + scorers as the device rows)",
+      "device_gate": null
+    },
+    "tier": "cloud-sea-level",
+    "tier_note": "frontier cloud API — the ceiling, for scale",
+    "iphone_tok_s": null,
+    "mac_tok_s": null,
+    "mem_mb": null,
+    "mem_measured": false
   }
 ]

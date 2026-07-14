@@ -37,7 +37,7 @@ row. This is the results table behind the
 [On-Device LLM Leaderboard](https://devicemark.github.io/).
 v0 covers the iPhone tier (Core AI / `aimodel` ports + Apple's built-in
 Foundation Model as a `system` row); decode speeds are device-measured on an
-iPhone 17 Pro.
+iPhone 17 Pro. Two cloud APIs (Gemini Flash/Pro, `runtime=cloud-api`) run the same battery as horizontal sea-level lines — the ceiling, ~93%, for scale; not on-device, so their speed/memory/retention are n/a.
 
 > **What is and isn't here.** This dataset contains **our generated results**
 > (accuracy, decode tok/s, memory, retention). It does **not** redistribute any

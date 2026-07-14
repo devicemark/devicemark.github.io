@@ -230,6 +230,19 @@
   construction. Submissions suspected of benchmark tuning are checked with the probe before
   listing.</p>
 
+  <h2 id="cloud">Cloud sea-level lines (for scale)</h2>
+  <p>To show <em>how far the pocket tier is from a data-center model</em>, two cloud APIs run the
+  <strong>identical 596-item battery</strong> through the same scorers at temperature 0:
+  <strong>Gemini Flash</strong> (mini-class) and <strong>Gemini Pro</strong> (frontier). They are drawn
+  as horizontal reference lines, not ranked device entries — a cloud model has no on-device tok/s,
+  memory, or quantization to measure, so those columns are <code>n/a</code>. Both land at ~93%
+  composite (a tie), versus ~76% for the built-in FM and ~72% for the best pocket port: that gap is the
+  price of fitting on the phone. Protocol caveat: cloud models do their own internal reasoning and are
+  not device-budget-capped, so a generous output cap (8192) is used; a handful of items where the model
+  never stopped are excluded (completed-only, same as every row). Raw cloud outputs ship in the dataset
+  <code>raw/</code> alongside the device rows. Model snapshots: gemini-3.5-flash / gemini-3.1-pro-preview,
+  measured 2026-07-14.</p>
+
   <h2 id="related">Related work — what this board is and is not</h2>
   <p>Where DeviceMark sits among the tools that measure local/on-device AI. The matrix uses each
   project's own published scope (links below); "intelligence axis" means output quality is a
