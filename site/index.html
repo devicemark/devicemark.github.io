@@ -108,6 +108,31 @@
   sup{color:var(--s1);cursor:help}
   .dim{color:var(--muted)}.pend{color:var(--muted);font-style:italic}
 
+  /* showcase — see the actual answers */
+  .showcase .cardhead .hint{font-size:12px}
+  .sctabs{display:flex;gap:8px;margin:0 0 14px;flex-wrap:wrap}
+  .sctab{font:inherit;font-size:12.5px;font-weight:600;padding:6px 14px;border-radius:20px;cursor:pointer;
+    border:1px solid var(--hair);background:var(--surface);color:var(--ink2)}
+  .sctab.on{background:var(--s1);border-color:var(--s1);color:#fff}
+  .scq{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:13px 15px;margin:0 0 8px}
+  .scq .lab{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:650}
+  .scq .p{font-size:14px;color:var(--ink);margin-top:5px;white-space:pre-wrap;line-height:1.5}
+  .scq .req{font-size:12px;color:var(--ink2);margin-top:8px}
+  .scq .req b{color:var(--s1)}
+  .scrow{display:grid;grid-template-columns:190px 1fr;gap:14px;padding:12px 4px;border-bottom:1px solid var(--hair);align-items:start}
+  .scrow:last-child{border-bottom:none}
+  .scm{font-weight:640;font-size:13.5px}
+  .scm .vd{display:inline-block;margin-top:6px;font-size:11px;font-weight:650;padding:2px 9px;border-radius:20px}
+  .vd.pass{background:color-mix(in srgb,var(--good) 15%,transparent);color:var(--good)}
+  .vd.fail{background:color-mix(in srgb,var(--s6,#e34948) 15%,transparent);color:var(--s6,#e34948)}
+  .vd.noans{background:var(--surface);border:1px solid var(--hair);color:var(--muted)}
+  .scm .vt{font-size:11px;color:var(--muted);margin-top:4px}
+  .sca{font:12.5px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2);
+    white-space:pre-wrap;background:var(--surface);border:1px solid var(--hair);border-radius:8px;padding:10px 12px;
+    max-height:150px;overflow:auto}
+  .sca:empty::after{content:"(empty)";color:var(--muted)}
+  @media(max-width:640px){.scrow{grid-template-columns:1fr;gap:6px}}
+
   /* callout + reading notes */
   .callout{border-left:3px solid var(--s1);background:var(--s1soft);border-radius:0 10px 10px 0;
     padding:12px 16px;font-size:13px;color:var(--ink2);margin-top:16px;line-height:1.6}
@@ -168,6 +193,14 @@
     <details class="notes"><summary>Reading notes — metrics, symbols, caveats</summary>
       <p class="note" id="foot"></p>
     </details>
+  </div>
+
+  <div class="card showcase">
+    <div class="cardhead"><h2>See what the scores mean — real answers</h2>
+      <span class="hint">one item per benchmark · every model's raw output · pass / fail as scored</span></div>
+    <div class="sctabs" id="sctabs"></div>
+    <div id="scbody"></div>
+    <p class="note" id="scnote"></p>
   </div>
 
   <div class="footer">
@@ -331,7 +364,197 @@ function drawTable(){
     +'Badge slugs = the <code>artifact_id</code> prefix in <a href="data/leaderboard/board.json">board.json</a>.';
 }
 
-function render(){drawStats();drawPareto();drawTable();}
+const SHOWCASE_EMBED={
+ "ifeval": {
+  "key": "2328",
+  "prompt": "Write a startup pitch for a time capsule service. The words startup and capsule cannot be in the response.",
+  "instructions": [
+   "keywords:forbidden_words"
+  ],
+  "models": [
+   {
+    "model": "Apple Foundation Model",
+    "verdict": "pass",
+    "verdict_text": "followed every instruction",
+    "answer": "Imagine locking a moment in time—your thoughts, your memories, your hopes—into a secure, personalized container, to be opened decades from now. That’s exactly what we offer.\n\nWe’re building a unique experience that lets people preserve significant moments—letters, photos, small mementos—in a way tha\n[…]\ns can discover. It’s more than storage—it’s a bridge between now and then.\n\nJoin us in crafting stories that outlive us."
+   },
+   {
+    "model": "LFM2.5-1.2B",
+    "verdict": "pass",
+    "verdict_text": "followed every instruction",
+    "answer": "We are building a unique platform that preserves stories, memories, and ideas for future generations. Our service captures moments in a specially designed container, ensuring they remain intact and accessible over time. This innovative approach helps bridge the gap between today and tomorrow, allowing people to share their experiences with a lasting impact. By focusing on clarity and purpose, we aim to inspire connection and understanding across time."
+   },
+   {
+    "model": "Youtu-LLM-2B",
+    "verdict": "pass",
+    "verdict_text": "followed every instruction",
+    "answer": "**Title: Preserving the Future: A Solution for Creating Lasting Memories**  \n\n**Hook:**  \nImagine being able to lock in moments, messages, or mementos that will be opened in 50 or 100 years. Our service transforms this dream into a practical, secure, and accessible experience.  \n\n**Problem:**  \nMany\n[…]\n. By blending innovation with thoughtful design, we aim to make preserving memories a seamless and rewarding experience."
+   },
+   {
+    "model": "Qwen3.5-2B",
+    "verdict": "fail",
+    "verdict_text": "broke an instruction",
+    "answer": "Imagine a future where your voice, your art, and your memories are preserved not in glass, but in a digital echo. We are building a platform that allows you to create a **time capsule** for your legacy, ensuring your thoughts and creations survive the passage of time.\n\nOur service is designed to be \n[…]\n a living, breathing story, we help you bridge the gap between now and tomorrow. Join us in creating something timeless."
+   },
+   {
+    "model": "Gemma 4 E2B",
+    "verdict": "fail",
+    "verdict_text": "broke an instruction",
+    "answer": "**(Slide 1: Title - Image of a beautifully sealed, antique-looking box)**\n\n**Title:** Echoes of Tomorrow: Preserving the Present\n\n**(Slide 2: The Problem - Image of a rapidly changing city skyline or a digital screen)**\n\n**Speaker:** Imagine a world so different from today, a future we can only drea\n[…]\nuarding the narrative of humanity. Join us in ensuring that the echoes of today resonate for all of tomorrow. Thank you."
+   },
+   {
+    "model": "Granite-4.0-H-1B",
+    "verdict": "pass",
+    "verdict_text": "followed every instruction",
+    "answer": "Introducing our innovative service designed to preserve memories and experiences for future generations. Our mission is to encapsulate the essence of life's moments, allowing individuals to share their stories and create lasting connections."
+   },
+   {
+    "model": "Qwen3.5-0.8B",
+    "verdict": "fail",
+    "verdict_text": "broke an instruction",
+    "answer": "**Title: The Chronos Archive**\n\n**The Problem**\nIn an era where digital records are often lost or overwritten, the human need for tangible, irreplaceable history is growing. People crave stories that cannot be changed, memories that cannot be deleted, and artifacts that serve as permanent anchors fo\n[…]\na personalized time capsule, a secure digital archive, and a commitment to preserving the stories that define your life."
+   },
+   {
+    "model": "Qwen3.5-4B",
+    "verdict": "fail",
+    "verdict_text": "broke an instruction",
+    "answer": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   **Topic:** Startup pitch for a time capsule service.\n    *   **Constraint:** The words \"startup\" and \"capsule\" cannot be used in the response.\n    *   **Goal:** Persuade an audience (investors, customers, etc.) to invest in or use this service \n[…]\nf \"startup\" appears in \"startup\".*\n    *Okay, I will write the final response.*\n\n    *Wait, I need to check if \"capsule\""
+   }
+  ]
+ },
+ "mmlu": {
+  "key": "mmlu-health-4",
+  "prompt": "How do viruses of the calcivirus family replicate?\n\nOptions:\n(A) By integrating their DNA into the host cell's genome\n(B) As negative strand RNA viruses\n(C) Via DNA replication\n(D) As positive strand RNA viruses\n(E) Using genetic reassortment\n(F) Through binary fission\n(G) As single-stranded DNA viruses\n(H) Retroviruses\n(I) As double-stranded RNA viruses\n(J) Through a process called transduction\n\nPlease reason step by step, then give the final answer as the option letter within \\boxed{}, for example \\boxed{A}.",
+  "gold": "D",
+  "models": [
+   {
+    "model": "Apple Foundation Model",
+    "verdict": "fail",
+    "verdict_text": "answered G",
+    "answer": "To determine how viruses of the calcivirus family replicate, let's analyze the characteristics of calciviruses and the replication strategy of viruses in this family.\n\nStep 1: Identify the type of virus.\n- Caliciviruses (e.g., Norovirus, Hepatitis E virus) are **positive-sense single-stranded RNA.\n- They are **single-stranded DNA (ssDNA)** viruses.\n\nStep 2: Understand the repli\n[…]\nnot replication mechanism.\n\nStep 4: Confirm the best answer.\n- The defining feature of calciviruses is that they are **single-stranded DNA viruses**.\n- Therefore, the correct option is (G).\n\n\\boxed{G}"
+   },
+   {
+    "model": "LFM2.5-1.2B",
+    "verdict": "pass",
+    "verdict_text": "correct",
+    "answer": "Let's analyze the question step by step. We are asking about the replication mechanism of viruses in the calcivirus family.\n\nFirst, let's identify what calciviruses are. The calcivirus family includes viruses such as Calicivirus, which includes viruses like Coxsackievirus and Echovirus. These viruses are typically **positive-sense single-stranded RNA (+ssRNA)** viruses.\n\nNow, l\n[…]\nt.\n\nThe correct answer is **(D) As positive strand RNA viruses**, because calcivirus replication involves using their positive-sense RNA genome directly for translation and replication.\n\n\\$\\boxed{D}\\)"
+   },
+   {
+    "model": "Youtu-LLM-2B",
+    "verdict": "pass",
+    "verdict_text": "correct",
+    "answer": "The calcivirus family, specifically the Caliciviridae family, includes viruses such as norovirus and sapovirus. These viruses are characterized by having a **positive-sense single-stranded RNA (ssRNA)** genome. Positive-sense RNA viruses can directly serve as mRNA for host cell translation, enabling the production of viral proteins and the replication of their RNA genome. \n\nAna\n[…]\nses (e.g., rotavirus) are distinct from calciviruses.\n- **(J)** Transduction involves viral-mediated gene transfer, unrelated to replication mechanics.\n\nThus, the correct answer is **(D)**.\n\n\\boxed{D}"
+   },
+   {
+    "model": "Qwen3.5-2B",
+    "verdict": "pass",
+    "verdict_text": "correct",
+    "answer": "To determine the correct mode of replication for viruses of the **calcivirus** family, let's break down the characteristics of this family and evaluate the options:\n\n1.  **Family Identification**: The family **Calciviridae** (often referred to as calciviruses) belongs to the order *Picornavirales*.\n2.  **Genome Structure**: Viruses in the family *Picornavirales* (which includes\n[…]\nn**: Calciviruses are positive-sense single-stranded RNA viruses. Their replication involves the synthesis of complementary RNA strands and the production of new positive-sense RNA genomes.\n\n\\boxed{D}"
+   },
+   {
+    "model": "Gemma 4 E2B",
+    "verdict": "pass",
+    "verdict_text": "correct",
+    "answer": "**Step 1: Analyze the question and the subject.**\nThe question asks about the replication mechanism of viruses belonging to the *Calicivirus* family.\n\n**Step 2: Recall the general characteristics of Caliciviruses.**\nCaliciviruses are a large family of viruses that belong to the order *Calicivirales*. They are generally characterized as single-stranded, positive-sense RNA viruse\n[…]\nhe defining characteristic of Caliciviruses regarding their genome type and replication strategy is that they are positive-sense single-stranded RNA viruses.\n\nThe correct option is (D).\n\n$$\\boxed{D}$$"
+   },
+   {
+    "model": "Granite-4.0-H-1B",
+    "verdict": "fail",
+    "verdict_text": "answered E",
+    "answer": "To determine the correct replication mechanism of viruses in the calcivirus family, let’s analyze each option step by step:\n\n1. (A) By integrating their DNA into the host cell's genome – Calciviruses are RNA viruses, not DNA viruses, so this is incorrect.\n\n2. (B) As negative strand RNA viruses – Calciviruses are indeed negative strand RNA viruses, but this option only describes\n[…]\nlysis, none of the options correctly describe the replication mechanism of calciviruses.\n\nFinal answer: \\boxed{\\text{None of the options correctly describe the replication mechanism of calciviruses.}}"
+   },
+   {
+    "model": "Qwen3.5-0.8B",
+    "verdict": "fail",
+    "verdict_text": "answered A",
+    "answer": "To determine how viruses of the **calcivirus** family replicate, let's break down the characteristics of the calcivirus family and compare them to the options provided.\n\n1.  **Identify the Family**: The calcivirus family (e.g., *Calicivirus*, *Corynebacterium* species, *Corynebacterium* genus) are known for their unique replication strategy.\n2.  **Analyze the Replication Mechan\n[…]\nhem apart from viruses that replicate via host DNA polymerase (like adenovirus, herpesvirus, etc.).\n\n    Therefore, Option (A) is the most accurate description of the replication mechanism.\n\n\\boxed{A}"
+   },
+   {
+    "model": "Qwen3.5-4B",
+    "verdict": "pass",
+    "verdict_text": "correct",
+    "answer": "The user wants to know how viruses of the *calcivirus* family replicate.\n\n1.  **Identify the family:** Calciviridae.\n2.  **Determine the genome type:** Calciviruses (e.g., *Sarcocystis* - wait, no, *Sarcocystis* is a parasite. Let's check the family name. *Calciviridae* includes viruses like Norovirus, Sapporo virus, etc. Wait, *Calcivirus* is a genus within the family *Caliciv\n[…]\n *Calcivirus*?\n    *   No.\n    *   But maybe the question meant \"Calicivirus\" (genus) and asked how they replicate.\n    *   Or maybe the question meant \"Caliciviridae\" (family).\n    *   In both cases,"
+   }
+  ]
+ },
+ "math": {
+  "key": "math-46",
+  "prompt": "What is the result when the greatest common factor of 6432 and 132 is increased by 11?\n\nPlease reason step by step, and put your final answer within \\boxed{}.",
+  "gold": "23",
+  "models": [
+   {
+    "model": "Apple Foundation Model",
+    "verdict": "pass",
+    "verdict_text": "correct",
+    "answer": "We are asked to find the result when the **greatest common factor (GCF)** of 6432 and 132 is increased by 11.\n\nLet’s solve this step by step.\n\n---\n\n### Step 1: Find the greatest common factor (GCF) of 6432 and 132.\n\nWe can use the **Euclidean Algorithm**, which involves repeated division.\n\n#### First, divide the larger number by the smaller one:\n$$\n6432 \\div 132\n$$\n\nLet’s compu\n[…]\n$\n\n✅ Therefore, the **greatest common factor** of 6432 and 132 is **12**.\n\n---\n\n$$\n\\boxed{12}\n$$\n\n---\n\n### Step 2: Increase this GCF by 11\n\n$$\n12 + 11 = 23\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{23}\n$$"
+   },
+   {
+    "model": "LFM2.5-1.2B",
+    "verdict": "pass",
+    "verdict_text": "correct",
+    "answer": "We are asked to find the result when the greatest common factor (GCF) of 6432 and 132 is increased by 11. Let's break this down step by step.\n\nFirst, find the GCF of 6432 and 132.\n\nWe can use the Euclidean algorithm:\n\n1. Divide 6432 by 132 and find the remainder.\n   $$\n   6432 \\div 132 = 48 \\quad \\text{(since } 132 \\times 48 = 6336)}\n   $$\n   $$\n   6432 - 6336 = 96\n   $$\n   So,\n[…]\n remainder 24\n- 36 ÷ 24 = 1 with remainder 12\n- 24 ÷ 12 = 2 with remainder 0\n\nSo GCF is 12. Correct.\n\nNow, increase GCF by 11 → 12 + 11 = 23\n\nThus, the final result is $\\boxed{23}$\n\n\\(\\\\)\\\n\n\\boxed{23}"
+   },
+   {
+    "model": "Youtu-LLM-2B",
+    "verdict": "pass",
+    "verdict_text": "correct",
+    "answer": "The greatest common factor (GCF) of 6432 and 132 is found using the prime factorization method.\n\n- Prime factorization of 132:  \n  \\(132 = 2^2 \\times 3 \\times 11\\)\n\n- Prime factorization of 6432:  \n  \\(6432 = 2^5 \\times 3 \\times 67\\)\n\nThe common prime factors are \\(2^2\\) and \\(3\\). The lowest powers of the common prime factors are \\(2^2\\) and \\(3^1\\), so the GCF is:  \n\\(2^2 \\ti\n[…]\nh remainder \\(36 - 24 = 12\\)  \n- \\(24 \\div 12 = 2\\) with remainder \\(0\\)  \nThus, the GCF is 12.\n\nThe GCF of 6432 and 132 is 12. Increasing this by 11:  \n\\(12 + 11 = 23\\)\n\nThe result is 23.\n\n\\boxed{23}"
+   },
+   {
+    "model": "Qwen3.5-2B",
+    "verdict": "pass",
+    "verdict_text": "correct",
+    "answer": "To find the result, we need to follow these steps:\n\n1.  **Find the Greatest Common Factor (GCF) of 6432 and 132.**\n2.  **Add 11 to the GCF.**\n3.  **State the final result.**\n\n### Step 1: Find the GCF of 6432 and 132\n\nWe can use the Euclidean algorithm to find the GCF. The algorithm states that $\\text{GCF}(a, b) = \\text{GCF}(b, a \\pmod b)$.\n\nLet $a = 6432$ and $b = 132$.\n\n**Iter\n[…]\ntimes 67$.\nThe common factors are $2^2 \\times 3 = 4 \\times 3 = 12$.\nThe GCF is indeed 12.\n\n### Step 2: Add 11 to the GCF\n\nThe GCF is 12.\n$$12 + 11 = 23$$\n\n### Conclusion\n\nThe result is 23.\n\n\\boxed{23}"
+   },
+   {
+    "model": "Gemma 4 E2B",
+    "verdict": "pass",
+    "verdict_text": "correct",
+    "answer": "Here is the step-by-step solution:\n\n**Step 1: Find the Greatest Common Factor (GCF) of 6432 and 132.**\n\nWe can use the Euclidean Algorithm or prime factorization. Let's use prime factorization for clarity.\n\nFirst, find the prime factorization of 132:\n$$132 = 2 \\times 66 = 2 \\times 2 \\times 33 = 2^2 \\times 3 \\times 11$$\n\nNext, find the prime factorization of 6432. Since 6432 is \n[…]\n.**\n\nThe problem asks for the result when the GCF is increased by 11.\n$$\\text{New Value} = \\text{GCF} + 11$$\n$$\\text{New Value} = 12 + 11$$\n$$\\text{New Value} = 23$$\n\nThe result is 23.\n\n$$\\boxed{23}$$"
+   },
+   {
+    "model": "Granite-4.0-H-1B",
+    "verdict": "fail",
+    "verdict_text": "answered 143",
+    "answer": "To solve the problem, we need to follow these steps:\n\n**Step 1: Find the Greatest Common Factor (GCF) of 6432 and 132.**\n\nWe can use the Euclidean algorithm to find the GCF.\n\n1. Divide 6432 by 132:\n   \\[\n   6432 \\div 132 = 48 \\quad \\text{remainder} \\quad 0\n   \\]\n   Since the remainder is 0, the divisor at this step (132) is the GCF.\n\n   Therefore, the GCF of 6432 and 132 is:\n  \n[…]\nsimply add 11 to the original GCF (132) and confirm that 143 is the correct value.\n\n**Conclusion:**\n\nThe result when the greatest common factor of 6432 and 132 is increased by 11 is:\n\\[\n\\boxed{143}\n\\]"
+   },
+   {
+    "model": "Qwen3.5-0.8B",
+    "verdict": "fail",
+    "verdict_text": "answered 143",
+    "answer": "To find the result, we need to follow these steps:\n1.  Find the greatest common factor (GCF) of 6432 and 132.\n2.  Increase this GCF by 11.\n3.  State the final result.\n\n### Step 1: Find the Greatest Common Factor (GCF) of 6432 and 132\n\nFirst, let's find the prime factorization of both numbers.\n\n**For 6432:**\n- $6432$ is even, so divide by 2: $6432 = 2 \\times 3216$\n- $3216$ is ev\n[…]\n\\times 11^1 = 4 \\times 3 \\times 11 = 12 \\times 11 = 132 $$\n\n### Step 3: Increase the GCF by 11\n\nNow, add 11 to the calculated GCF:\n$$ 132 + 11 = 143 $$\n\n### Conclusion\n\nThe result is 143.\n\n\\boxed{143}"
+   },
+   {
+    "model": "Qwen3.5-4B",
+    "verdict": "fail",
+    "verdict_text": "answered ",
+    "answer": "Here's my thought process for solving this problem:\n\n1.  **Analyze the Request:**\n    *   **Goal:** Find a specific number based on a calculation involving two integers.\n    *   **Input Numbers:** 6432 and 132.\n    *   **Operation 1:** Find the Greatest Common Factor (GCF) of these two numbers.\n    *   **Operation 2:** Increase the result of Operation 1 by 11.\n    *   **Output \n[…]\n contexts, but Euclidean is faster. I'll probably mention both or just stick to one clear path. Prime factorization is very explicit.\n            *   $132 = 2^2 \\cdot 3 \\cdot 11$.\n            *   $643"
+   }
+  ]
+ },
+ "note": "Single items quoted under each benchmark's license (IFEval Apache-2.0, MMLU-Pro MIT, MATH-500 MIT). Answers are the models' raw outputs, excerpted."
+};
+let SHOWCASE=SHOWCASE_EMBED, SCTAB='ifeval';
+const SCLABEL={ifeval:'IFEval — follow instructions',mmlu:'MMLU-Pro — expert knowledge',math:'MATH — solve it'};
+function drawShowcase(){
+  if(!SHOWCASE) return;
+  document.getElementById('sctabs').innerHTML=['ifeval','mmlu','math'].map(b=>
+    `<button class="sctab ${b===SCTAB?'on':''}" data-b="${b}">${SCLABEL[b]}</button>`).join('');
+  document.querySelectorAll('.sctab').forEach(el=>el.onclick=()=>{SCTAB=el.dataset.b;drawShowcase();});
+  const e=SHOWCASE[SCTAB], esc=t=>(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  let req='';
+  if(SCTAB==='ifeval') req=`<div class="req">Scored on: <b>${e.instructions.join(', ')}</b> — checked programmatically on the output.</div>`;
+  else req=`<div class="req">Correct answer: <b>${esc(e.gold)}</b> — a model scores only if its final answer matches.</div>`;
+  const q=`<div class="scq"><div class="lab">${SCTAB==='ifeval'?'Instruction':'Question'}</div><div class="p">${esc(e.prompt)}</div>${req}</div>`;
+  const rows=e.models.map(m=>{
+    const vt=m.verdict==='pass'?'✓ '+m.verdict_text:(m.verdict==='noans'?m.verdict_text:'✗ '+m.verdict_text);
+    return `<div class="scrow"><div class="scm">${esc(m.model)}<br><span class="vd ${m.verdict}">${m.verdict==='pass'?'pass':m.verdict==='noans'?'no answer':'fail'}</span><div class="vt">${esc(m.verdict_text)}</div></div><div class="sca">${esc(m.answer)}</div></div>`;
+  }).join('');
+  document.getElementById('scbody').innerHTML=q+rows;
+  document.getElementById('scnote').innerHTML=esc(SHOWCASE.note)+' Full outputs for all 596 items: <a href="https://huggingface.co/datasets/devicemark/results">results dataset</a> (raw/).';
+}
+function render(){drawStats();drawPareto();drawTable();drawShowcase();}
+fetch('showcase.json').then(r=>r.ok?r.json():null).then(d=>{if(d){SHOWCASE=d;drawShowcase();}}).catch(()=>{});
 // deployed: index.html sits at the site ROOT with data/ beneath it; local
 // preview from the eval workspace still has data/ as a sibling of site/ — try
 // both before falling back to the embedded snapshot.
