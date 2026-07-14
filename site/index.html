@@ -69,6 +69,17 @@
   .legend{font-size:12px;color:var(--muted);margin:10px 0 0}
   .note{font-size:12.5px;color:var(--muted);margin-top:12px;line-height:1.6}
 
+  /* memory-budget filter */
+  .budget{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:2px 0 4px}
+  .budget .lbl{font-size:12.5px;color:var(--muted);font-weight:600;margin-right:2px}
+  .bbtn{font:inherit;font-size:12.5px;font-weight:650;padding:6px 13px;border-radius:20px;cursor:pointer;
+    border:1px solid var(--hair);background:var(--surface);color:var(--ink2)}
+  .bbtn.on{background:var(--s1);border-color:var(--s1);color:#fff}
+  .budgethdr{font-size:13px;color:var(--ink2);margin:6px 0 2px;min-height:18px}
+  .budgethdr b{color:var(--ink)}
+  tr.dimmed td{opacity:.32}
+  tr.dimmed td .bar,tr.dimmed td .sbar{opacity:.5}
+
   /* bench explainer strip */
   .benches{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin:0 0 16px}
   .bench{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:10px 12px}
@@ -191,6 +202,8 @@
       <div class="bench"><b>Intelligence</b> <span class="bn">= mean of the three</span>
         <p>What the model <em>can do</em>, absolute. Different from ③ retention, which is quantized ÷ float of the <em>same</em> model — what shipping it <em>cost</em>.</p></div>
     </div>
+    <div class="budget" id="budget"></div>
+    <div class="budgethdr" id="budgethdr"></div>
     <div class="tblwrap"><table id="tbl"></table></div>
     <div class="callout" id="tienote" style="display:none"></div>
     <p class="note" id="quickfoot"></p>
@@ -311,10 +324,28 @@ function drawPareto(){
   document.getElementById('legend').innerHTML=`<span class="dim">whiskers = 95% CI · decode measured on iPhone 17 Pro (gates: methodology → proofs) · gray dash = built-in FM${hasCloud?' · teal dash = cloud API, same battery (no device axis)':' sea level'}</span>`;
 }
 
+let BUDGET=null;  // GB ceiling, or null = all
+function drawBudget(){
+  const el=document.getElementById('budget'); if(!el) return;
+  const opts=[[null,'All'],[1,'≤1 GB'],[2,'≤2 GB'],[3,'≤3 GB'],[5,'≤5 GB']];
+  el.innerHTML=`<span class="lbl">Fits in</span>`+opts.map(([g,l])=>
+    `<button class="bbtn ${BUDGET===g?'on':''}" data-g="${g===null?'':g}">${l}</button>`).join('');
+  el.querySelectorAll('.bbtn').forEach(b=>b.onclick=()=>{BUDGET=b.dataset.g===''?null:+b.dataset.g;drawBudget();drawTable();});
+}
 function drawTable(){
   const isLine=d=>d.native_runtime==='cloud-api';           // cloud = reference, not ranked
   const cloud=BOARD.filter(d=>isLine(d)&&d.composite).sort((a,b)=>b.composite.value-a.composite.value);
   const sorted=BOARD.slice().filter(d=>d.composite&&!isLine(d)).sort((a,b)=>b.composite.value-a.composite.value);
+  // memory-budget filter: a model "fits" if its footprint <= budget (system FM = always fits)
+  const fits=d=>BUDGET==null||d.format==='system'||(d.mem_mb!=null&&d.mem_mb/1000<=BUDGET+1e-9);
+  const hdr=document.getElementById('budgethdr');
+  if(BUDGET==null){ hdr.innerHTML=''; }
+  else{
+    const inb=sorted.filter(d=>fits(d)&&d.format!=='system');
+    if(inb.length){ const best=inb[0];
+      hdr.innerHTML=`Smartest model that fits in <b>${BUDGET} GB</b>: <b>${best.model}</b> — ${(best.composite.value*100).toFixed(0)}% intelligence, ${best.iphone_tok_s!=null?best.iphone_tok_s+' tok/s on iPhone 17 Pro':best.mac_tok_s+' tok/s (Mac)'}. Models above budget are dimmed.`;
+    } else hdr.innerHTML=`No on-device model in the board fits in <b>${BUDGET} GB</b> yet.`;
+  }
   // rank = 1 + (# models STRICTLY better: CI lower bound above this CI upper bound)
   let rank=sorted.map(d=>1+sorted.filter(o=>o.composite.ci[0]>d.composite.ci[1]).length);
   const anyEst=sorted.some(d=>!d.mem_measured&&d.mem_mb!=null), any4096=sorted.some(d=>d.quality.cap_tokens!==1024);
@@ -345,7 +376,7 @@ function drawTable(){
     const bl=r&&(r.ifeval_baseline!=null||r.mmlu_baseline!=null)
       ?` Float baseline (98-item subset, absolute): IFEval ${r.ifeval_baseline!=null?(r.ifeval_baseline*100).toFixed(1)+' (n='+r.ifeval_baseline_n+')':'—'} · MMLU ${r.mmlu_baseline!=null?(r.mmlu_baseline*100).toFixed(1)+' (n='+r.mmlu_baseline_n+')':'—'} · MATH ${r.math_baseline!=null?(r.math_baseline*100).toFixed(1)+' (n='+r.math_baseline_n+')':'—'}.`:'';
     const ret=r?retChip(r.mmlu,'shipped quant ÷ float baseline, MMLU-Pro completed-only; raw '+(r.mmlu*100).toFixed(0)+'% — see methodology cap-confound.'+bl):'<span class="chip na" title="system model — not a quantized port">—</span>';
-    return `<tr><td class="rk">${rank[i]}${tie?'<sup title="statistical tie — CIs overlap">=</sup>':''}</td>
+    return `<tr class="${fits(d)?'':'dimmed'}"><td class="rk">${rank[i]}${tie?'<sup title="statistical tie — CIs overlap">=</sup>':''}</td>
       <td><div class="mname">${d.model}</div><div class="msub">${sub}</div></td>
       <td class="icell">${icell}</td>
       <td>${bcell(q.ifeval_mean4,q.ifeval_ci,`n=${q.ifeval_n}`,'IFEval mean-of-4')}</td>
@@ -591,7 +622,7 @@ function drawShowcase(){
   document.getElementById('scbody').innerHTML=q+rows;
   document.getElementById('scnote').innerHTML=esc(SHOWCASE.note)+' Full outputs for all 596 items: <a href="https://huggingface.co/datasets/devicemark/results">results dataset</a> (raw/).';
 }
-function render(){drawStats();drawPareto();drawTable();drawShowcase();}
+function render(){drawStats();drawPareto();drawBudget();drawTable();drawShowcase();}
 fetch('showcase.json').then(r=>r.ok?r.json():null).then(d=>{if(d){SHOWCASE=d;drawShowcase();}}).catch(()=>{});
 // deployed: index.html sits at the site ROOT with data/ beneath it; local
 // preview from the eval workspace still has data/ as a sibling of site/ — try
