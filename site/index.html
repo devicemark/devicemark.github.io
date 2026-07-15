@@ -311,13 +311,27 @@ function drawPareto(){
     marks+=`<line class="eb" x1="${x-3}" y1="${Y(p.c.ci[0])}" x2="${x+3}" y2="${Y(p.c.ci[0])}"/><line class="eb" x1="${x-3}" y1="${Y(p.c.ci[1])}" x2="${x+3}" y2="${Y(p.c.ci[1])}"/>`;
     marks+=`<circle cx="${x}" cy="${y}" r="6" fill="var(--s1)" stroke="var(--card)" stroke-width="2"><title>${p.d.model} — ${(p.c.value*100).toFixed(1)}% [${(p.c.ci[0]*100).toFixed(0)}–${(p.c.ci[1]*100).toFixed(0)}] @ ${p.x} tok/s</title></circle>`;
     const t=p.d.model, w=lw(t);
-    const cands=[{x:x+11,y:y+4,a:'start'},{x:x-11,y:y+4,a:'end'},{x:x,y:y-14,a:'middle'},{x:x,y:y+20,a:'middle'},
-                 {x:x+11,y:y-12,a:'start'},{x:x+11,y:y+16,a:'start'},{x:x-11,y:y-12,a:'end'},{x:x-11,y:y+16,a:'end'}];
+    // crowded cluster (another dot within ~22px): push the label out on a diagonal and
+    // connect it with a leader line, so label→dot ownership is unambiguous
+    const nbrs=pts.filter(q=>q!==p&&Math.abs(X(q.x)-x)<22&&Math.abs(Y(q.c.value)-y)<22);
+    const crowded=nbrs.length>0;
+    // label goes on the side AWAY from the nearest neighbor, so leader lines never cross
+    const awayLeft=crowded&&(X(nbrs[0].x)>x);
+    const cands=crowded
+      ?(awayLeft
+        ?[{x:x-18,y:y+24,a:'end'},{x:x-18,y:y-18,a:'end'},{x:x-11,y:y+4,a:'end'},{x:x,y:y+26,a:'middle'},{x:x,y:y-20,a:'middle'},{x:x+18,y:y+24,a:'start'}]
+        :[{x:x+18,y:y+24,a:'start'},{x:x+18,y:y-18,a:'start'},{x:x+11,y:y+4,a:'start'},{x:x,y:y+26,a:'middle'},{x:x,y:y-20,a:'middle'},{x:x-18,y:y+24,a:'end'}])
+      :[{x:x+11,y:y+4,a:'start'},{x:x-11,y:y+4,a:'end'},{x:x,y:y-14,a:'middle'},{x:x,y:y+20,a:'middle'},
+        {x:x+11,y:y-12,a:'start'},{x:x+11,y:y+16,a:'start'},{x:x-11,y:y-12,a:'end'},{x:x-11,y:y+16,a:'end'}];
     let pick=cands[0];
     for(const c of cands){const rx=c.a==='start'?c.x:(c.a==='end'?c.x-w:c.x-w/2);
       const r={x:rx,y:c.y-10,w,h:lh};
       if(rx<m.l||rx+w>W-m.r||r.y<m.t||r.y+lh>H-m.b)continue;
       if(!collide(r)){pick=c;placed.push(r);break;}}
+    if(crowded){
+      const lx=pick.a==='start'?pick.x-2:(pick.a==='end'?pick.x+2:pick.x), ly=pick.y-4;
+      const ddx=x-lx, ddy=y-ly, len=Math.hypot(ddx,ddy)||1;
+      if(len>10)labels+=`<line x1="${lx}" y1="${ly}" x2="${(x-ddx/len*7).toFixed(1)}" y2="${(y-ddy/len*7).toFixed(1)}" stroke="var(--ink2)" stroke-width="1.2" opacity="0.6"/>`;}
     labels+=`<text class="plab" x="${pick.x}" y="${pick.y}" text-anchor="${pick.a}">${t}</text>`;}
   svg.innerHTML=s+marks+labels;
   const hasCloud=lines.some(d=>d.native_runtime==='cloud-api');
