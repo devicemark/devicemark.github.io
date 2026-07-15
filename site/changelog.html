@@ -34,9 +34,9 @@
     <p class="date">2026-07-15</p>
     <h2>Built-in FM decode speed — published as an honest estimate (▵)</h2>
     <ul>
-      <li>Apple's FoundationModels API exposes no token counts, so the FM row's speed cell was <code>n/a</code>. Now measured: <b>220.3 chars/s sustained</b> on M4 Max (streamed chunk timing, prefill excluded; n=8, TTFC 0.42 s median).</li>
-      <li>Shown as <b>▵ ~50–61 tok/s (est., Mac)</b> — a band, not a point: tok/s is derived through the empirical 3.61–4.43 chars/token band of the 7 open ports (~4,700 full596 generations). The FM tokenizer is unknown; the spread is the systematic uncertainty, disclosed.</li>
-      <li>Raw chunk timings in the dataset <code>raw/fm_speed_mac.jsonl</code>. Protocol: <a href="methodology.html">methodology → Speed</a>. iPhone FM speed pending (needs an on-device harness).</li>
+      <li>Apple's FoundationModels API exposes no token counts, so the FM row's speed cell was <code>n/a</code>. Now measured on both surfaces (streamed chunk timing, prefill excluded; n=8 each, TTFC 0.42 s median): <b>311.4 chars/s sustained on iPhone 17 Pro</b> (on-device, PipelinedBench <code>PB_FM_SPEED</code>) and <b>220.3 chars/s on M4 Max</b>.</li>
+      <li>Board shows <b>▵ ~70–86 tok/s (est., iPhone)</b> — a band, not a point: tok/s is derived through the empirical 3.61–4.43 chars/token band of the 7 open ports (~4,700 full596 generations). The FM tokenizer is unknown; the spread is the systematic uncertainty, disclosed. Mac (~50–61) kept in the hover + methodology.</li>
+      <li>Disclosed curiosities: the phone measures <i>faster</i> than the Mac on this protocol, and iPhone per-run rates drift 345→275 across 8 runs (thermal — visible in the raw timings). Raw: <code>raw/fm_speed_mac.jsonl</code> + <code>raw/fm_speed_iphone.jsonl</code>. Protocol: <a href="methodology.html">methodology → Speed</a>.</li>
     </ul>
   </div>
 

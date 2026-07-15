@@ -168,13 +168,17 @@
   <strong>estimate (&#9653;)</strong>: <code>fm-speed</code> streams 8 long-form generations
   (max 512 tokens, greedy, fresh session each; 2 warmups discarded) and measures
   <strong>sustained chars/s</strong> from chunk arrival times, TTFC/prefill excluded —
-  <strong>220.3 chars/s</strong> median on M4 Max (range 198&ndash;232; TTFC 0.42&nbsp;s median,
-  2026-07-15). tok/s is then derived through the <em>empirical</em> chars-per-token band of the
-  7 open ports&rsquo; full596 outputs (per-model medians 3.61&ndash;4.43, &asymp;4,700
-  generations): <strong>&asymp;50&ndash;61 tok/s</strong>. A band, not a point, because the
-  FM&rsquo;s tokenizer is unknown — the spread is the systematic uncertainty, disclosed rather
-  than hidden. Raw chunk timings: <code>raw/fm_speed_mac.jsonl</code> in the dataset. iPhone FM
-  speed is pending (needs an on-device harness).</p>
+  <strong>311.4 chars/s</strong> median on iPhone 17 Pro (range 275&ndash;345; on-device via
+  PipelinedBench <code>PB_FM_SPEED</code>) and <strong>220.3 chars/s</strong> on M4 Max (range
+  198&ndash;232), TTFC 0.42&nbsp;s median on both, 2026-07-15. tok/s is then derived through the
+  <em>empirical</em> chars-per-token band of the 7 open ports&rsquo; full596 outputs (per-model
+  medians 3.61&ndash;4.43, &asymp;4,700 generations): <strong>&asymp;70&ndash;86 tok/s on
+  iPhone</strong>, &asymp;50&ndash;61 on Mac. A band, not a point, because the FM&rsquo;s
+  tokenizer is unknown — the spread is the systematic uncertainty, disclosed rather than hidden.
+  (Two honest curiosities, also disclosed: the phone measures <em>faster</em> than the Mac on
+  this protocol, and the iPhone per-run rates drift down 345&rarr;275 across the 8 runs —
+  thermal, visible in the raw timings.) Raw chunk timings: <code>raw/fm_speed_mac.jsonl</code> +
+  <code>raw/fm_speed_iphone.jsonl</code> in the dataset.</p>
 
   <h2>Runtime-neutral schema (day-1 multi-runtime)</h2>
   <p>Quality is an attribute of the <strong>artifact</strong> (model &times; quant &times;

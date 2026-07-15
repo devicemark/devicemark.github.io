@@ -8,11 +8,11 @@
   <language>en</language>
 
   <item>
-    <title>Built-in FM decode speed — published as an honest estimate (▵ ~50–61 tok/s, Mac)</title>
+    <title>Built-in FM decode speed — honest estimate, on-device (▵ ~70–86 tok/s, iPhone 17 Pro)</title>
     <link>https://devicemark.github.io/methodology.html</link>
     <guid isPermaLink="false">devicemark-2026-07-15-fm-speed</guid>
     <pubDate>Wed, 15 Jul 2026 02:00:00 GMT</pubDate>
-    <description>The FoundationModels API exposes no token counts, so the FM speed cell was n/a. Now measured: 220.3 chars/s sustained on M4 Max (streamed chunk timing, prefill excluded, n=8, TTFC 0.42s), published as ▵ ~50–61 tok/s via the open ports' empirical 3.61–4.43 chars/token band. Raw timings in the dataset raw/.</description>
+    <description>The FoundationModels API exposes no token counts, so the FM speed cell was n/a. Now measured with streamed chunk timing (prefill excluded, n=8 each, TTFC 0.42s): 311.4 chars/s sustained on iPhone 17 Pro (on-device) and 220.3 chars/s on M4 Max, published as ▵ ~70–86 tok/s (iPhone) via the open ports' empirical 3.61–4.43 chars/token band. Curiosity disclosed: the phone measures faster than the Mac. Raw timings in the dataset raw/.</description>
   </item>
 
   <item>
