@@ -566,6 +566,27 @@
       "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
       "device_gate": null
     },
+    "speed_est": {
+      "surface": "M4 Max",
+      "sustained_chars_s": 220.3,
+      "chars_s_range": [
+        198.1,
+        232.2
+      ],
+      "ttfc_s": 0.42,
+      "tok_s_est": [
+        50,
+        61
+      ],
+      "chars_per_token_band": [
+        3.61,
+        4.43
+      ],
+      "n": 8,
+      "max_tokens": 512,
+      "method": "streamed sustained chars/s (chunk-timed, prefill excluded); tok/s via the empirical chars-per-token band of the 7 open ports (per-model medians, full596 outputs)",
+      "date": "2026-07-15"
+    },
     "iphone_tok_s": null,
     "mac_tok_s": null,
     "mem_mb": null,

@@ -31,6 +31,16 @@
   <p class="sub"><a href="./">← board</a> · <a href="feed.xml">RSS</a> · every entry = the board changed (new model, new measurement, or a methodology change)</p>
 
   <div class="entry">
+    <p class="date">2026-07-15</p>
+    <h2>Built-in FM decode speed — published as an honest estimate (▵)</h2>
+    <ul>
+      <li>Apple's FoundationModels API exposes no token counts, so the FM row's speed cell was <code>n/a</code>. Now measured: <b>220.3 chars/s sustained</b> on M4 Max (streamed chunk timing, prefill excluded; n=8, TTFC 0.42 s median).</li>
+      <li>Shown as <b>▵ ~50–61 tok/s (est., Mac)</b> — a band, not a point: tok/s is derived through the empirical 3.61–4.43 chars/token band of the 7 open ports (~4,700 full596 generations). The FM tokenizer is unknown; the spread is the systematic uncertainty, disclosed.</li>
+      <li>Raw chunk timings in the dataset <code>raw/fm_speed_mac.jsonl</code>. Protocol: <a href="methodology.html">methodology → Speed</a>. iPhone FM speed pending (needs an on-device harness).</li>
+    </ul>
+  </div>
+
+  <div class="entry">
     <p class="date">2026-07-14</p>
     <h2>Cloud sea-level lines added — how far is the pocket from the data center</h2>
     <ul>

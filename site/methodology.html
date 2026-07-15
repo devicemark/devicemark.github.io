@@ -164,7 +164,17 @@
   <p>PipelinedBench (<code>STATS prefill/decode</code>) on iPhone 17 Pro / M4 Max. tok/s + peak
   footprint for v0; power (tokens/joule) is a v0.5 axis. This box &asymp; M4 Max: 0.8B int8 =
   207 tok/s decode, matching the published 204. A row's memory is marked <code>est</code> until
-  device-measured, and decode is shown as Mac (&#9675;) until an iPhone number exists. Reported tok/s are <strong>warm-state</strong>: engine loaded and warmed, cold load and first-run specialization excluded; 128-token prompt / 256-token decode, two trials on a settled device. The built-in Foundation Model publishes no tok/s — its public API returns no token counts or streaming stats, so only wall-clock per answer exists (kept in the raw logs).</p>
+  device-measured, and decode is shown as Mac (&#9675;) until an iPhone number exists. Reported tok/s are <strong>warm-state</strong>: engine loaded and warmed, cold load and first-run specialization excluded; 128-token prompt / 256-token decode, two trials on a settled device. The built-in Foundation Model exposes no token counts, so its decode speed is published as an
+  <strong>estimate (&#9653;)</strong>: <code>fm-speed</code> streams 8 long-form generations
+  (max 512 tokens, greedy, fresh session each; 2 warmups discarded) and measures
+  <strong>sustained chars/s</strong> from chunk arrival times, TTFC/prefill excluded —
+  <strong>220.3 chars/s</strong> median on M4 Max (range 198&ndash;232; TTFC 0.42&nbsp;s median,
+  2026-07-15). tok/s is then derived through the <em>empirical</em> chars-per-token band of the
+  7 open ports&rsquo; full596 outputs (per-model medians 3.61&ndash;4.43, &asymp;4,700
+  generations): <strong>&asymp;50&ndash;61 tok/s</strong>. A band, not a point, because the
+  FM&rsquo;s tokenizer is unknown — the spread is the systematic uncertainty, disclosed rather
+  than hidden. Raw chunk timings: <code>raw/fm_speed_mac.jsonl</code> in the dataset. iPhone FM
+  speed is pending (needs an on-device harness).</p>
 
   <h2>Runtime-neutral schema (day-1 multi-runtime)</h2>
   <p>Quality is an attribute of the <strong>artifact</strong> (model &times; quant &times;
