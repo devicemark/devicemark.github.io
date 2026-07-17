@@ -8,6 +8,14 @@
   <language>en</language>
 
   <item>
+    <title>Two new vendors: NVIDIA Nemotron-3-Nano-4B + Nanbeige4.1-3B (9 vendors, 12 rows)</title>
+    <link>https://devicemark.github.io/</link>
+    <guid isPermaLink="false">devicemark-2026-07-17-nemotron-nanbeige</guid>
+    <pubDate>Thu, 17 Jul 2026 06:00:00 GMT</pubDate>
+    <description>NVIDIA Nemotron-3-Nano-4B (Mamba2 hybrid) and Nanbeige4.1-3B (32-layer GQA) join with full 596-item quality, float retention, and an iPhone 17 Pro token-exact gate (nat 24/24, oracle 24/24). Composite 64.9% / 63.1%, decode 14.7 / 16.9 tok/s. Both heavy reasoners (cap 4096); Nanbeige is the most extreme won't-stop-thinking model — top completed-only MMLU/MATH yet IFEval ≈1%. MiniCPM5-1B held: its Core AI export degenerates (GGUF of the same weights is clean).</description>
+  </item>
+
+  <item>
     <title>Built-in FM decode speed — honest estimate, on-device (▵ ~70–86 tok/s, iPhone 17 Pro)</title>
     <link>https://devicemark.github.io/methodology.html</link>
     <guid isPermaLink="false">devicemark-2026-07-15-fm-speed</guid>

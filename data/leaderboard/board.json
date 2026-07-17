@@ -733,5 +733,153 @@
     "mac_tok_s": null,
     "mem_mb": null,
     "mem_measured": false
+  },
+  {
+    "artifact_id": "nemotron-4b__int8hu__aimodel",
+    "model": "Nemotron-3-Nano-4B",
+    "vendor": "NVIDIA",
+    "params_b": 4.0,
+    "quant": "int8hu",
+    "format": "aimodel",
+    "native_runtime": "coreai",
+    "quality": {
+      "battery_version": "v0",
+      "cap_tokens": 4096,
+      "shots": 0,
+      "source": {
+        "mmlu": "full596",
+        "math": "full596",
+        "ifeval": "full596"
+      },
+      "refusal_rate": 0.0,
+      "refused_n": 0,
+      "mmlu_completed": 0.657,
+      "mmlu_ci": [
+        0.5833,
+        0.7238
+      ],
+      "mmlu_acc": 0.5765,
+      "mmlu_n": 196,
+      "mmlu_answered": 172,
+      "mmlu_noans": 24,
+      "math_completed": 0.8557,
+      "math_ci": [
+        0.7722,
+        0.912
+      ],
+      "math_acc": 0.83,
+      "math_n": 100,
+      "math_answered": 97,
+      "math_noans": 3,
+      "ifeval_mean4": 0.4343,
+      "ifeval_ci": [
+        0.3899,
+        0.4796
+      ],
+      "ifeval_n": 300
+    },
+    "composite": {
+      "value": 0.649,
+      "ci": [
+        0.6107,
+        0.6836
+      ]
+    },
+    "retention": {
+      "baseline": "fp16-engine",
+      "metric": "completed-only",
+      "mmlu": 1.08,
+      "mmlu_baseline": 0.5926,
+      "mmlu_baseline_n": 27,
+      "math": 1.0,
+      "math_baseline": 0.9,
+      "math_baseline_n": 30,
+      "ifeval": 1.181,
+      "ifeval_baseline": 0.3677,
+      "ifeval_baseline_n": 40
+    },
+    "provenance": {
+      "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
+      "device_gate": "PB 2026-07-17 nat 24/24 oracle 24/24, iOS 24A5380h"
+    },
+    "note": "reasoning: cap4096. Mamba2 hybrid (4-state, granite-class). iPhone via AOT h18p.",
+    "iphone_tok_s": 14.7,
+    "mac_tok_s": 100,
+    "mem_mb": 4300,
+    "mem_measured": false
+  },
+  {
+    "artifact_id": "nanbeige-3b__int8hu__aimodel",
+    "model": "Nanbeige4.1-3B",
+    "vendor": "Nanbeige",
+    "params_b": 3.0,
+    "quant": "int8hu",
+    "format": "aimodel",
+    "native_runtime": "coreai",
+    "quality": {
+      "battery_version": "v0",
+      "cap_tokens": 4096,
+      "shots": 0,
+      "source": {
+        "mmlu": "full596",
+        "math": "full596",
+        "ifeval": "full596"
+      },
+      "refusal_rate": 0.0,
+      "refused_n": 0,
+      "mmlu_completed": 0.9565,
+      "mmlu_ci": [
+        0.8798,
+        0.9851
+      ],
+      "mmlu_acc": 0.3367,
+      "mmlu_n": 196,
+      "mmlu_answered": 69,
+      "mmlu_noans": 127,
+      "math_completed": 0.9231,
+      "math_ci": [
+        0.8322,
+        0.9667
+      ],
+      "math_acc": 0.6,
+      "math_n": 100,
+      "math_answered": 65,
+      "math_noans": 35,
+      "ifeval_mean4": 0.0133,
+      "ifeval_ci": [
+        0.0033,
+        0.0267
+      ],
+      "ifeval_n": 300
+    },
+    "composite": {
+      "value": 0.631,
+      "ci": [
+        0.603,
+        0.6568
+      ]
+    },
+    "retention": {
+      "baseline": "fp16-engine",
+      "metric": "completed-only",
+      "mmlu": 1.0,
+      "mmlu_baseline": 1.0,
+      "mmlu_baseline_n": 10,
+      "math": 1.003,
+      "math_baseline": 0.9474,
+      "math_baseline_n": 19,
+      "ifeval": 0.267,
+      "ifeval_baseline": 0.05,
+      "ifeval_baseline_n": 40
+    },
+    "provenance": {
+      "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
+      "device_gate": "PB 2026-07-17 nat 24/24 oracle 24/24, iOS 24A5380h"
+    },
+    "note": "reasoning: cap4096. 32-layer GQA, 166k vocab. On-device GPU specialization.",
+    "iphone_tok_s": 16.9,
+    "mac_tok_s": 105,
+    "mem_mb": 4300,
+    "mem_measured": false
   }
 ]

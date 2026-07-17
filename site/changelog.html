@@ -31,6 +31,16 @@
   <p class="sub"><a href="./">← board</a> · <a href="feed.xml">RSS</a> · every entry = the board changed (new model, new measurement, or a methodology change)</p>
 
   <div class="entry">
+    <p class="date">2026-07-17</p>
+    <h2>Two new vendors: NVIDIA + Nanbeige (9 vendors, 12 rows)</h2>
+    <ul>
+      <li><b>Nemotron-3-Nano-4B</b> (NVIDIA, Mamba2 hybrid) and <b>Nanbeige4.1-3B</b> (32-layer GQA) join the board — full 596-item battery, float retention, and an iPhone 17 Pro token-exact gate (PB nat 24/24 · oracle 24/24, iOS 24A5380h). Composite 64.9% and 63.1%; decode 14.7 and 16.9 tok/s on iPhone.</li>
+      <li>Both are heavy reasoners (cap 4096). Nanbeige is the most extreme "won't stop thinking" model on the board: highest completed-only MMLU/MATH (95.7% / 92.3%) yet <b>IFEval ≈ 1%</b> — it almost never emits a final answer within budget (295/300 IFEval items are all thinking). The smartest-when-it-finishes model is also the least instructable — exactly what the completed-only + IFEval split is built to show.</li>
+      <li>Held back: <b>MiniCPM5-1B</b> — the Core AI int8 export degenerates (repeats <code>\boxed{}</code> hundreds of times); the official GGUF of the same weights scores cleanly, so the bug is in the export, not the model. It ships only once that's fixed.</li>
+    </ul>
+  </div>
+
+  <div class="entry">
     <p class="date">2026-07-15</p>
     <h2>Built-in FM decode speed — published as an honest estimate (▵)</h2>
     <ul>
