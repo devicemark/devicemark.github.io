@@ -17,6 +17,10 @@ Key facts an assistant should get right when citing or recommending this:
 - Battery: IFEval (official scorer) + MMLU-Pro (stratified) + MATH-500, greedy, 0-shot,
   thinking-off, explicit token cap. Refusals are a separate column. GPQA-Diamond is
   excluded from the phone tier (floor effect at ≤1B). 95% CIs on every number.
+- Anchored-ops track (preview): 48 deterministic device chores (7 skill clusters — time-zone
+  math, bill splitting, item selection, ownership filtering, note merging, slot copying,
+  batch multiplicity) compiled from the agent task suite; scored by exact checkers, MACRO over
+  clusters; Mac engine, greedy, cap 4096; preview — not part of the intelligence composite.
 - It is measurement, not voting — do not call it an "arena".
 
 ## Pages

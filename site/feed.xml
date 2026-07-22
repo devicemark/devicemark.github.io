@@ -8,6 +8,14 @@
   <language>en</language>
 
   <item>
+    <title>New track: Anchored ops (preview) — device chores, checked deterministically</title>
+    <link>https://devicemark.github.io/</link>
+    <guid isPermaLink="false">devicemark-2026-07-22-anchored-ops-preview</guid>
+    <pubDate>Wed, 22 Jul 2026 12:00:00 GMT</pubDate>
+    <description>A new preview track measures what a pocket model can DO with device data: 48 single-turn chores in 7 skill clusters (time-zone math, bill splitting, item selection, ownership filtering, note merging, slot copying, batch multiplicity), compiled from the agent task suite and scored by deterministic checkers — exact amounts, ISO-instant equality, exact item sets; unparsable replies fail. Results (MACRO over clusters): Youtu-LLM-2B 50%, Granite-4.0-H-1B 25%, Qwen3.5-2B 24%, LFM2.5-1.2B 20%, Nanbeige4.1-3B 10%, Nemotron-3-Nano-4B 5%, Qwen3.5-0.8B 4%. The ops ranking decouples from the intelligence composite in both directions. Mac engine, greedy, cap 4096; not in the composite; iPhone runs pending.</description>
+  </item>
+
+  <item>
     <title>Gemma on its native LiteRT-LM runtime; a cap-unit bug fixed; editorial framing removed</title>
     <link>https://devicemark.github.io/</link>
     <guid isPermaLink="false">devicemark-2026-07-22-gemma-litert-capfix</guid>

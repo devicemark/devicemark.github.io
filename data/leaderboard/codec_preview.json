@@ -1,0 +1,448 @@
+{
+ "generated": "leaderboard/gen_codec_site.py — DO NOT HAND-EDIT",
+ "track": "anchored-ops decode(structured), preview",
+ "battery": {
+  "version": "codec_v0",
+  "tasks": 48,
+  "assertions": 117,
+  "source": "compiled from agent-frontier tierA task-defs (single source)"
+ },
+ "conditions": {
+  "surface": "Mac engine (same artifacts as the board)",
+  "sampling": "greedy",
+  "cap_tokens": 4096,
+  "scoring": "deterministic, checker-aligned (substring / ISO-instant equality); unparsable reply = fail, kept in denominator"
+ },
+ "clusters": [
+  {
+   "key": "datetime",
+   "label": "Time zones",
+   "desc": "Work out a cross-time-zone moment and pass it as the due argument"
+  },
+  {
+   "key": "arithmetic",
+   "label": "Bill math",
+   "desc": "Split a bill (plus tip) and put the exact amount in the reminder"
+  },
+  {
+   "key": "selection",
+   "label": "Pick the right items",
+   "desc": "Album the matching photos only — near-misses must stay out"
+  },
+  {
+   "key": "attribution",
+   "label": "Whose task is it",
+   "desc": "From a meeting transcript, reminders for MY open items only"
+  },
+  {
+   "key": "synthesis",
+   "label": "Merge notes",
+   "desc": "Digest scattered notes into one note keeping the latest values"
+  },
+  {
+   "key": "slot_fidelity",
+   "label": "Copy the details",
+   "desc": "Carry names, rooms, and derived times into arguments verbatim"
+  },
+  {
+   "key": "batch",
+   "label": "One per meeting",
+   "desc": "One prep reminder per active event; skip the cancelled ones"
+  }
+ ],
+ "rows": [
+  {
+   "artifact_id": "youtu-2b__int8__aimodel",
+   "catalog_id": "youtu-llm-2b",
+   "macro": 0.5045,
+   "task_pass": 23,
+   "n": 48,
+   "ci": [
+    0.3447,
+    0.6167
+   ],
+   "parse_rate": 0.75,
+   "field_rate": 0.6496,
+   "clusters": {
+    "arithmetic": [
+     4,
+     7
+    ],
+    "attribution": [
+     4,
+     7
+    ],
+    "batch": [
+     5,
+     5
+    ],
+    "datetime": [
+     2,
+     9
+    ],
+    "selection": [
+     2,
+     7
+    ],
+    "slot_fidelity": [
+     5,
+     7
+    ],
+    "synthesis": [
+     1,
+     6
+    ]
+   }
+  },
+  {
+   "artifact_id": "granite-4.0-h-1b__int8hu__aimodel",
+   "catalog_id": "granite-4.0-h-1b",
+   "macro": 0.254,
+   "task_pass": 13,
+   "n": 48,
+   "ci": [
+    0.1657,
+    0.41
+   ],
+   "parse_rate": 0.8333,
+   "field_rate": 0.4615,
+   "clusters": {
+    "arithmetic": [
+     1,
+     7
+    ],
+    "attribution": [
+     1,
+     7
+    ],
+    "batch": [
+     0,
+     5
+    ],
+    "datetime": [
+     4,
+     9
+    ],
+    "selection": [
+     1,
+     7
+    ],
+    "slot_fidelity": [
+     4,
+     7
+    ],
+    "synthesis": [
+     2,
+     6
+    ]
+   }
+  },
+  {
+   "artifact_id": "qwen3.5-2b__int8hu__aimodel",
+   "catalog_id": "qwen3.5-2b",
+   "macro": 0.2381,
+   "task_pass": 11,
+   "n": 48,
+   "ci": [
+    0.1331,
+    0.3654
+   ],
+   "parse_rate": 0.9792,
+   "field_rate": 0.4957,
+   "clusters": {
+    "arithmetic": [
+     1,
+     7
+    ],
+    "attribution": [
+     1,
+     7
+    ],
+    "batch": [
+     0,
+     5
+    ],
+    "datetime": [
+     0,
+     9
+    ],
+    "selection": [
+     1,
+     7
+    ],
+    "slot_fidelity": [
+     4,
+     7
+    ],
+    "synthesis": [
+     4,
+     6
+    ]
+   }
+  },
+  {
+   "artifact_id": "lfm2.5-1.2b__int8hu__aimodel",
+   "catalog_id": "lfm2.5-1.2b",
+   "macro": 0.2018,
+   "task_pass": 10,
+   "n": 48,
+   "ci": [
+    0.1173,
+    0.3426
+   ],
+   "parse_rate": 1.0,
+   "field_rate": 0.4957,
+   "clusters": {
+    "arithmetic": [
+     0,
+     7
+    ],
+    "attribution": [
+     1,
+     7
+    ],
+    "batch": [
+     0,
+     5
+    ],
+    "datetime": [
+     2,
+     9
+    ],
+    "selection": [
+     0,
+     7
+    ],
+    "slot_fidelity": [
+     5,
+     7
+    ],
+    "synthesis": [
+     2,
+     6
+    ]
+   }
+  },
+  {
+   "artifact_id": "nanbeige-3b__int8hu__aimodel",
+   "catalog_id": "nanbeige4.1-3b",
+   "macro": 0.102,
+   "task_pass": 5,
+   "n": 48,
+   "ci": [
+    0.0453,
+    0.2217
+   ],
+   "parse_rate": 0.1042,
+   "field_rate": 0.094,
+   "clusters": {
+    "arithmetic": [
+     2,
+     7
+    ],
+    "attribution": [
+     0,
+     7
+    ],
+    "batch": [
+     0,
+     5
+    ],
+    "datetime": [
+     0,
+     9
+    ],
+    "selection": [
+     0,
+     7
+    ],
+    "slot_fidelity": [
+     3,
+     7
+    ],
+    "synthesis": [
+     0,
+     6
+    ]
+   }
+  },
+  {
+   "artifact_id": "nemotron-4b__int8hu__aimodel",
+   "catalog_id": "nemotron-3-nano-4b",
+   "macro": 0.049,
+   "task_pass": 2,
+   "n": 48,
+   "ci": [
+    0.0115,
+    0.1398
+   ],
+   "parse_rate": 0.0417,
+   "field_rate": 0.0427,
+   "clusters": {
+    "arithmetic": [
+     0,
+     7
+    ],
+    "attribution": [
+     0,
+     7
+    ],
+    "batch": [
+     1,
+     5
+    ],
+    "datetime": [
+     0,
+     9
+    ],
+    "selection": [
+     0,
+     7
+    ],
+    "slot_fidelity": [
+     1,
+     7
+    ],
+    "synthesis": [
+     0,
+     6
+    ]
+   }
+  },
+  {
+   "artifact_id": "qwen3.5-0.8b__int8hu__aimodel",
+   "catalog_id": "qwen3.5-0.8b",
+   "macro": 0.0408,
+   "task_pass": 2,
+   "n": 48,
+   "ci": [
+    0.0115,
+    0.1398
+   ],
+   "parse_rate": 0.875,
+   "field_rate": 0.4359,
+   "clusters": {
+    "arithmetic": [
+     0,
+     7
+    ],
+    "attribution": [
+     0,
+     7
+    ],
+    "batch": [
+     0,
+     5
+    ],
+    "datetime": [
+     0,
+     9
+    ],
+    "selection": [
+     0,
+     7
+    ],
+    "slot_fidelity": [
+     2,
+     7
+    ],
+    "synthesis": [
+     0,
+     6
+    ]
+   }
+  }
+ ],
+ "showcase": [
+  {
+   "key": "tierA_codec_bill_tip20",
+   "label": "Bill math",
+   "field": "title",
+   "data": "Dinner at Bistro Aoi: total $180.00. We agreed on a 20% tip. Split evenly between Alex, Priya and Sam and me. That makes 4 of us.",
+   "ask": "Find my dinner receipt note, work out MY share of the bill including any tip mentioned, and create a single reminder to pay it back titled exactly 'Pay back <amount>' with the amount in dollars and cents, e.g. 'Pay back $12.34'. Round to the cent.",
+   "expected": "$54.00",
+   "answers": [
+    {
+     "artifact_id": "youtu-2b__int8__aimodel",
+     "shown": "Pay back $54.00",
+     "pass": true
+    },
+    {
+     "artifact_id": "granite-4.0-h-1b__int8hu__aimodel",
+     "shown": "Pay back $60.00",
+     "pass": false
+    },
+    {
+     "artifact_id": "qwen3.5-2b__int8hu__aimodel",
+     "shown": "Pay back $180.00",
+     "pass": false
+    },
+    {
+     "artifact_id": "lfm2.5-1.2b__int8hu__aimodel",
+     "shown": "Pay back $72.50",
+     "pass": false
+    },
+    {
+     "artifact_id": "nanbeige-3b__int8hu__aimodel",
+     "shown": "Pay back $54.00",
+     "pass": true
+    },
+    {
+     "artifact_id": "nemotron-4b__int8hu__aimodel",
+     "shown": "(no parsable call)",
+     "pass": false
+    },
+    {
+     "artifact_id": "qwen3.5-0.8b__int8hu__aimodel",
+     "shown": "Pay back $180.00",
+     "pass": false
+    }
+   ]
+  },
+  {
+   "key": "tierA_codec_tz_tokyo",
+   "label": "Time zones",
+   "field": "due",
+   "data": "The Tokyo office is reachable at 09:00 Tokyo local time on 2026-07-15. Best moment for the call.",
+   "ask": "Check my notes for when the Tokyo office is reachable, then set a single reminder titled 'Call the Tokyo office' at exactly that moment, expressed in my own local time zone. Do not use any conversion tool — work out the time yourself.",
+   "expected": "Tokyo",
+   "answers": [
+    {
+     "artifact_id": "youtu-2b__int8__aimodel",
+     "shown": "2026-07-14T16:00:00-07:00",
+     "pass": false
+    },
+    {
+     "artifact_id": "granite-4.0-h-1b__int8hu__aimodel",
+     "shown": "2026-07-15T09:00:00+09:00",
+     "pass": true
+    },
+    {
+     "artifact_id": "qwen3.5-2b__int8hu__aimodel",
+     "shown": "2026-07-15T16:00:00-07:00",
+     "pass": false
+    },
+    {
+     "artifact_id": "lfm2.5-1.2b__int8hu__aimodel",
+     "shown": "2026-07-15T09:00:00+09:00",
+     "pass": true
+    },
+    {
+     "artifact_id": "nanbeige-3b__int8hu__aimodel",
+     "shown": "(no parsable call)",
+     "pass": false
+    },
+    {
+     "artifact_id": "nemotron-4b__int8hu__aimodel",
+     "shown": "(no parsable call)",
+     "pass": false
+    },
+    {
+     "artifact_id": "qwen3.5-0.8b__int8hu__aimodel",
+     "shown": "2026-07-15T09:00:00-07:00",
+     "pass": false
+    }
+   ]
+  }
+ ]
+}

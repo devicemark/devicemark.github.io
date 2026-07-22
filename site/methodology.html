@@ -292,6 +292,35 @@
   <code>raw/</code> alongside the device rows. Model snapshots: gemini-3.5-flash / gemini-3.1-pro-preview,
   measured 2026-07-14.</p>
 
+  <h2 id="anchored-ops">Anchored-ops track (preview)</h2>
+  <p>The chat battery above measures what a model <em>knows</em>. The anchored-ops track measures
+  what it can <em>do with device data</em>: <strong>48 single-turn chores</strong> across
+  <strong>7 skill clusters</strong> — compute a cross-time-zone due time, split a bill and put the
+  exact amount in a reminder, album only the matching screenshots, extract only <em>my</em> open
+  action items from a meeting transcript, merge scattered notes keeping the latest values, copy
+  names/rooms/derived times into arguments verbatim, and create exactly one prep reminder per
+  active calendar event.</p>
+  <p><strong>Single source.</strong> Every task is compiled from the agent task suite's task
+  definitions (the same JSON files run multi-turn in the agent harness); the world data the agent
+  would gather through read tools is inlined into one prompt. Gold values are computed
+  programmatically (time-zone math via the IANA database, money via exact decimal arithmetic), so
+  the reference solutions and checks cannot drift from the task parameters. Before any model ran,
+  every task passed a harness self-test: the reference solution must pass and a do-nothing run must
+  fail, under the real checker.</p>
+  <p><strong>Deterministic scoring.</strong> The model must reply with a JSON call list
+  (<code>{"calls": [{"tool": …, "args": …}]}</code> — the same shape as agent-harness traces).
+  Checks are deterministic: case-insensitive substrings, ISO-8601 <em>instant</em> equality
+  (<code>+09:00</code> and <code>-07:00</code> spellings of the same moment are equal), exact
+  counts and item sets. No judge model, no partial credit; an unparsable reply fails every check
+  and stays in the denominator. <strong>MACRO</strong> = the mean of the 7 cluster pass-rates
+  (each cluster weighs the same regardless of task count), so a model can't farm one easy skill.
+  Per-model hover shows task-pass with its 95% CI, the parse rate, and the field-level rate.</p>
+  <p><strong>Conditions &amp; preview status.</strong> Same shipped artifacts as the board, Mac
+  engine, greedy decoding, 4096-token cap (thinking counts against it; declared for every row).
+  Preview means: not part of the intelligence composite, n is still small (CIs on hover), and
+  iPhone runs are pending — the label comes off when on-device numbers land. Battery and scorer
+  publish with the results dataset.</p>
+
   <h2 id="related">Related work — what this board is and is not</h2>
   <p>Where DeviceMark sits among the tools that measure local/on-device AI. The matrix uses each
   project's own published scope (links below); "intelligence axis" means output quality is a

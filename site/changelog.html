@@ -32,6 +32,30 @@
 
   <div class="entry">
     <p class="date">2026-07-22</p>
+    <h2>New track: Anchored ops (preview) — device chores, checked deterministically</h2>
+    <ul>
+      <li><b>What it is.</b> 48 single-turn device chores across 7 skill clusters — cross-time-zone
+        reminders, bill splitting, photo-set selection, ownership-filtered action items, note
+        merging, slot copying, batch multiplicity — compiled from the agent task suite's task
+        definitions (one source; the same JSON runs multi-turn in the agent harness). Scored by
+        deterministic checkers: exact amounts, ISO-instant equality, exact item sets; an
+        unparsable reply is a fail. No judge model. Methodology → "Anchored-ops track".</li>
+      <li><b>Board placement.</b> A new <b>Ops◦</b> column (MACRO over the 7 cluster pass-rates)
+        plus a panel with the per-cluster heatmap and two tasks shown verbatim with every model's
+        actual returned arguments. Preview: Mac engine, greedy, cap 4096, not part of the
+        intelligence composite; iPhone runs pending.</li>
+      <li><b>Results (7 rows).</b> Youtu-LLM-2B 50% · Granite-4.0-H-1B 25% · Qwen3.5-2B 24% ·
+        LFM2.5-1.2B 20% · Nanbeige4.1-3B 10% · Nemotron-3-Nano-4B 5% · Qwen3.5-0.8B 4%.
+        The ranking decouples from the intelligence composite in both directions:
+        Nemotron (2nd on intelligence) writes its reasoning as prose instead of the required
+        JSON call (parse 4%), while Youtu converts long reasoning into computed arguments
+        (bill math 4/7, batch 5/5) at the cost of 9/48 thinking past the cap. Raw outputs
+        ship with the results dataset.</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <p class="date">2026-07-22</p>
     <h2>Gemma on its native LiteRT-LM runtime; a cap-unit bug fixed; editorial framing removed</h2>
     <ul>
       <li><b>Gemma 4 E2B now measured on its native LiteRT-LM runtime</b> (Mac, greedy), not the Core AI path (which balloons memory via the PLE-gather graph). Quality is runtime-neutral and the runtime is disclosed; retention (③) is N/A for this row until an fp16 baseline exists on the same runtime. iPhone decode speed + peak memory are now device-measured on an iPhone 17 Pro (LiteRT-LM/Metal): <b>~57 tok/s, 488 MB</b> — vs the Core AI path's 21.7 tok/s / 4450 MB, i.e. ~2.6× faster and ~9× lighter (Core AI's PLE-gather graph balloons memory, which is why quality is taken on LiteRT). Decode is single-run: the x2-warm protocol can't complete on this runtime (a callback-pool stall), disclosed.</li>

@@ -118,6 +118,36 @@
   .chip.na{background:var(--surface);border:1px solid var(--hair);color:var(--muted);font-weight:500}
   tr.cloudsep td{padding:12px 10px 6px;font-size:11.5px;color:var(--muted);border-bottom:none;text-align:left}
   tr.cloudrow td{background:color-mix(in srgb,var(--hero2) 5%,transparent)}
+
+  /* anchored-ops preview heatmap */
+  .opswrap{overflow-x:auto;margin:0 -8px}
+  .opstbl{border-collapse:separate;border-spacing:2px;width:100%;font-size:12.5px;min-width:860px}
+  .opstbl th{color:var(--muted);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;
+    text-align:center;padding:0 6px 6px;cursor:help;border:none}
+  .opstbl th:first-child{text-align:left;cursor:default}
+  .opstbl td{border:none;padding:9px 8px;text-align:center;border-radius:7px;background:var(--surface);
+    font-variant-numeric:tabular-nums;white-space:nowrap}
+  .opstbl td.omodel{text-align:left;background:transparent;font-weight:660;font-size:13px;color:var(--ink)}
+  .opstbl td.omodel .sub{font-size:11px;color:var(--muted);font-weight:500;margin-top:1px}
+  .opstbl td.omacro{font-weight:750;font-size:13.5px}
+  .opstbl td.ocell{cursor:default;color:var(--ink)}
+  .opstbl td.ocell .f{font-weight:650}
+  .opslegend{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);margin-top:10px;flex-wrap:wrap}
+  .opslegend .sw{width:34px;height:9px;border-radius:3px;border:1px solid var(--hair)}
+  .opsx{margin-top:18px;border-top:1px solid var(--hair);padding-top:16px}
+  .opsx .xhead{font-size:12px;color:var(--muted);font-weight:650;text-transform:uppercase;letter-spacing:.07em;margin:0 0 10px}
+  .opsxtabs{display:flex;gap:8px;margin:0 0 12px}
+  .opsxtab{font:inherit;font-size:12.5px;font-weight:650;padding:6px 13px;border-radius:20px;cursor:pointer;border:1px solid var(--hair);background:var(--surface);color:var(--ink2)}
+  .opsxtab.on{background:var(--s1);border-color:var(--s1);color:#fff}
+  .opsxcase .row{font-size:13px;margin:0 0 6px;color:var(--ink2)}
+  .opsxcase .row b{color:var(--ink);font-weight:650}
+  .opsxcase .data{background:var(--surface);border:1px solid var(--hair);border-radius:8px;padding:9px 12px;font-size:12.5px;color:var(--ink2);margin:8px 0 12px}
+  .opsxans{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:8px}
+  .opsxa{background:var(--surface);border:1px solid var(--hair);border-radius:9px;padding:9px 11px}
+  .opsxa .m{font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:3px}
+  .opsxa .v{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink);word-break:break-all}
+  .opsxa .ok{color:var(--good);font-weight:750;margin-right:5px}
+  .opsxa .no{color:var(--muted);font-weight:750;margin-right:5px}
   tr.cloudrow:hover td{background:color-mix(in srgb,var(--hero2) 9%,transparent)}
   tr.cloudrow .rk{color:var(--hero2);font-size:15px}
   sup{color:var(--s1);cursor:help}
@@ -212,6 +242,23 @@
     <details class="notes"><summary>Reading notes — metrics, symbols, caveats</summary>
       <p class="note" id="foot"></p>
     </details>
+  </div>
+
+  <div class="card" id="opscard" style="display:none">
+    <div class="cardhead"><h2>Anchored ops — device chores, checked deterministically (preview)</h2>
+      <span class="hint">hover any cell for what the cluster asks · MACRO = mean of the 7 cluster rates</span></div>
+    <p class="note" style="margin:0 0 14px">The chat benches above measure what a model <em>knows</em>.
+      This track measures what it can <em>do with your device data</em>: 48 single-turn chores
+      (set a cross-time-zone reminder, split a bill, album the right photos, …) compiled from the
+      agent task suite and scored by deterministic checkers — exact amounts, exact instants,
+      exact item sets. No judge model, no partial credit. An unparsable reply counts as a fail.</p>
+    <div class="opswrap"><table class="opstbl" id="opstbl"></table></div>
+    <div class="opslegend"><span>cluster pass rate</span><span class="sw" style="background:linear-gradient(90deg,var(--surface),color-mix(in srgb,var(--s1) 55%,var(--surface)))"></span><span>0 → 100%</span><span>· columns ordered easiest → hardest (measured)</span><span style="margin-left:14px" id="opscond"></span></div>
+    <div class="opsx" id="opsx" style="display:none">
+      <p class="xhead">One task, verbatim — what each model actually returned</p>
+      <div class="opsxtabs" id="opsxtabs"></div>
+      <div class="opsxcase" id="opsxcase"></div>
+    </div>
   </div>
 
   <div class="card showcase">
@@ -370,7 +417,7 @@ function drawTable(){
   const anyEst=sorted.some(d=>!d.mem_measured&&d.mem_mb!=null), any4096=sorted.some(d=>d.quality.cap_tokens!==1024);
   const maxTps=Math.max(...sorted.map(d=>d.iphone_tok_s||0));
   const allRefuse0=sorted.every(d=>(d.quality.refusal_rate||0)<0.005);
-  const head=`<tr><th>#</th><th>Model</th><th>Intelligence</th><th>IFEval</th><th>MMLU-Pro</th><th>MATH</th><th>iPhone tok/s</th><th>③ retention</th></tr>`;
+  const head=`<tr><th>#</th><th>Model</th><th>Intelligence</th><th>IFEval</th><th>MMLU-Pro</th><th>MATH</th><th>iPhone tok/s</th><th>③ retention</th><th>Ops<sup title="Anchored-ops preview (see panel below): device chores scored by deterministic checkers. MACRO over 7 skill clusters. Mac engine, greedy, cap 4096 — preview, not in the composite.">◦</sup></th></tr>`;
   const rows=sorted.map((d,i)=>{
     const q=d.quality, sys=d.format==='system', c=d.composite;
     const qat=(d.note||'').includes('QAT');
@@ -407,7 +454,8 @@ function drawTable(){
       <td>${bcell(q.mmlu_completed,q.mmlu_ci,`answered ${q.mmlu_answered}/${q.mmlu_n}`+(q.mmlu_acc_answered!=null?', acc-when-answered '+(q.mmlu_acc_answered*100).toFixed(0)+'%':''),'MMLU-Pro completed-only')}</td>
       <td>${bcell(q.math_completed,q.math_ci,`answered ${q.math_answered}/${q.math_n}`+(q.math_acc_answered!=null?', acc-when-answered '+(q.math_acc_answered*100).toFixed(0)+'%':''),'MATH completed-only')}</td>
       <td class="scell">${tps}</td>
-      <td>${ret}</td></tr>`;
+      <td>${ret}</td>
+      <td>${(o=>o?`<span class="chip" title="anchored-ops MACRO (preview): task pass ${o.task_pass}/${o.n} · details in the Anchored ops panel below">${(o.macro*100).toFixed(0)}%</span>`:'<span class="chip na" title="anchored-ops preview not yet run for this artifact">—</span>')(opsFor(d.artifact_id))}</td></tr>`;
   }).join('');
   // cloud reference rows — same battery, no rank, no device axis; visually set apart
   const cloudRows=cloud.map(d=>{
@@ -420,9 +468,10 @@ function drawTable(){
       <td>${bcell(q.mmlu_completed,q.mmlu_ci,`answered ${q.mmlu_answered}/${q.mmlu_n}`+(q.mmlu_acc_answered!=null?', acc-when-answered '+(q.mmlu_acc_answered*100).toFixed(0)+'%':''),'MMLU-Pro completed-only')}</td>
       <td>${bcell(q.math_completed,q.math_ci,`answered ${q.math_answered}/${q.math_n}`+(q.math_acc_answered!=null?', acc-when-answered '+(q.math_acc_answered*100).toFixed(0)+'%':''),'MATH completed-only')}</td>
       <td class="scell"><span class="chip na" title="cloud API — device speed/memory not applicable">n/a</span></td>
-      <td><span class="chip na" title="not a quantized on-device port">—</span></td></tr>`;
+      <td><span class="chip na" title="not a quantized on-device port">—</span></td>
+      <td><span class="chip na" title="anchored-ops preview is an on-device track">—</span></td></tr>`;
   }).join('');
-  const cloudHead=cloud.length?`<tr class="cloudsep"><td colspan="8">Cloud sea level — same battery &amp; scorers, run through the API (temperature 0). Not on-device; shown for scale.</td></tr>`:'';
+  const cloudHead=cloud.length?`<tr class="cloudsep"><td colspan="9">Cloud sea level — same battery &amp; scorers, run through the API (temperature 0). Not on-device; shown for scale.</td></tr>`:'';
   document.getElementById('tbl').innerHTML=head+rows+cloudHead+cloudRows;
 
   // "why do different scores share rank 1?" — plain text, visible without hover
@@ -645,7 +694,53 @@ function drawShowcase(){
   document.getElementById('scbody').innerHTML=q+rows;
   document.getElementById('scnote').innerHTML=esc(SHOWCASE.note)+' Full outputs for all 596 items: <a href="https://huggingface.co/datasets/devicemark/results">results dataset</a> (raw/).';
 }
-function render(){drawStats();drawPareto();drawBudget();drawTable();drawShowcase();}
+let OPS=null,OPSXTAB=0;
+function opsFor(id){ return OPS&&OPS.rows.find(r=>r.artifact_id===id); }
+function drawOps(){
+  if(!OPS) return;
+  const card=document.getElementById('opscard'); card.style.display='';
+  // columns ordered by measured aggregate pass rate, easiest first — the tint fades
+  // left to right, and a capable model reads as a row that stays blue all the way
+  const agg=k=>{let p=0,n=0;OPS.rows.forEach(r=>{const v=r.clusters[k];if(v){p+=v[0];n+=v[1];}});return n?p/n:0;};
+  const cl=OPS.clusters.slice().sort((a,b)=>agg(b.key)-agg(a.key));
+  const head='<tr><th>Model</th><th title="mean of the 7 cluster pass rates — every cluster weighs the same regardless of task count">MACRO</th>'
+    +cl.map(c=>`<th title="${c.desc}">${c.label}</th>`).join('')+'</tr>';
+  const rows=OPS.rows.map(r=>{
+    const b=BOARD.find(d=>d.artifact_id===r.artifact_id)||{model:r.catalog_id,vendor:''};
+    const cell=c=>{
+      const v=r.clusters[c.key]; if(!v) return '<td class="ocell">—</td>';
+      const rate=v[1]?v[0]/v[1]:0, mix=Math.round(rate*55);
+      return `<td class="ocell" style="background:color-mix(in srgb,var(--s1) ${mix}%,var(--surface))"
+        title="${c.label}: ${v[0]} of ${v[1]} tasks pass — ${c.desc}"><span class="f">${Math.round(rate*100)}</span>%</td>`;
+    };
+    return `<tr><td class="omodel">${b.model}<div class="sub">${b.vendor}${b.params_b?` · ${b.params_b}B`:''}</div></td>
+      <td class="omacro" title="task pass ${r.task_pass}/${r.n} (95% CI ${(r.ci[0]*100).toFixed(0)}–${(r.ci[1]*100).toFixed(0)}%) · parse ${(r.parse_rate*100).toFixed(0)}% · fields ${(r.field_rate*100).toFixed(0)}%">${(r.macro*100).toFixed(0)}%</td>
+      ${cl.map(cell).join('')}</tr>`;
+  }).join('');
+  document.getElementById('opstbl').innerHTML=head+rows;
+  document.getElementById('opscond').textContent=
+    `${OPS.battery.tasks} tasks · ${OPS.battery.assertions} checks · ${OPS.conditions.sampling} · cap ${OPS.conditions.cap_tokens} · Mac engine (preview — not in the intelligence composite)`;
+  drawOpsX();
+}
+function drawOpsX(){
+  const sc=OPS.showcase; if(!sc||!sc.length) return;
+  const xesc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  document.getElementById('opsx').style.display='';
+  document.getElementById('opsxtabs').innerHTML=sc.map((s,i)=>
+    `<button class="opsxtab ${i===OPSXTAB?'on':''}" onclick="OPSXTAB=${i};drawOpsX()">${s.label}</button>`).join('');
+  const s=sc[OPSXTAB];
+  const ans=s.answers.map(a=>{
+    const b=BOARD.find(d=>d.artifact_id===a.artifact_id)||{model:a.artifact_id};
+    return `<div class="opsxa"><div class="m">${b.model}</div>
+      <div class="v"><span class="${a.pass?'ok':'no'}">${a.pass?'✓':'✗'}</span>${xesc(String(a.shown))}</div></div>`;
+  }).join('');
+  document.getElementById('opsxcase').innerHTML=
+    `<div class="row"><b>On the device:</b> a note — <span>“${xesc(s.data)}”</span></div>
+     <div class="row"><b>The ask:</b> ${xesc(s.ask)}</div>
+     <div class="row"><b>Passes when:</b> the created reminder carries <code>${xesc(s.expected)}</code>${s.field==='due'?' — as an instant: any offset spelling of the same moment counts':''}</div>
+     <div class="opsxans" style="margin-top:10px">${ans}</div>`;
+}
+function render(){drawStats();drawPareto();drawBudget();drawTable();drawShowcase();drawOps();}
 fetch('showcase.json').then(r=>r.ok?r.json():null).then(d=>{if(d){SHOWCASE=d;drawShowcase();}}).catch(()=>{});
 // deployed: index.html sits at the site ROOT with data/ beneath it; local
 // preview from the eval workspace still has data/ as a sibling of site/ — try
@@ -653,6 +748,9 @@ fetch('showcase.json').then(r=>r.ok?r.json():null).then(d=>{if(d){SHOWCASE=d;dra
 fetch('data/leaderboard/board.json').then(r=>{if(!r.ok)throw 0;return r.json()})
   .catch(()=>fetch('../data/leaderboard/board.json').then(r=>r.json()))
   .then(d=>{BOARD=d;render();}).catch(()=>{BOARD=FALLBACK;render();});
+fetch('data/leaderboard/codec_preview.json').then(r=>{if(!r.ok)throw 0;return r.json()})
+  .catch(()=>fetch('../data/leaderboard/codec_preview.json').then(r=>r.ok?r.json():null))
+  .then(d=>{if(d){OPS=d;render();}}).catch(()=>{});
 new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 </script>
 </body>
