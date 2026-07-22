@@ -23,21 +23,19 @@ configs:
 
 # DeviceMark — On-Device LLM Leaderboard Results
 
-![Intelligence × iPhone decode speed, 95% CI](pareto.png)
+Systematic quality + speed + memory data for **verified on-device LLM ports**, under one protocol
+(full method + CIs on the [live board](https://devicemark.github.io/)): every model runs the identical
+596-item battery (IFEval + MMLU-Pro + MATH) through the identical scorers, greedy (temperature 0),
+under a shared 4096-token budget, with 95% confidence intervals and every raw output published for
+re-scoring. No per-model tuning.
 
-**Three findings from v0** (full protocol + CIs on the [live board](https://devicemark.github.io/)):
-
-1. **The top is a five-way statistical tie**: Apple's built-in Foundation Model (76%) does *not* clearly beat the best open 1–2B-class ports — LFM2.5-1.2B, Youtu-2B, Qwen3.5-2B, and Gemma 4 E2B all overlap its CI, and a 1.2B open model beats it on instruction-following (IFEval 88 vs 82).
-2. **Google's official QAT int4 (Gemma 4 E2B) measures at parity** with its bf16 checkpoint on MMLU-Pro and MATH (completed-only, same items); IFEval retains ~90%.
-3. **Quantization loss is not monotone with size**: most ports hold 90–98% on MMLU-Pro, but the 4B reasoning model takes the biggest hit (78%) — and raw knowledge ≠ pocket-practical (the 4B is best on MMLU-Pro and worst on IFEval).
-
-Systematic quality + speed + memory data for **verified on-device LLM ports**,
-under a single protocol, with **retention vs the float baseline** on the same
-row. This is the results table behind the
-[On-Device LLM Leaderboard](https://devicemark.github.io/).
-v0 covers the iPhone tier (Core AI / `aimodel` ports + Apple's built-in
-Foundation Model as a `system` row); decode speeds are device-measured on an
-iPhone 17 Pro. Two cloud APIs (Gemini Flash/Pro, `runtime=cloud-api`) run the same battery as horizontal sea-level lines — the ceiling, ~93%, for scale; not on-device, so their speed/memory/retention are n/a.
+The board measures **on-device delivery** — whether a model hands back a correct, parseable answer
+within a fixed budget — not raw capability: no-answer, over-cap, and off-format responses are scored
+wrong (see the board's *Neutrality &amp; limitations* note). v0 covers the iPhone tier: Core AI
+(`aimodel`) ports, Gemma 4 E2B on its native LiteRT-LM runtime, and Apple's built-in Foundation Model
+as a `system` row; decode speeds are device-measured on an iPhone 17 Pro. Two cloud APIs (Gemini
+Flash/Pro, `runtime=cloud-api`) run the same battery as horizontal reference lines — a ceiling for
+scale; not on-device, so their speed/memory/retention are n/a.
 
 > **What is and isn't here.** This dataset contains **our generated results**
 > (accuracy, decode tok/s, memory, retention). It does **not** redistribute any

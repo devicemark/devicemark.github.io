@@ -193,12 +193,12 @@
   <code>LanguageModelSession()</code>) runs the same battery through its
   <strong>public API</strong> — <strong>no weight extraction</strong>
   (<code>runtime=foundation-models</code>, <code>format=system</code>, DL size 0, OS-resident,
-  <code>retention=null</code>). On the full 596-item battery it tops the composite point estimate
-  (76.1%) with no weak bench (IFEval 82.1 / MMLU-Pro 64.8 / MATH 81.5 completed; refusals 0) —
-  but it is a <em>statistical tie</em> with the best open 1–2B ports, and LFM2.5-1.2B beats it on
-  IFEval (87.7). Correction note: an earlier subset run (n=40) showed FM "weak on IFEval" (67%);
-  the full battery corrected that to 82.1% — small-n noise, kept here as a worked example of why
-  the board reports CIs and refuses to rank inside them.</p>
+  <code>retention=null</code>). It runs the full 596-item battery through the same scorers with no
+  refusals; as a closed system model it has no float baseline, so retention (③) is N/A. Its per-bench
+  scores and 95% CIs sit in the board like every other row — we do not editorialize its ranking; where
+  CIs overlap the board marks a tie and refuses to order within it. Correction note kept as a worked
+  example of small-n noise: an earlier n=40 subset showed the FM "weak on IFEval" (67%); the full
+  300-item battery did not reproduce that — which is why the board reports CIs.</p>
 
   <h2>Refusal rate (a column for all, decisive for the built-in)</h2>
   <p><code>guardrailViolation</code> and explicit textual refusals are <strong>separated from
@@ -206,13 +206,13 @@
   Near-zero on the general battery for every model, but the column matters the moment a bench
   probes guarded topics.</p>
 
-  <h2>Finding: reasoning-heavy &ne; instruction-following &ne; on-device-practical</h2>
-  <p>Reasoning-heavy models (Qwen3.5-4B, the built-in FM) top MMLU-Pro but <strong>crater
-  IFEval</strong>: Qwen3.5-4B is the smartest port on MMLU-Pro (68.9% completed) yet scores 31.5% on IFEval
-  because it prepends a "Thinking Process:" meta-analysis that isn't the requested output —
-  violating format constraints outright — and generates ~4000 tokens even at cap-4096. The
-  composite includes IFEval deliberately: raw knowledge is not the same as being useful in your
-  pocket.</p>
+  <h2>Why the composite includes IFEval — reasoning-heavy &ne; instruction-following &ne; on-device-practical</h2>
+  <p>A model can be strong on knowledge/reasoning yet weak at being useful on a phone. Qwen3.5-4B is the
+  clearest case: it reasons at length — generating ~4000 tokens even at the 4096-token budget and often
+  prepending a "Thinking Process:" preamble that isn't the requested output — so it lands near the bottom
+  on IFEval and delivers a parseable final answer on only a fraction of items, despite competitive raw
+  MMLU-Pro accuracy when it does answer. The composite includes IFEval and scores no-answer as wrong on
+  purpose: raw knowledge is not the same as handing back a usable answer within a pocket-sized budget.</p>
 
   <h2>Fairness &amp; corrections</h2>
   <p>Publishing another model's score carries a duty of fairness. Every entry links its parity
@@ -221,6 +221,41 @@
   <a href="https://github.com/devicemark/devicemark.github.io/issues/new?template=objection.yml"><strong>objection</strong>
   issue template</a>. Only <strong>open-weight</strong> models are ported; the only closed system on
   the board is Apple's built-in FM, via its public API.</p>
+
+  <h2 id="neutrality">Neutrality &amp; limitations — what the board is an opinion about</h2>
+  <p>The <em>measurement</em> is neutral: every model runs the identical 596-item battery through the
+  identical scorers, greedy (temperature 0, deterministic), under one shared budget (4096 output
+  tokens), and every raw output is published for re-scoring — no per-model tuning. But several
+  <strong>choices</strong> are opinions, and they push the results in known directions. Disclosed here
+  so a reader can judge for themselves.</p>
+  <ul>
+    <li><strong>The board measures on-device <em>delivery</em>, not raw capability.</strong> A no-answer,
+    an over-cap ramble, or an answer not in the requested format is scored wrong and kept in the
+    denominator. This rewards models that reason <em>and</em> hand back a parseable answer within a fixed
+    on-device budget, and penalizes verbose or format-loose models even when their reasoning is strong.
+    Example: Gemma 4 E2B scores 85/100 on GSM8K on its native runtime, but lower on the capped battery
+    because it overflows the budget on harder items — that gap is <em>delivery</em>, not intelligence,
+    which is exactly what the per-row diagnostics (answered %, generated tokens) exist to show.</li>
+    <li><strong>The cap is a use-case choice.</strong> 4096 tokens models a tight on-device budget: a
+    concise assistant fits; a reasoning deployment that lets the model think would give it more. Applied
+    uniformly, but it favors concise models over verbose ones by design.</li>
+    <li><strong>Answer format is required.</strong> MATH is scored on a <code>\boxed{}</code> final answer
+    (the standard MATH-dataset convention, prompted identically for every model); MMLU-Pro accepts several
+    answer-letter phrasings. A model that reasons correctly but ignores the format loses the point — a
+    deliberate instruction-following component of "delivery."</li>
+    <li><strong>Each model is measured on its own native runtime, not a common one.</strong> Quality can
+    be runtime-dependent (e.g. Gemma's quantization is co-designed with LiteRT-LM's activation path — the
+    same weights score ~85% there and ~48% on an fp16-activation runtime). The runtime is disclosed per
+    row; cross-model comparison carries that wrinkle.</li>
+    <li><strong>Coverage is a selection, not a census.</strong> The board holds the on-device ports the
+    author has built (plus Apple's built-in FM and cloud reference lines), not every on-device model.
+    Which models appear — and the choice to measure "delivery" — are the author's decisions. The
+    safeguards against that bias are the ones above: one identical battery and scorer set, published raw
+    outputs, confidence intervals, and no editorializing of who wins.</li>
+  </ul>
+  <p>Bottom line: read the board as <strong>"who delivers a correct, parseable answer within a fixed
+  on-device budget"</strong> — a specific, honest question — not as a raw-intelligence ranking. Labelled
+  that way it is fair; read as raw IQ it is not.</p>
 
   <h2 id="contamination">Contamination — which columns can and cannot be gamed</h2>
   <p>Public benchmarks may appear in any model's training data, and this is <strong>not

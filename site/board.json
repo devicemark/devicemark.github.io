@@ -9,7 +9,7 @@
     "native_runtime": "coreai",
     "quality": {
       "battery_version": "v0",
-      "cap_tokens": 1024,
+      "cap_tokens": 4096,
       "shots": 0,
       "source": {
         "mmlu": "full596",
@@ -18,48 +18,53 @@
       },
       "refusal_rate": 0.0,
       "refused_n": 0,
-      "mmlu_completed": 0.3969,
+      "mmlu_completed": 0.3214,
       "mmlu_ci": [
-        0.3172,
-        0.4825
+        0.26,
+        0.3897
       ],
-      "mmlu_acc": 0.2653,
+      "mmlu_acc": 0.3214,
       "mmlu_n": 196,
-      "mmlu_answered": 131,
-      "mmlu_noans": 65,
-      "math_completed": 0.5926,
+      "mmlu_answered": 161,
+      "mmlu_noans": 35,
+      "mmlu_answer_rate": 0.8214,
+      "mmlu_acc_answered": 0.3913,
+      "math_completed": 0.37,
       "math_ci": [
-        0.4597,
-        0.7132
+        0.2818,
+        0.4678
       ],
-      "math_acc": 0.32,
+      "math_acc": 0.37,
       "math_n": 100,
-      "math_answered": 54,
-      "math_noans": 46,
-      "ifeval_mean4": 0.6022,
+      "math_answered": 64,
+      "math_noans": 36,
+      "math_answer_rate": 0.64,
+      "math_acc_answered": 0.5781,
+      "gen_tokens_median": 828,
+      "ifeval_mean4": 0.5665,
       "ifeval_ci": [
-        0.5515,
-        0.6518
+        0.515,
+        0.6165
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.5306,
+      "value": 0.4193,
       "ci": [
-        0.4736,
-        0.5846
+        0.3779,
+        0.462
       ]
     },
     "retention": {
       "baseline": "fp16-engine(+eager anchor)",
       "metric": "completed-only",
-      "mmlu": 0.938,
+      "mmlu": 0.918,
       "mmlu_baseline": 0.4737,
       "mmlu_baseline_n": 19,
-      "math": 0.938,
+      "math": 0.926,
       "math_baseline": 0.6,
       "math_baseline_n": 15,
-      "ifeval": 0.898,
+      "ifeval": 0.845,
       "ifeval_baseline": 0.6708,
       "ifeval_baseline_n": 40
     },
@@ -82,7 +87,7 @@
     "native_runtime": "coreai",
     "quality": {
       "battery_version": "v0",
-      "cap_tokens": 1024,
+      "cap_tokens": 4096,
       "shots": 0,
       "source": {
         "mmlu": "full596",
@@ -91,48 +96,53 @@
       },
       "refusal_rate": 0.0,
       "refused_n": 0,
-      "mmlu_completed": 0.6098,
+      "mmlu_completed": 0.5102,
       "mmlu_ci": [
-        0.5215,
-        0.6914
+        0.4407,
+        0.5793
       ],
-      "mmlu_acc": 0.3827,
+      "mmlu_acc": 0.5102,
       "mmlu_n": 196,
-      "mmlu_answered": 123,
-      "mmlu_noans": 73,
-      "math_completed": 0.8305,
+      "mmlu_answered": 173,
+      "mmlu_noans": 23,
+      "mmlu_answer_rate": 0.8827,
+      "mmlu_acc_answered": 0.578,
+      "math_completed": 0.66,
       "math_ci": [
-        0.7154,
-        0.9052
+        0.5628,
+        0.7454
       ],
-      "math_acc": 0.49,
+      "math_acc": 0.66,
       "math_n": 100,
-      "math_answered": 59,
-      "math_noans": 41,
-      "ifeval_mean4": 0.7029,
+      "math_answered": 82,
+      "math_noans": 18,
+      "math_answer_rate": 0.82,
+      "math_acc_answered": 0.8049,
+      "gen_tokens_median": 846,
+      "ifeval_mean4": 0.6921,
       "ifeval_ci": [
-        0.6583,
-        0.7474
+        0.6453,
+        0.7379
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.7144,
+      "value": 0.6208,
       "ci": [
-        0.6688,
-        0.7611
+        0.5778,
+        0.666
       ]
     },
     "retention": {
       "baseline": "fp16-engine",
       "metric": "completed-only",
-      "mmlu": 0.978,
+      "mmlu": 0.8,
       "mmlu_baseline": 0.625,
       "mmlu_baseline_n": 16,
-      "math": 0.933,
+      "math": 0.969,
       "math_baseline": 0.8333,
       "math_baseline_n": 18,
-      "ifeval": 0.897,
+      "ifeval": 0.884,
       "ifeval_baseline": 0.7833,
       "ifeval_baseline_n": 40
     },
@@ -155,7 +165,7 @@
     "native_runtime": "coreai",
     "quality": {
       "battery_version": "v0",
-      "cap_tokens": 1024,
+      "cap_tokens": 4096,
       "shots": 0,
       "source": {
         "mmlu": "full596",
@@ -164,48 +174,53 @@
       },
       "refusal_rate": 0.0,
       "refused_n": 0,
-      "mmlu_completed": 0.4294,
+      "mmlu_completed": 0.4133,
       "mmlu_ci": [
-        0.3559,
-        0.5062
+        0.3466,
+        0.4832
       ],
-      "mmlu_acc": 0.3571,
+      "mmlu_acc": 0.4133,
       "mmlu_n": 196,
-      "mmlu_answered": 163,
-      "mmlu_noans": 33,
-      "math_completed": 0.8507,
+      "mmlu_answered": 196,
+      "mmlu_noans": 0,
+      "mmlu_answer_rate": 1.0,
+      "mmlu_acc_answered": 0.4133,
+      "math_completed": 0.75,
       "math_ci": [
-        0.7466,
-        0.9169
+        0.657,
+        0.8245
       ],
-      "math_acc": 0.57,
+      "math_acc": 0.75,
       "math_n": 100,
-      "math_answered": 67,
-      "math_noans": 33,
-      "ifeval_mean4": 0.8765,
+      "math_answered": 99,
+      "math_noans": 1,
+      "math_answer_rate": 0.99,
+      "math_acc_answered": 0.7576,
+      "gen_tokens_median": 561,
+      "ifeval_mean4": 0.8836,
       "ifeval_ci": [
-        0.8428,
-        0.9081
+        0.8493,
+        0.9136
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.7189,
+      "value": 0.6823,
       "ci": [
-        0.6776,
-        0.7558
+        0.6458,
+        0.7215
       ]
     },
     "retention": {
       "baseline": "fp16-engine(+transformers anchor)",
       "metric": "completed-only",
-      "mmlu": 0.903,
+      "mmlu": 0.851,
       "mmlu_baseline": 0.4615,
       "mmlu_baseline_n": 26,
-      "math": 0.955,
+      "math": 0.847,
       "math_baseline": 0.9048,
       "math_baseline_n": 21,
-      "ifeval": 1.032,
+      "ifeval": 1.041,
       "ifeval_baseline": 0.849,
       "ifeval_baseline_n": 40
     },
@@ -228,7 +243,7 @@
     "native_runtime": "coreai",
     "quality": {
       "battery_version": "v0",
-      "cap_tokens": 1024,
+      "cap_tokens": 4096,
       "shots": 0,
       "source": {
         "mmlu": "full596",
@@ -237,36 +252,41 @@
       },
       "refusal_rate": 0.0,
       "refused_n": 0,
-      "mmlu_completed": 0.2775,
+      "mmlu_completed": 0.2704,
       "mmlu_ci": [
-        0.2188,
-        0.3449
+        0.2131,
+        0.3366
       ],
       "mmlu_acc": 0.2704,
       "mmlu_n": 196,
-      "mmlu_answered": 191,
-      "mmlu_noans": 5,
-      "math_completed": 0.5667,
+      "mmlu_answered": 192,
+      "mmlu_noans": 4,
+      "mmlu_answer_rate": 0.9796,
+      "mmlu_acc_answered": 0.276,
+      "math_completed": 0.51,
       "math_ci": [
-        0.4636,
-        0.6642
+        0.4135,
+        0.6058
       ],
       "math_acc": 0.51,
       "math_n": 100,
-      "math_answered": 90,
-      "math_noans": 10,
-      "ifeval_mean4": 0.7894,
+      "math_answered": 95,
+      "math_noans": 5,
+      "math_answer_rate": 0.95,
+      "math_acc_answered": 0.5368,
+      "gen_tokens_median": 455,
+      "ifeval_mean4": 0.7961,
       "ifeval_ci": [
-        0.7485,
-        0.8311
+        0.7564,
+        0.8376
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.5445,
+      "value": 0.5255,
       "ci": [
-        0.5002,
-        0.5862
+        0.4839,
+        0.566
       ]
     },
     "retention": {
@@ -275,10 +295,10 @@
       "mmlu": 0.963,
       "mmlu_baseline": 0.3462,
       "mmlu_baseline_n": 26,
-      "math": 1.111,
+      "math": 1.034,
       "math_baseline": 0.6,
       "math_baseline_n": 25,
-      "ifeval": 0.936,
+      "ifeval": 0.944,
       "ifeval_baseline": 0.8438,
       "ifeval_baseline_n": 40
     },
@@ -310,36 +330,41 @@
       },
       "refusal_rate": 0.0,
       "refused_n": 0,
-      "mmlu_completed": 0.6889,
+      "mmlu_completed": 0.1582,
       "mmlu_ci": [
-        0.5433,
-        0.8047
+        0.1137,
+        0.2158
       ],
       "mmlu_acc": 0.1582,
       "mmlu_n": 196,
       "mmlu_answered": 45,
       "mmlu_noans": 151,
-      "math_completed": 0.5741,
+      "mmlu_answer_rate": 0.2296,
+      "mmlu_acc_answered": 0.6889,
+      "math_completed": 0.31,
       "math_ci": [
-        0.4416,
-        0.6967
+        0.2278,
+        0.4063
       ],
       "math_acc": 0.31,
       "math_n": 100,
       "math_answered": 54,
       "math_noans": 46,
+      "math_answer_rate": 0.54,
+      "math_acc_answered": 0.5741,
+      "gen_tokens_median": 3917,
       "ifeval_mean4": 0.315,
       "ifeval_ci": [
-        0.2711,
-        0.3617
+        0.2706,
+        0.3611
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.526,
+      "value": 0.2611,
       "ci": [
-        0.461,
-        0.5923
+        0.224,
+        0.2995
       ]
     },
     "retention": {
@@ -384,36 +409,41 @@
       },
       "refusal_rate": 0.0,
       "refused_n": 0,
-      "mmlu_completed": 0.6212,
+      "mmlu_completed": 0.4184,
       "mmlu_ci": [
-        0.5361,
-        0.6994
+        0.3515,
+        0.4883
       ],
       "mmlu_acc": 0.4184,
       "mmlu_n": 196,
       "mmlu_answered": 132,
       "mmlu_noans": 64,
-      "math_completed": 0.8983,
+      "mmlu_answer_rate": 0.6735,
+      "mmlu_acc_answered": 0.6212,
+      "math_completed": 0.53,
       "math_ci": [
-        0.7954,
-        0.9526
+        0.4329,
+        0.6249
       ],
       "math_acc": 0.53,
       "math_n": 100,
       "math_answered": 59,
       "math_noans": 41,
-      "ifeval_mean4": 0.6274,
+      "math_answer_rate": 0.59,
+      "math_acc_answered": 0.8983,
+      "gen_tokens_median": 2893,
+      "ifeval_mean4": 0.6207,
       "ifeval_ci": [
-        0.5728,
-        0.6813
+        0.5674,
+        0.669
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.7156,
+      "value": 0.523,
       "ci": [
-        0.6739,
-        0.7552
+        0.4785,
+        0.5655
       ]
     },
     "retention": {
@@ -437,16 +467,16 @@
     "mem_measured": false
   },
   {
-    "artifact_id": "gemma-4-e2b__int4__aimodel",
+    "artifact_id": "gemma-4-e2b__int4__litertlm",
     "model": "Gemma 4 E2B",
     "vendor": "Google",
     "params_b": 5.4,
     "quant": "int4",
-    "format": "aimodel",
-    "native_runtime": "coreai",
+    "format": "litertlm",
+    "native_runtime": "litertlm",
     "quality": {
       "battery_version": "v0",
-      "cap_tokens": 1024,
+      "cap_tokens": 4096,
       "shots": 0,
       "source": {
         "mmlu": "full596",
@@ -455,59 +485,52 @@
       },
       "refusal_rate": 0.0,
       "refused_n": 0,
-      "mmlu_completed": 0.5294,
+      "mmlu_completed": 0.4847,
       "mmlu_ci": [
-        0.4459,
-        0.6113
+        0.4157,
+        0.5543
       ],
-      "mmlu_acc": 0.3673,
+      "mmlu_acc": 0.4847,
       "mmlu_n": 196,
-      "mmlu_answered": 136,
-      "mmlu_noans": 60,
-      "math_completed": 0.8378,
+      "mmlu_answered": 191,
+      "mmlu_noans": 5,
+      "mmlu_answer_rate": 0.9745,
+      "mmlu_acc_answered": 0.4974,
+      "math_completed": 0.34,
       "math_ci": [
-        0.6886,
-        0.9235
+        0.2546,
+        0.4372
       ],
-      "math_acc": 0.31,
+      "math_acc": 0.34,
       "math_n": 100,
-      "math_answered": 37,
-      "math_noans": 63,
-      "ifeval_mean4": 0.7618,
+      "math_answered": 46,
+      "math_noans": 54,
+      "math_answer_rate": 0.46,
+      "math_acc_answered": 0.7391,
+      "gen_tokens_median": 868,
+      "ifeval_mean4": 0.7632,
       "ifeval_ci": [
-        0.7199,
-        0.8042
+        0.7196,
+        0.8035
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.7097,
+      "value": 0.5293,
       "ci": [
-        0.6593,
-        0.7587
+        0.4881,
+        0.5724
       ]
     },
-    "retention": {
-      "baseline": "fp16-engine (official-QAT unquantized)",
-      "metric": "completed-only",
-      "mmlu": 1.05,
-      "mmlu_baseline": 0.5238,
-      "mmlu_baseline_n": 21,
-      "math": 1.0,
-      "math_baseline": 0.6667,
-      "math_baseline_n": 6,
-      "ifeval": 0.9,
-      "ifeval_baseline": 0.8469,
-      "ifeval_baseline_n": 40
-    },
+    "retention": null,
     "provenance": {
-      "quality_run": "full596, Mac engine b2 toolchain (macOS 27 26A5378j), 2026-07-12/13",
-      "device_gate": "PB 2026-07-13 8/8 chat-format greedy, PLE tables bound, iOS 24A5355q"
+      "quality_run": "full596 on native LiteRT-LM runtime, Mac GPU, cap4096 greedy, 2026-07-19/20 (resumed after a runner stall at 442/596)",
+      "device_gate": "quality on native LiteRT-LM (Mac, cap4096 greedy). Core AI PB gate 2026-07-13 8/8 chat-format greedy, PLE tables bound, iOS 24A5355q"
     },
-    "note": "official Google QAT int4 (q4_0 grid): retention = QAT int4 vs its bf16 checkpoint; PLE tables int8 in BOTH columns (common-mode). E2B = 2B-effective (5.4B raw, per-layer embeds off-loaded)",
-    "iphone_tok_s": 21.7,
-    "mac_tok_s": 83,
-    "mem_mb": 4450,
+    "note": "official Google QAT int4 (q4_0 grid): retention = QAT int4 vs its bf16 checkpoint; PLE tables int8 in BOTH columns (common-mode). E2B = 2B-effective (5.4B raw, per-layer embeds off-loaded). QUALITY measured on gemma's native LiteRT-LM runtime (the Core AI PLE-gather path balloons memory); runtime is disclosed, quality is runtime-neutral. cap4096 to match the other rows.",
+    "iphone_tok_s": 57,
+    "mac_tok_s": 106,
+    "mem_mb": 488,
     "mem_measured": true
   },
   {
@@ -529,36 +552,41 @@
       },
       "refusal_rate": 0.0,
       "refused_n": 0,
-      "mmlu_completed": 0.648,
+      "mmlu_completed": 0.4133,
       "mmlu_ci": [
-        0.561,
-        0.7262
+        0.3466,
+        0.4832
       ],
       "mmlu_acc": 0.4133,
       "mmlu_n": 196,
       "mmlu_answered": 125,
       "mmlu_noans": 71,
-      "math_completed": 0.8148,
+      "mmlu_answer_rate": 0.6378,
+      "mmlu_acc_answered": 0.648,
+      "math_completed": 0.44,
       "math_ci": [
-        0.6916,
-        0.8962
+        0.3467,
+        0.5377
       ],
       "math_acc": 0.44,
       "math_n": 100,
       "math_answered": 54,
       "math_noans": 46,
+      "math_answer_rate": 0.54,
+      "math_acc_answered": 0.8148,
+      "gen_tokens_median": 622,
       "ifeval_mean4": 0.8207,
       "ifeval_ci": [
-        0.7799,
-        0.8618
+        0.7787,
+        0.8601
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.7612,
+      "value": 0.558,
       "ci": [
-        0.7136,
-        0.8067
+        0.5155,
+        0.6009
       ]
     },
     "retention": null,
@@ -627,36 +655,41 @@
       },
       "refusal_rate": 0.0,
       "refused_n": 0,
-      "mmlu_completed": 0.9067,
+      "mmlu_completed": 0.8929,
       "mmlu_ci": [
-        0.8574,
-        0.9402
+        0.8418,
+        0.9288
       ],
       "mmlu_acc": 0.8929,
       "mmlu_n": 196,
       "mmlu_answered": 193,
       "mmlu_noans": 3,
-      "math_completed": 0.9485,
+      "mmlu_answer_rate": 0.9847,
+      "mmlu_acc_answered": 0.9067,
+      "math_completed": 0.92,
       "math_ci": [
-        0.885,
-        0.9778
+        0.85,
+        0.9589
       ],
       "math_acc": 0.92,
       "math_n": 100,
       "math_answered": 97,
       "math_noans": 3,
+      "math_answer_rate": 0.97,
+      "math_acc_answered": 0.9485,
+      "gen_tokens_median": null,
       "ifeval_mean4": 0.9513,
       "ifeval_ci": [
-        0.9274,
+        0.9272,
         0.9735
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.9355,
+      "value": 0.9214,
       "ci": [
-        0.9134,
-        0.9572
+        0.8963,
+        0.9447
       ]
     },
     "retention": null,
@@ -690,36 +723,41 @@
       },
       "refusal_rate": 0.0,
       "refused_n": 0,
-      "mmlu_completed": 0.9043,
+      "mmlu_completed": 0.8673,
       "mmlu_ci": [
-        0.8537,
-        0.9386
+        0.8127,
+        0.9078
       ],
       "mmlu_acc": 0.8673,
       "mmlu_n": 196,
       "mmlu_answered": 188,
       "mmlu_noans": 8,
-      "math_completed": 0.9167,
+      "mmlu_answer_rate": 0.9592,
+      "mmlu_acc_answered": 0.9043,
+      "math_completed": 0.88,
       "math_ci": [
-        0.8441,
-        0.9572
+        0.8019,
+        0.93
       ],
       "math_acc": 0.88,
       "math_n": 100,
       "math_answered": 96,
       "math_noans": 4,
+      "math_answer_rate": 0.96,
+      "math_acc_answered": 0.9167,
+      "gen_tokens_median": null,
       "ifeval_mean4": 0.9667,
       "ifeval_ci": [
-        0.9465,
-        0.9833
+        0.9471,
+        0.9839
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.9292,
+      "value": 0.9047,
       "ci": [
-        0.9045,
-        0.9522
+        0.8776,
+        0.9307
       ]
     },
     "retention": null,
@@ -753,36 +791,41 @@
       },
       "refusal_rate": 0.0,
       "refused_n": 0,
-      "mmlu_completed": 0.657,
+      "mmlu_completed": 0.5765,
       "mmlu_ci": [
-        0.5833,
-        0.7238
+        0.5065,
+        0.6436
       ],
       "mmlu_acc": 0.5765,
       "mmlu_n": 196,
       "mmlu_answered": 172,
       "mmlu_noans": 24,
-      "math_completed": 0.8557,
+      "mmlu_answer_rate": 0.8776,
+      "mmlu_acc_answered": 0.657,
+      "math_completed": 0.83,
       "math_ci": [
-        0.7722,
-        0.912
+        0.7445,
+        0.8911
       ],
       "math_acc": 0.83,
       "math_n": 100,
       "math_answered": 97,
       "math_noans": 3,
+      "math_answer_rate": 0.97,
+      "math_acc_answered": 0.8557,
+      "gen_tokens_median": 765,
       "ifeval_mean4": 0.4343,
       "ifeval_ci": [
-        0.3899,
-        0.4796
+        0.3901,
+        0.4818
       ],
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.649,
+      "value": 0.6136,
       "ci": [
-        0.6107,
-        0.6836
+        0.5782,
+        0.6511
       ]
     },
     "retention": {
@@ -827,24 +870,29 @@
       },
       "refusal_rate": 0.0,
       "refused_n": 0,
-      "mmlu_completed": 0.9565,
+      "mmlu_completed": 0.3367,
       "mmlu_ci": [
-        0.8798,
-        0.9851
+        0.2743,
+        0.4055
       ],
       "mmlu_acc": 0.3367,
       "mmlu_n": 196,
       "mmlu_answered": 69,
       "mmlu_noans": 127,
-      "math_completed": 0.9231,
+      "mmlu_answer_rate": 0.352,
+      "mmlu_acc_answered": 0.9565,
+      "math_completed": 0.6,
       "math_ci": [
-        0.8322,
-        0.9667
+        0.502,
+        0.6906
       ],
       "math_acc": 0.6,
       "math_n": 100,
       "math_answered": 65,
       "math_noans": 35,
+      "math_answer_rate": 0.65,
+      "math_acc_answered": 0.9231,
+      "gen_tokens_median": 3585,
       "ifeval_mean4": 0.0133,
       "ifeval_ci": [
         0.0033,
@@ -853,10 +901,10 @@
       "ifeval_n": 300
     },
     "composite": {
-      "value": 0.631,
+      "value": 0.3167,
       "ci": [
-        0.603,
-        0.6568
+        0.2748,
+        0.3558
       ]
     },
     "retention": {

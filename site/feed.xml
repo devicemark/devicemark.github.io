@@ -8,6 +8,14 @@
   <language>en</language>
 
   <item>
+    <title>Gemma on its native LiteRT-LM runtime; a cap-unit bug fixed; editorial framing removed</title>
+    <link>https://devicemark.github.io/</link>
+    <guid isPermaLink="false">devicemark-2026-07-22-gemma-litert-capfix</guid>
+    <pubDate>Wed, 22 Jul 2026 06:00:00 GMT</pubDate>
+    <description>Gemma 4 E2B is now measured on its native LiteRT-LM runtime (greedy). A measurement bug was found and fixed: the LiteRT-LM harness capped output in characters (4096) while every other row capped in tokens (4096) — a ~4x tighter budget. Re-measured at a token-matched budget, Gemma's MMLU-Pro no-answer dropped 69→5 and composite rose 48.1%→52.9%; all rows now share the same 4096-token budget. Editorial "findings" removed — the board shows results and methodology only, with per-row diagnostics (answered %, median generated tokens) so a low score reads as "delivered fewer answers within budget," not "less capable." Runtime-validity: Gemma scores 85/100 on GSM8K on this runtime (matching the LiteRT int8 reference), confirming the activation path is correct.</description>
+  </item>
+
+  <item>
     <title>Two new vendors: NVIDIA Nemotron-3-Nano-4B + Nanbeige4.1-3B (9 vendors, 12 rows)</title>
     <link>https://devicemark.github.io/</link>
     <guid isPermaLink="false">devicemark-2026-07-17-nemotron-nanbeige</guid>

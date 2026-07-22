@@ -31,6 +31,17 @@
   <p class="sub"><a href="./">← board</a> · <a href="feed.xml">RSS</a> · every entry = the board changed (new model, new measurement, or a methodology change)</p>
 
   <div class="entry">
+    <p class="date">2026-07-22</p>
+    <h2>Gemma on its native LiteRT-LM runtime; a cap-unit bug fixed; editorial framing removed</h2>
+    <ul>
+      <li><b>Gemma 4 E2B now measured on its native LiteRT-LM runtime</b> (Mac, greedy), not the Core AI path (which balloons memory via the PLE-gather graph). Quality is runtime-neutral and the runtime is disclosed; retention (③) is N/A for this row until an fp16 baseline exists on the same runtime. iPhone decode speed + peak memory are now device-measured on an iPhone 17 Pro (LiteRT-LM/Metal): <b>~57 tok/s, 488 MB</b> — vs the Core AI path's 21.7 tok/s / 4450 MB, i.e. ~2.6× faster and ~9× lighter (Core AI's PLE-gather graph balloons memory, which is why quality is taken on LiteRT). Decode is single-run: the x2-warm protocol can't complete on this runtime (a callback-pool stall), disclosed.</li>
+      <li><b>Fixed a measurement bug that unfairly penalized Gemma.</b> The LiteRT-LM harness capped output in <i>characters</i> (4096) while every other row capped in <i>tokens</i> (4096) — a ~4× tighter budget. Re-measured at a token-matched budget: MMLU-Pro no-answer dropped 69→5 and composite rose <b>48.1% → 52.9%</b>. All rows now share the same 4096-token budget; four rows whose labels still read "cap 1024" were corrected to the 4096 they actually ran at.</li>
+      <li><b>Editorial "findings" removed.</b> The board presents results and methodology only — no claims about who wins. Per-row diagnostics added (<b>answered %</b>, <b>median generated tokens</b>, and acc-when-answered on hover) so a low score reads as "delivered fewer answers within budget," not "less capable."</li>
+      <li>Runtime-validity check: on this runtime Gemma scores <b>85/100 on GSM8K</b> (matching the LiteRT int8 reference; fp16-activation runtimes score 48/100), confirming the activation path is correct — its lower composite is delivery-rate under the cap and answer-format compliance, not degraded numerics.</li>
+    </ul>
+  </div>
+
+  <div class="entry">
     <p class="date">2026-07-17</p>
     <h2>Two new vendors: NVIDIA + Nanbeige (9 vendors, 12 rows)</h2>
     <ul>
