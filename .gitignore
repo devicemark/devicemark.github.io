@@ -25,3 +25,8 @@ __pycache__/
 *.jpeg
 *.gif
 *.mp4
+
+# never commit local-only private notes/runbooks
+*runbook*.md
+_private*/
+.local/
