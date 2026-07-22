@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accuracy vs answer-time — DeviceMark</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="description" content="On-device LLM accuracy as a function of how long you let it answer on an iPhone — the ranking changes with the time budget. A diagnostic view of the DeviceMark board.">
+<style>
+  :root{
+    --plane:#f9f9f7; --card:#fff; --ink:#0b0b0b; --ink2:#52514e; --muted:#8a8880;
+    --hair:#e6e5df; --track:#efeee8; --accent:#2a78d6; --accent2:#1c5fb0; --s1:#2a78d6;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --plane:#0d0d0d; --card:#161615; --ink:#f4f4f0; --ink2:#c3c2b7; --muted:#8a8880;
+    --hair:#2a2a28; --track:#232321; --accent:#57a0f5; --accent2:#8fc0ff; --s1:#3987e5;
+  }}
+  :root[data-theme="light"]{--plane:#f9f9f7;--card:#fff;--ink:#0b0b0b;--ink2:#52514e;--hair:#e6e5df;--track:#efeee8;--accent:#2a78d6;--accent2:#1c5fb0;--s1:#2a78d6}
+  :root[data-theme="dark"]{--plane:#0d0d0d;--card:#161615;--ink:#f4f4f0;--ink2:#c3c2b7;--hair:#2a2a28;--track:#232321;--accent:#57a0f5;--accent2:#8fc0ff;--s1:#3987e5}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--plane);color:var(--ink);
+    font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif}
+  .wrap{max-width:1060px;margin:0 auto;padding:22px 20px 64px}
+  .nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+  .brand{font-weight:700;display:inline-flex;align-items:center;gap:8px}
+  .brand img{width:20px;height:20px}
+  .links{display:flex;gap:15px;flex-wrap:wrap;margin-left:auto;font-size:13.5px}
+  .links a{color:var(--ink2);text-decoration:none}
+  .links a:hover{color:var(--accent)}
+  h1{font-size:24px;letter-spacing:-.02em;margin:0 0 6px;text-wrap:balance}
+  .sub{color:var(--ink2);font-size:14px;margin:0 0 2px;max-width:78ch}
+  .note{color:var(--muted);font-size:12.5px;margin:10px 0 0;max-width:82ch}
+  .note a{color:var(--accent)}
+  .take{background:var(--card);border:1px solid var(--hair);border-left:3px solid var(--accent);
+    border-radius:0 11px 11px 0;padding:12px 16px;margin-top:16px;font-size:13.5px;color:var(--ink2)}
+  .take b{color:var(--ink)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:14px;margin-top:18px}
+  .panel{background:var(--card);border:1px solid var(--hair);border-radius:13px;padding:14px 14px 12px}
+  .pt{display:flex;align-items:baseline;gap:7px;margin-bottom:11px}
+  .pt b{font-size:16px;letter-spacing:-.01em}
+  .pt span{font-size:11.5px;color:var(--muted)}
+  .row{display:grid;grid-template-columns:64px 1fr 30px;align-items:center;gap:7px;
+    padding:2.5px 3px;border-radius:6px;transition:background .1s,opacity .1s}
+  .row .nm{font-size:11.5px;color:var(--ink2);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row .track{height:12px;background:var(--track);border-radius:0 4px 4px 0}
+  .row .track i{display:block;height:100%;background:var(--accent);border-radius:0 4px 4px 0;min-width:2px;transition:width .35s ease,background .1s}
+  .row .v{font-size:11.5px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .row.hi{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+  .row.hi .nm{color:var(--ink);font-weight:700}
+  .row.hi .track i{background:var(--accent2)}
+  .row.dim{opacity:.38}
+  details{margin-top:20px}
+  summary{cursor:pointer;color:var(--muted);font-size:12.5px;font-weight:600}
+  .tw{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;margin-top:10px;font-size:12px;font-variant-numeric:tabular-nums}
+  th,td{border-bottom:1px solid var(--hair);padding:4px 7px;text-align:right}
+  th:first-child,td:first-child{text-align:left}
+  .k{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <span class="brand"><img src="favicon.svg" alt=""> DeviceMark</span>
+    <span class="links">
+      <a href="./">Board</a>
+      <a href="methodology.html">Methodology</a>
+      <a href="changelog.html">Changelog</a>
+      <a href="https://huggingface.co/datasets/devicemark/results">Dataset</a>
+    </span>
+  </nav>
+
+  <h1>How good an answer, for how long you wait</h1>
+  <p class="sub">On a phone, quality trades off against time — a model thinks longer to answer better, and a
+  single accuracy number hides that. Give every on-device model a fixed amount of time on an iPhone 17 Pro;
+  each panel ranks them by accuracy (MMLU-Pro + MATH) at that budget. The order changes with time. <b>Hover a
+  model to follow it across all four.</b></p>
+
+  <div class="grid" id="grid"></div>
+  <div class="take" id="take"></div>
+
+  <details>
+    <summary>Table — accuracy at each answer-time budget</summary>
+    <div class="tw"><table id="tbl"></table></div>
+  </details>
+  <p class="note">Each model runs the same 596-item battery once; accuracy at a time budget is that generation
+  truncated to what the model could produce in the time (budget = seconds × device decode tok/s), re-scored
+  with the board's extractors. Greedy decoding is deterministic, so this needs no re-inference. Apple's
+  built-in FM meters no tokens and answers within budget, so its bar is the same at every time — it never
+  thinks longer. MMLU-Pro + MATH only (IFEval can't be truncated). Same data as the
+  <a href="./">board</a>; see <a href="methodology.html#neutrality">methodology</a>.</p>
+</div>
+
+<script>
+const TIMES=[10,30,60,180];
+const SHORT={"Nemotron-3-Nano-4B":"Nemotron","LFM2.5-1.2B":"LFM2.5","Qwen3.5-2B":"Qwen 2B","Gemma 4 E2B":"Gemma",
+  "Apple Foundation Model":"Apple FM","Granite-4.0-H-1B":"Granite","Qwen3.5-0.8B":"Qwen 0.8B","Youtu-LLM-2B":"Youtu",
+  "Nanbeige4.1-3B":"Nanbeige","Qwen3.5-4B":"Qwen 4B"};
+const tlabel=s=> s>=60?`${s/60} min`:`${s} sec`;
+
+function accAtBudget(fr,budget){
+  const b=fr.b,a=fr.acc;
+  if(budget<=b[0]) return Math.max(0,a[0]*budget/b[0]);
+  for(let i=0;i<b.length-1;i++){ if(budget<=b[i+1]){
+    const f=(Math.log(budget)-Math.log(b[i]))/(Math.log(b[i+1])-Math.log(b[i]));
+    return a[i]+f*(a[i+1]-a[i]); }}
+  return a[a.length-1];
+}
+function accAtTime(row,sec){
+  const fr=row.quality&&row.quality.time_frontier; if(!fr) return null;
+  if(row.iphone_tok_s==null) return fr.acc[fr.acc.length-1];   // Apple FM: flat
+  return accAtBudget(fr, sec*row.iphone_tok_s);
+}
+
+function build(rows){
+  // on-device only, with a frontier
+  const M = rows.filter(r=>r.native_runtime!=='cloud-api' && r.quality && r.quality.time_frontier);
+  const grid=document.getElementById('grid'); grid.innerHTML='';
+  TIMES.forEach((sec,ti)=>{
+    const ranked=[...M].sort((x,y)=>accAtTime(y,sec)-accAtTime(x,sec));
+    const html=ranked.map(r=>{const a=accAtTime(r,sec)||0;
+      return `<div class="row" data-model="${r.model}">
+        <span class="nm">${SHORT[r.model]||r.model}</span>
+        <span class="track"><i style="width:${(a*100).toFixed(0)}%"></i></span>
+        <span class="v">${(a*100).toFixed(0)}</span></div>`;}).join('');
+    const el=document.createElement('div');el.className='panel';
+    el.innerHTML=`<div class="pt"><b>${tlabel(sec)}</b><span>on iPhone 17 Pro</span></div>${html}`;
+    grid.appendChild(el);
+  });
+  grid.onpointerover=e=>{const r=e.target.closest('.row');if(!r)return;const m=r.dataset.model;
+    grid.querySelectorAll('.row').forEach(x=>{x.classList.toggle('hi',x.dataset.model===m);x.classList.toggle('dim',x.dataset.model!==m);});};
+  grid.onpointerleave=()=>grid.querySelectorAll('.row').forEach(x=>x.classList.remove('hi','dim'));
+
+  document.getElementById('take').innerHTML =
+    '<b>The read:</b> want an answer <b>now</b> (seconds) → Apple’s built-in model is far ahead and instant. '+
+    'Give it <b>~30 sec–1 min</b> → the fast, concise ports (Nemotron, LFM2.5, Qwen 2B, Gemma) catch up and pass it. '+
+    'The big reasoning models return almost nothing for the first minute — Qwen 4B needs several minutes to clear 20%. '+
+    'Bigger-on-paper is not more useful in a pocket; that is the tax the single-cap board number can’t show.';
+
+  document.getElementById('tbl').innerHTML =
+    `<tr><th>model</th><th class="k">tok/s</th>${TIMES.map(s=>`<th class="k">${tlabel(s)}</th>`).join('')}</tr>`+
+    [...M].sort((x,y)=>accAtTime(y,60)-accAtTime(x,60)).map(r=>
+      `<tr><td>${r.model}</td><td>${r.iphone_tok_s??'—'}</td>${TIMES.map(s=>`<td>${((accAtTime(r,s)||0)*100).toFixed(0)}</td>`).join('')}</tr>`).join('');
+}
+
+fetch('data/leaderboard/board.json').then(r=>{if(!r.ok)throw 0;return r.json()})
+  .catch(()=>fetch('../data/leaderboard/board.json').then(r=>r.json()))
+  .then(build)
+  .catch(()=>{document.getElementById('grid').innerHTML='<p class="note">Could not load board data.</p>';});
+</script>
+</body>
+</html>
