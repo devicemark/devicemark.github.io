@@ -1,3 +1,5 @@
+> **SUPERSEDED by [LAUNCH.md](LAUNCH.md) (2026-08-03).** Numbers here are stale — do not post from this file.
+
 # Hacker News — title candidates (DO NOT POST; launch-gated)
 
 HN rewards plain, specific, non-hyperbolic "Show HN" titles. Three candidates,

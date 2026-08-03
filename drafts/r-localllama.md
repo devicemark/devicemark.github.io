@@ -1,3 +1,5 @@
+> **SUPERSEDED by [LAUNCH.md](LAUNCH.md) (2026-08-03).** Numbers here are stale — do not post from this file.
+
 # r/LocalLLaMA — post draft (DO NOT POST; launch-gated)
 
 r/LocalLLaMA is technical and quantization-literate. They will immediately ask:

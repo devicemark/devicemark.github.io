@@ -1,3 +1,5 @@
+> **SUPERSEDED by [LAUNCH.md](LAUNCH.md) (2026-08-03).** Numbers here are stale — do not post from this file.
+
 # X / post drafts (EN) — DO NOT POST (launch-gated)
 
 Tone: understated, feature/technique-first, a link at the end, no sales CTA.
