@@ -103,8 +103,20 @@
   disclosed per entry.</p>
 
   <h2>Evaluation battery v0</h2>
-  <p>Greedy (deterministic), <strong>cap = 1024 tokens</strong> (4096 for reasoning-heavy
-  models), <strong>0-shot</strong>, chat template with <strong>thinking OFF</strong> (verified:
+  <p>Greedy (deterministic), <strong>cap = 4096 output tokens</strong> on every downloaded model,
+  counted in <em>tokens</em> on every runtime (<a href="changelog.html">changelog</a>: a harness
+  that capped in characters was fixed, and four rows still labelled 1024 were corrected to the
+  4096 they had actually run at). A problem that produces no answer within the budget is scored
+  <strong>wrong</strong> and stays in the denominator, so a model cannot gain by giving up &mdash;
+  see <a href="#neutrality">Neutrality</a>.</p>
+
+  <p><strong>The built-in Foundation Model row ran at 1024</strong>, because its driver predates
+  the change. It makes no difference and the raw results show why: across all 599 responses
+  (IFEval 301, MMLU-Pro 197, MATH 101) <strong>not one was truncated</strong> &mdash; the model
+  never approached even the lower limit, and its accuracy is flat at every budget from 128 tokens
+  upward. Stated here rather than quietly equalised, because it is the first thing worth checking
+  about a row that ranks against models given four times the budget.
+  <strong>0-shot</strong>, chat template with <strong>thinking OFF</strong> (verified:
   on-device <code>ChatSession</code> runs thinking-off). Prompts instruct step-by-step reasoning
   in the visible answer.</p>
   <div class="tblwrap"><table>
@@ -120,7 +132,9 @@
 
   <h3 id="cap-confound">The cap lever + the retention confound (documented, not hidden)</h3>
   <p><code>max-tokens</code> is an explicit design lever. Verbose small models spend the whole
-  budget reasoning: qwen3.5-0.8B int8 at cap-1024 on MMLU-Pro <strong>caps 69/196</strong> and
+  budget reasoning &mdash; the effect measured on an <em>earlier</em> 1024-token configuration, kept
+  here because it is what motivated the uniform 4096 budget the board now runs:
+  qwen3.5-0.8B int8 at cap-1024 on MMLU-Pro <strong>caps 69/196</strong> and
   produces <strong>no boxed answer in 65/196</strong> — those score as wrong (a fair "couldn't
   deliver a usable answer on-device in-budget" signal). Larger / less-verbose models cap far less.</p>
   <p><strong>Finding:</strong> &#9312; and &#9313; cap at <em>different</em> points (greedy paths
