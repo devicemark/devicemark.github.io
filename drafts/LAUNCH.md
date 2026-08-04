@@ -16,12 +16,18 @@ supporting evidence, not the headline.
 | Board live, 12 rows | ✅ |
 | methodology `cap` statement correct | ✅ fixed and deployed 2026-08-03 |
 | FM row's 1024 cap disclosed and shown immaterial | ✅ 0 of 599 responses truncated |
-| **HF dataset `devicemark/results` public** | ❌ **still 401** — the page says every number can be re-scored; fix before posting |
+| **HF dataset `devicemark/results` public** | ✅ 2026-08-04 — anonymous API returns 200, `private: false`, 70 files |
+| Link card has an image | ✅ 2026-08-04 — `og:image` + `twitter:image` were declared-but-missing; now live |
 | Notify Ping Yu / Shuangfeng | after posting, not before |
 
-The dataset is the one blocker. "Raw outputs published for re-scoring" is claimed on the
-methodology page and in every draft below; posting while it 401s is the single most damaging
-thing a first reader could find.
+Nothing is blocking. The dataset was the last one: "raw outputs published for re-scoring" is
+claimed on the methodology page and in every draft below, and it now holds for a logged-out
+reader.
+
+**Attach the chart to Post 1.** `coreai-assets/charts/devicemark-board.png` (1144×648) — the
+board as a bar chart, Apple's row highlighted, each bar's download size beside it. Post 1's text
+says Apple comes 6th; the picture is what makes "and a 1.2B beats it" land without a click. The
+1.91:1 padded twin (`devicemark-og.png`) is what the link card in Reply 4 pulls.
 
 ---
 
