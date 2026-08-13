@@ -36,6 +36,14 @@ chart shows, so the rank-of-12 phrasing contradicts the attached image and quiet
 models as competitors after this same document calls them sea level. Say what the picture says:
 three on-device models beat it.
 
+The counts, read from `board.json` 2026-08-13, since three drafts got them wrong: **12 rows =
+2 cloud + 10 on-device**, and those 10 are **9 open models + Apple's**. Not "ten open models."
+
+> ⚠️ `LAUNCH-short.md` (2026-08-05, a compressed rewrite by another session) carries a **second
+> full copy of every post below**. It was written from pre-fix text and shipped "6th of 12" and
+> "10 open models"; both files are corrected and in agreement as of 2026-08-13. **Pick one and
+> delete the posts from the other before posting** — duplicated paragraphs drift.
+
 ---
 
 ## X — thread
@@ -111,11 +119,12 @@ board." It is: full 596-item battery, and the cap question is answered with the 
 > own built-in model sit among them?
 >
 > Nobody had measured the second half, so the board puts Apple's Foundation Model on the same
-> 596-item battery (IFEval / MMLU-Pro / MATH-500) as ten open models, greedy, 0-shot, with
+> 596-item battery (IFEval / MMLU-Pro / MATH-500) as nine open models, greedy, 0-shot, with
 > no-answer scored wrong and kept in the denominator.
 >
-> It lands 6th of 12 at 55.8. A 1.2B open model (LFM2.5) leads the on-device rows at 68.2.
-> Cloud lines (Gemini Flash/Pro, ~90) are on the board as a sea level, not as competitors.
+> Answer: 4th of the ten that run on the phone, at 55.8. Three open models beat it, and the best
+> of them (LFM2.5) is 1.2B, at 68.2. Cloud lines (Gemini Flash/Pro, ~90) are on the board as a
+> sea level, not as competitors, so they are not in that count.
 >
 > Method notes, since they are the first thing I would ask:
 > - Intelligence is measured on a Mac and transferred by a greedy token-exact parity gate
@@ -141,7 +150,7 @@ board." It is: full 596-item battery, and the cap question is answered with the 
 
 **Title**
 
-> On-device LLM leaderboard (iPhone tier): 10 open models + Apple's built-in Foundation Model,
+> On-device LLM leaderboard (iPhone tier): 9 open models + Apple's built-in Foundation Model,
 > same 596-item battery, int8 retention reported
 
 **Body**
@@ -173,7 +182,8 @@ board." It is: full 596-item battery, and the cap question is answered with the 
 >   answers 45 of 196 MMLU-Pro items within budget, median 3,917 tokens generated.
 > - Nanbeige4.1-3B has the highest accuracy-when-answered on the board (95.7% MMLU-Pro) and is
 >   second-to-last overall, finishing 35%.
-> - Apple's built-in Foundation Model is 6th at 55.8 and is the only row that does not improve
+> - Apple's built-in Foundation Model is 4th of the ten on-device rows at 55.8, and is the only
+>   row that does not improve
 >   with a larger budget — flat at 42.2% from 128 tokens up.
 >
 > Raw per-question outputs are published (no questions or gold, so it is re-scorable without
