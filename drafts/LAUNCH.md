@@ -25,22 +25,43 @@ claimed on the methodology page and in every draft below, and it now holds for a
 reader.
 
 **Attach the chart to Post 1.** `coreai-assets/charts/devicemark-board.png` (1144×648) — the
-board as a bar chart, Apple's row highlighted, each bar's download size beside it. Post 1's text
-says Apple comes 6th; the picture is what makes "and a 1.2B beats it" land without a click. The
-1.91:1 padded twin (`devicemark-og.png`) is what the link card in Reply 4 pulls.
+board as a bar chart, Apple's row highlighted, each bar's download size beside it. The picture is
+what makes "and a 1.2B beats it" land without a click. The 1.91:1 padded twin
+(`devicemark-og.png`) is what the link card in Reply 4 pulls; the site's `og:image` and
+`twitter:image` point at it (they were declared and missing until 2026-08-04).
+
+**Do not write "6th of 12" anywhere.** Two of the five rows above Apple are Gemini Flash and
+Gemini Pro — cloud. Among the models that run on the phone it is 4th of 10, which is what the
+chart shows, so the rank-of-12 phrasing contradicts the attached image and quietly counts cloud
+models as competitors after this same document calls them sea level. Say what the picture says:
+three on-device models beat it.
 
 ---
 
 ## X — thread
 
-**Post**
+**Post** (attach `devicemark-board.png`)
 
-> Nobody had benchmarked Apple's built-in Foundation Model against open models that run on the
-> same phone. So I did — same 596 questions, same scorers, greedy, no-answer scored wrong.
+> Nobody had benchmarked Apple's built-in Foundation Model against the open models that run on
+> the same phone. So I did — same 596 questions, same scorers, greedy, no answer scored wrong.
 >
-> It comes 6th of 12. A 1.2B open model beats it.
+> Three of them beat it. The best is 1.2B and downloads 1.6 GB. Apple's ships with the OS and
+> downloads nothing.
 
-**Reply 1**
+Japanese, if posting bilingual:
+
+> Appleの内蔵Foundation Modelを、同じ電話で動くオープンモデルと同じ条件で測った人がいなかったので、
+> 測りました。同じ596問、同じ採点、greedy、答えが出なければ不正解。
+>
+> 3つが上に来ます。首位は1.2Bで、ダウンロード1.6GB。Appleのは OS 同梱でダウンロード0。
+
+"Three of them beat it" matches the three gray bars above the blue one, and "1.2B / 1.6 GB" is
+readable off the chart's right edge — so the post and the image assert the same thing, and the
+post survives being read without opening anything.
+
+**Reply 1** — open decision: this now repeats Post 1's 1.6 GB / ships-with-the-OS trade. Either
+cut it to the two numbers Post 1 does not carry (IFEval 82.1 vs 88.4) and let Reply 2 do the
+work, or fold it into Reply 2. Left as-is below; not resolved.
 
 > Apple's model: 55.8 composite, 82.1 on instruction-following.
 > LFM2.5-1.2B: 68.2, and 88.4 on instruction-following.
