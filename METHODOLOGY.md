@@ -99,8 +99,10 @@ This is exactly the design bug the risk-ordered P2 was meant to catch before the
 
 ## Speed / memory / power
 
-PipelinedBench (`STATS prefill/decode`) on iPhone 17 Pro / M4 Max. tok/s + peak
-footprint for v0; power later. (This box ≈ M4 Max: 0.8B int8 = 207 tok/s decode,
+PipelinedBench (`STATS prefill/decode`) on iPhone 17 Pro / M4 Max. tok/s for v0; the
+board's size column is the shipped bundle's download size (exact hub bytes, 2026-08-20);
+measured device peaks live in `measurements.jsonl`; power + a single-protocol peak
+sweep later. (This box ≈ M4 Max: 0.8B int8 = 207 tok/s decode,
 matching the published 204.)
 
 ## Runtime-neutral schema (day-1 multi-runtime)
