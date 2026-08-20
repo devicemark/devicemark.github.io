@@ -30,3 +30,7 @@ __pycache__/
 *runbook*.md
 _private*/
 .local/
+
+# internal launch material — never on the public repo
+drafts/
+LAUNCH_CHECKLIST.md
