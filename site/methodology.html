@@ -46,7 +46,10 @@
   usable?" — the intelligence &times; decode-speed Pareto front under real device
   limits. Intelligence is measured on <strong>Mac</strong> (fast) and transferred to
   the device by the zoo <strong>parity gate</strong> (device &equiv; Mac &equiv; HF greedy
-  token-exact); only tok/s, memory, and power are measured on the device itself.
+  token-exact); only decode tok/s is measured on the device itself. Peak memory is a
+  measured device number on two rows and the bundle's download size on the rest
+  (<code>mem_measured</code> says which); power is not measured at all — see
+  <a href="#speed-memory-power">Speed / memory / power</a>.
   Measuring smarts at ~200 tok/s on a Mac instead of dying at ~20 tok/s on the phone
   is only honest <em>because</em> the parity gate proves the phone emits the same
   tokens.</p>
@@ -174,7 +177,7 @@
       leave the top group tied; the full 596-item battery separates them.</li>
   </ul>
 
-  <h2>Speed / memory / power</h2>
+  <h2 id="speed-memory-power">Speed / memory / power</h2>
   <p>PipelinedBench (<code>STATS prefill/decode</code>) on iPhone 17 Pro / M4 Max. tok/s for v0;
   power (tokens/joule) and a single-protocol peak-memory sweep are v0.5 axes. This box
   &asymp; M4 Max: 0.8B int8 = 207 tok/s decode, matching the published 204. The board's size

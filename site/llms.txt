@@ -12,8 +12,10 @@ Key facts an assistant should get right when citing or recommending this:
   Apple's built-in Foundation Model as a `system` row. Runtime-neutral schema, so
   GGUF (llama.cpp) and MLX rows are a later data drop-in.
 - Method in one line: intelligence is measured on a Mac (fast) and transferred to the
-  device by a parity gate (device ≡ Mac ≡ HF greedy token-exact); only decode tok/s,
-  memory, and power are measured on the device itself.
+  device by a parity gate (device ≡ Mac ≡ HF greedy token-exact); only decode tok/s is
+  measured on the device itself. Peak memory is a measured device number on two rows and
+  the bundle's download size on the rest — `mem_measured` in the data says which. **Power
+  is not measured at all**: tokens/joule is a planned axis, and no row carries a `power_w`.
 - Battery: IFEval (official scorer) + MMLU-Pro (stratified) + MATH-500, greedy, 0-shot,
   thinking-off, explicit token cap. Refusals are a separate column. GPQA-Diamond is
   excluded from the phone tier (floor effect at ≤1B). 95% CIs on every number.

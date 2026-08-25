@@ -8,8 +8,10 @@ where a column rests on a proxy, it says so.*
 "Of the models that actually run on this phone, which is the smartest that stays
 usable?" — the intelligence × decode-speed Pareto front under real device limits.
 Intelligence is measured on **Mac** (fast) and transferred to the device by the
-zoo **parity gate** (device ≡ Mac ≡ HF greedy token-exact); only tok/s, memory,
-and power are measured on the device itself.
+zoo **parity gate** (device ≡ Mac ≡ HF greedy token-exact); only decode tok/s is
+measured on the device itself. Peak memory is a measured device number on two rows
+and the bundle's download size on the rest (`mem_measured` says which); power is not
+measured at all — see [Speed / memory / power](#speed--memory--power).
 
 ## The three columns per entry
 
