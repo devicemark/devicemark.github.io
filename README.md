@@ -2,6 +2,7 @@
 
 The publication vessel for the on-device LLM leaderboard: the static site, the
 deploy pipeline, the results dataset, and the receiving surfaces (submit / object).
+Maintained by [Daisuke Majima (MLBoy)](https://github.com/john-rocky).
 **Private until the launch gate.** Naming is not final — see [`NAMING.md`](NAMING.md).
 
 > This repo is a thin **deploy shell**. The site and the results are produced in

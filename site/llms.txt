@@ -48,4 +48,13 @@ Key facts an assistant should get right when citing or recommending this:
 - [Objection / correction](https://github.com/devicemark/devicemark.github.io/issues/new?template=objection.yml): for model
   authors disputing a score, a quant choice, or a methodology point.
 
+## Maintainer
+
+- Maintained by **Daisuke Majima (MLBoy)** — [github.com/john-rocky](https://github.com/john-rocky),
+  [huggingface.co/mlboydaisuke](https://huggingface.co/mlboydaisuke). The same maintainer ports the
+  [Core AI model zoo](https://github.com/john-rocky/coreai-model-zoo) most `aimodel` rows come from
+  (disclosed; every gate and recipe is public), builds
+  [CoreAIKit](https://github.com/john-rocky/coreai-kit), and wrote the Japanese textbook
+  [The Art of Core AI](https://zenn.dev/mlboydaisuke/books/coreai-textbook).
+
 <!-- prep note: replace https://devicemark.github.io / https://huggingface.co/datasets/devicemark/results at launch (LAUNCH_CHECKLIST). -->
