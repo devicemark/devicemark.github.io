@@ -37,7 +37,7 @@ as a `system` row; decode speeds are device-measured on an iPhone 17 Pro. Two cl
 Flash/Pro, `runtime=cloud-api`) run the same battery as horizontal reference lines — a ceiling for
 scale; not on-device, so their speed/memory/retention are n/a.
 
-**Missing a model?** [Open a row request](https://github.com/devicemark/devicemark.github.io/issues/new?template=submit-your-model.yml) with its
+**Missing a model?** [Open a row request](https://github.com/devicemark/devicemark.github.io/issues/new?template=add-a-model.yml) with its
 Hugging Face link. The maintainer ports it, measures it, and adds the row; nothing else is asked of you.
 
 > **What is and isn't here.** This dataset contains **our generated results**

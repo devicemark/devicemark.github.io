@@ -2,7 +2,7 @@
 
 ## Want a model on the board? Paste a link.
 
-Open a [row request](https://github.com/devicemark/devicemark.github.io/issues/new?template=submit-your-model.yml)
+Open a [row request](https://github.com/devicemark/devicemark.github.io/issues/new?template=add-a-model.yml)
 with the model's Hugging Face URL. That is the whole ask. You do not need to port it,
 run anything, or open a PR.
 

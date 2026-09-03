@@ -10,7 +10,7 @@ Maintained by [Daisuke Majima (MLBoy)](https://github.com/john-rocky).
 
 ## Want a model on the board?
 
-[**Open a row request with its Hugging Face link.**](https://github.com/devicemark/devicemark.github.io/issues/new?template=submit-your-model.yml)
+[**Open a row request with its Hugging Face link.**](https://github.com/devicemark/devicemark.github.io/issues/new?template=add-a-model.yml)
 One link is enough. We port it, measure it, and add the row, and we reply on the issue when
 it lands. Details, and the path for people who already ship a port, are in
 [`CONTRIBUTING.md`](CONTRIBUTING.md).

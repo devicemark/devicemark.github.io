@@ -12,4 +12,4 @@ The committed results behind the board, plus the dataset tooling.
 These files are written by the scorer in the eval workspace and committed here as data.
 CI deploys whatever is present; it does not run the scorer. Please do not hand-edit rows;
 to get a model on the board, open a
-[row request](https://github.com/devicemark/devicemark.github.io/issues/new?template=submit-your-model.yml).
+[row request](https://github.com/devicemark/devicemark.github.io/issues/new?template=add-a-model.yml).
