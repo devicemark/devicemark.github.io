@@ -1,15 +1,15 @@
-# data/leaderboard/ — synced results (populated at launch)
+# data/leaderboard/
 
-At prep time this directory holds only the dataset tooling:
+The committed results behind the board, plus the dataset tooling.
 
-- `DATASET_CARD.md` — the Hugging Face dataset card (draft; upload is gated)
-- `to_parquet.py` — JSONL → Parquet converter for the HF upload
+- `board.json` — the ranked board the site renders (also served at
+  `https://devicemark.github.io/data/leaderboard/board.json`)
+- `artifacts.jsonl`, `measurements.jsonl` — the normalized tables published to the
+  [Hugging Face dataset](https://huggingface.co/datasets/devicemark/results)
+- `codec_preview.json` — the Anchored-ops preview track
+- `DATASET_CARD.md` — the dataset card; `to_parquet.py` — JSONL → Parquet for the upload
 
-The actual result files — `artifacts.jsonl`, `measurements.jsonl`, `board.json` —
-are produced **locally** by the eval workspace's `build_results.py`
-(`~/code/coreai/leaderboard/`) and are **synced in at launch**, not committed here
-during prep, because that workspace is still actively producing them (the P3 full
-battery run). See `../../LAUNCH_CHECKLIST.md` for the sync step.
-
-CI reads whatever `*.jsonl` / `board.json` are present here and deploys them; it
-does not run `build_results.py`.
+These files are written by the scorer in the eval workspace and committed here as data.
+CI deploys whatever is present; it does not run the scorer. Please do not hand-edit rows;
+to get a model on the board, open a
+[row request](https://github.com/devicemark/devicemark.github.io/issues/new?template=submit-your-model.yml).

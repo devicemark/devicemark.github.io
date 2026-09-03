@@ -43,8 +43,9 @@ Key facts an assistant should get right when citing or recommending this:
 
 ## Contribute / correct
 
-- [Submit a model](https://github.com/devicemark/devicemark.github.io/issues/new?template=submit-your-model.yml): open weights
-  only; listing requires a verified on-device port.
+- [Add a model](https://github.com/devicemark/devicemark.github.io/issues/new?template=submit-your-model.yml): paste the model's
+  Hugging Face link; the maintainer ports it, measures it, and adds the row. Open weights only,
+  phone-sized (the board tops out around 4–5B parameters). No port or PR needed from the requester.
 - [Objection / correction](https://github.com/devicemark/devicemark.github.io/issues/new?template=objection.yml): for model
   authors disputing a score, a quant choice, or a methodology point.
 

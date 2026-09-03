@@ -1,83 +1,39 @@
-name: "Submit a model"
-description: "Propose a model (or a specific quantization) for the on-device leaderboard."
-title: "[submit] <vendor> / <model> (<quant>)"
-labels: ["submission"]
+name: "Add a model to the board"
+description: "Paste a Hugging Face link. We do the port, the measurement, and the row."
+title: "[row] "
+labels: ["row request"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for proposing a model. To be listed, a model needs a **verified
-        on-device port** — device ≡ Mac ≡ HF greedy token-exact — so that
-        intelligence measured on Mac transfers honestly to the phone. That parity
-        proof is what stops a leaderboard from libeling a model with a broken port
-        or a bad quantization. Please give us what you can below; we handle the
-        eval battery ourselves so it is apples-to-apples with every other row.
+        One link is enough. We port the model, run it through the same 596-item battery every
+        row gets, gate it on a real iPhone, and add the row. We reply on this issue when the row
+        lands, or with the reason it could not.
 
-        Open-weight models only. We do not extract or reverse a closed system
-        model's weights (Apple's built-in Foundation Model, Gemini Nano, etc.);
-        those can appear only via their own public inference API as a `system` row.
+        What gets a row: open weights, and small enough for a phone (the board currently tops
+        out around 4–5B parameters). Requests are batched into measurement runs, so the issue
+        may stay open for a while; that is normal.
   - type: input
-    id: model
+    id: model_url
     attributes:
-      label: Model
-      description: Name and the Hugging Face repo id (or upstream source).
-      placeholder: "LiquidAI / LFM2.5-1.2B  —  hf.co/LiquidAI/LFM2.5-1.2B"
-    validations:
-      required: true
-  - type: input
-    id: params
-    attributes:
-      label: Parameters / architecture
-      placeholder: "1.2B dense; or 8B MoE A1B; or 3B ternary"
-    validations:
-      required: true
-  - type: dropdown
-    id: license
-    attributes:
-      label: Weights license
-      description: Open weights are required. Pick the closest.
-      options:
-        - Apache-2.0
-        - MIT
-        - Llama license
-        - Gemma license
-        - Qwen license
-        - Other permissive (specify below)
-        - Non-commercial / restricted (may not qualify)
-    validations:
-      required: true
-  - type: input
-    id: quant
-    attributes:
-      label: Shipping quantization + format
-      description: The quant you want measured (each quant is a separate entry). If unsure, say so.
-      placeholder: "int8 (per-channel, int8 lm_head) · aimodel / coreai;  or Q4_K_M · gguf / llama.cpp"
+      label: Model link
+      description: The Hugging Face repo URL. A GitHub or vendor page works too.
+      placeholder: "https://huggingface.co/LiquidAI/LFM2.5-1.2B"
     validations:
       required: true
   - type: textarea
-    id: parity
+    id: use
     attributes:
-      label: Parity evidence (if a port already exists)
-      description: >
-        Link or paste the device ≡ Mac ≡ HF greedy token-exact check (how many
-        prompts, how many tokens matched). If there is no port yet, write "none
-        yet" — we may still port it, this just tells us the starting point.
-      placeholder: "16/16 prompts token-exact, iPhone 17 Pro ≡ M4 Max ≡ HF; link to model card…"
-    validations:
-      required: true
-  - type: textarea
-    id: why
-    attributes:
-      label: Why this belongs on the board
-      description: One or two lines. General chat model? Coding (v1 axis)? A quant worth comparing?
+      label: What would you use it for? (optional)
+      description: One line is plenty. It helps us choose which quantization to measure first.
+      placeholder: "on-device summarizer inside a notes app; has to fit in about 2 GB"
     validations:
       required: false
-  - type: checkboxes
-    id: ack
+  - type: input
+    id: device
     attributes:
-      label: Acknowledgements
-      options:
-        - label: These are open weights (not a closed/system model's extracted weights).
-          required: true
-        - label: I understand each quantization is scored as its own row, on the same battery.
-          required: true
+      label: Your device (optional)
+      description: The phone or tablet you want to run it on.
+      placeholder: "iPhone 16 / iPad M4 / Pixel 9"
+    validations:
+      required: false

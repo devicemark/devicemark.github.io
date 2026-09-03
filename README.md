@@ -1,49 +1,45 @@
-# On-Device LLM Leaderboard (working name: `ondevice-leaderboard`)
+# DeviceMark — On-Device LLM Leaderboard
 
-The publication vessel for the on-device LLM leaderboard: the static site, the
-deploy pipeline, the results dataset, and the receiving surfaces (submit / object).
+**Live board: <https://devicemark.github.io/>**
+
+Which LLMs actually run on an iPhone, and which is the smartest that stays usable? Every row
+runs the same 596-item battery (IFEval + MMLU-Pro + MATH) under one fixed on-device budget,
+with decode speed measured on the phone itself and 95% confidence intervals on every number.
+Apple's built-in Foundation Model sits on the board as the baseline.
 Maintained by [Daisuke Majima (MLBoy)](https://github.com/john-rocky).
-**Private until the launch gate.** Naming is not final — see [`NAMING.md`](NAMING.md).
 
-> This repo is a thin **deploy shell**. The site and the results are produced in
-> the eval workspace (`~/code/coreai/leaderboard/`) and **synced in at launch**;
-> they are not duplicated here during prep, because that workspace is still
-> actively generating them. See [`LAUNCH_CHECKLIST.md`](LAUNCH_CHECKLIST.md).
+## Want a model on the board?
 
-## What's here (prep)
+[**Open a row request with its Hugging Face link.**](https://github.com/devicemark/devicemark.github.io/issues/new?template=submit-your-model.yml)
+One link is enough. We port it, measure it, and add the row, and we reply on the issue when
+it lands. Details, and the path for people who already ship a port, are in
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+Is your model on the board and the number wrong? Open an
+[objection](https://github.com/devicemark/devicemark.github.io/issues/new?template=objection.yml).
+
+## Use the data
+
+- **Results dataset**: <https://huggingface.co/datasets/devicemark/results> (CC-BY-4.0):
+  normalized `artifacts` and `measurements` tables, plus every raw model output under `raw/`.
+- **The board as JSON**: <https://devicemark.github.io/data/leaderboard/board.json>.
+- **Per-model badge**: `https://devicemark.github.io/badge/<slug>.svg`, where the slug is the
+  `artifact_id` in `board.json` up to its first `__` (for example `lfm2.5-1.2b`).
+- **Follow changes**: [changelog](https://devicemark.github.io/changelog.html) and
+  [RSS](https://devicemark.github.io/feed.xml). Every entry is a board change.
+- **For assistants**: <https://devicemark.github.io/llms.txt>.
+- **Cite**: the BibTeX block is at the bottom of the board.
+
+## What's in this repo
 
 ```
-.github/
-  workflows/deploy.yml          # static Pages deploy (does NOT run the scorer)
-  ISSUE_TEMPLATE/               # submit-your-model · objection · config
-deploy/build_public.sh          # assembles _public/ (site + data siblings + root redirect)
-site/                           # populated at launch (index.html, board.json, methodology.html, …)
-data/leaderboard/               # populated at launch (*.jsonl); + DATASET_CARD.md, to_parquet.py
-drafts/                         # X / HN / r-LocalLLaMA launch posts (unposted)
-NAMING.md                       # brand decision material
-LAUNCH_CHECKLIST.md             # the one-way launch runbook + 30-day kill review
+site/                 the static site (index.html, methodology.html, changelog.html, feed.xml, llms.txt)
+data/leaderboard/     the committed results (board.json, artifacts.jsonl, measurements.jsonl) + dataset card
+deploy/build_public.sh  assembles _public/ for GitHub Pages; gen_badges.py renders the badges
+.github/              Pages deploy workflow + issue templates (row request, objection)
 ```
 
-## How it deploys
-
-`site/index.html` fetches `../data/leaderboard/board.json`, so the served tree
-keeps `site/` and `data/` as siblings. `deploy/build_public.sh` assembles that
-into `_public/`, adds a root redirect to `/site/`, and serves `llms.txt` from the
-root. GitHub Actions publishes `_public/` to Pages. `board.json` is built locally
-by the eval workspace's `build_results.py` and committed under `data/leaderboard/`
-— **CI never runs the scorer** (it needs the scoring venv, gold sets, and raw
-results).
-
-## The receiving surface (why it exists before the traffic)
-
-A leaderboard that gets attention needs somewhere for that attention to go, built
-*before* the launch, not after (`FAILURE_GUARDS` #2). Here that's: a
-**submit-your-model** issue form (which is also the demand-pull hook — to be
-listed, a vendor needs a verified port), an **objection** form for model owners
-(fairness duty when you publish someone's score), and the maintainer's profile as
-the contact. No sales CTA on the board itself.
-
-## Status
-
-Prep only. Nothing is published: no GitHub remote yet, no Pages, no HF upload, no
-posts. The launch is a single gated runbook in `LAUNCH_CHECKLIST.md`.
+Rows are produced by the scorer in a separate eval workspace and committed here as data.
+CI only packages `site/` and `data/` and publishes them to Pages; it never runs the scorer.
+Method, proof strength per row, and known limitations:
+[methodology](https://devicemark.github.io/methodology.html).
