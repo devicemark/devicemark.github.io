@@ -23,6 +23,8 @@ configs:
 
 # DeviceMark — On-Device LLM Leaderboard Results
 
+![Intelligence × iPhone decode speed, 95% CI](pareto.png)
+
 Systematic quality + speed + memory data for **verified on-device LLM ports**, under one protocol
 (full method + CIs on the [live board](https://devicemark.github.io/)): every model runs the identical
 596-item battery (IFEval + MMLU-Pro + MATH) through the identical scorers, greedy (temperature 0),
